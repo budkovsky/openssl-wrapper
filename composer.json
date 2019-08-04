@@ -1,0 +1,8 @@
+{
+	"name" : "budkovsky/object-openssl",
+	"autoload" : {
+		"psr-4" : {
+			"Budkovsky\\ObjectOpenSSL\\" : "src"
+		}
+	}
+}
