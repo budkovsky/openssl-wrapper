@@ -7,7 +7,7 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Enum;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 
 /**
  * OpenSSL cipher enumeration

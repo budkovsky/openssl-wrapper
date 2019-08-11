@@ -1,7 +1,8 @@
 <?php
-namespace Collection;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\CollectionAbstract;
+namespace Budkovsky\OpenSslWrapper\Collection;
+
+use Budkovsky\OpenSslWrapper\Abstraction\CollectionAbstract;
 use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 
 class KeyCollection extends CollectionAbstract

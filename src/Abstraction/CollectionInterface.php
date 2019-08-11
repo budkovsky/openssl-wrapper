@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Budkovsky\ObjectOpenSSL\Abstraction;
+namespace Budkovsky\OpenSslWrapper\Abstraction;
 
 interface CollectionInterface
 {

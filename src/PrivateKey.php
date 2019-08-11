@@ -3,43 +3,31 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper;
 
-use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
+use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
+use Budkovsky\OpenSslWrapper\Exception\KeyException;
+use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
-class PrivateKey implements KeyInterface, StaticFactoryInterface
+class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
 {
-    /** @var resource */
-    protected $keyResource;
-    
-    public function __construct()
-    {
-        
-    }
-    
-    public function __destruct()
-    {
-        openssl_free_key($this->keyResource);
-    }
-    
+
     public function load(string $content, $passphrase = ''): PrivateKey
     {
-        //TODO implement validation and error reporting
-        $this->keyResource = openssl_pkey_get_private($content, $passphrase) ?? null;
+        $resource = openssl_pkey_get_private($content, $passphrase) ?? null;
+        if ($resource === false) {
+            throw new KeyException(OpenSSL::getErrorString());
+        }
+        $this->keyResource = $resource;
         
         return $this;
     }
     
     public function create(): PrivateKey
     {
-        return new static;
+        return new static();
     }
-    
-    public function getRaw(): string
-    {
-        
-    }
-    
+
     public static function new(ConfigArgs $configArgs = []): ?PrivateKey
     {
         $resource = openssl_pkey_new($configArgs);
@@ -53,7 +41,24 @@ class PrivateKey implements KeyInterface, StaticFactoryInterface
     {}
 
     public function decrypt(string $data, string $method)
+    {}
+
+    public static function getRaw(): string
+    {}
+    
+    protected function executeEncryption(string $data, int $padding): ?string
     {
+        $crypted = null;
+        $success = openssl_private_encrypt($data, $crypted, $this->keyResource, $padding);
         
+        return $success ? $crypted : null;
+    }
+
+    protected function executeDecryption(string $data, int $padding): ?string
+    {
+        $decrypted = null;
+        $success = openssl_private_decrypt($data, $decrypted, $this->keyResource);
+        
+        return $success ? $decrypted : null;
     }
 }

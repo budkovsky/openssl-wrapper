@@ -4,9 +4,9 @@
  */
 declare(strict_types = 1);
 
-namespace Budkovsky\ObjectOpenSSL\Entity;
+namespace Budkovsky\OpenSslWrapper\Entity;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\SingletonInterface;
+use Budkovsky\OpenSslWrapper\Abstraction\SingletonInterface;
 
 /**
  * @see https://www.php.net/manual/en/function.openssl-get-cert-locations.php

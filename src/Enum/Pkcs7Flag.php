@@ -1,7 +1,7 @@
 <?php
 namespace Enum;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 
 class Pkcs7Flag extends EnumAbstract
 {

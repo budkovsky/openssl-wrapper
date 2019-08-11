@@ -1,7 +1,7 @@
 <?php
-namespace Budkovsky\ObjectOpenSSL\Enum;
+namespace Budkovsky\OpenSslWrapper\Enum;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 
 class SignatureAlgorithm extends EnumAbstract
 {

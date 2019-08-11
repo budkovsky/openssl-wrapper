@@ -1,9 +1,9 @@
 <?php
-namespace Entity;
+namespace Budkovsky\OpenSslWrapper\Entity;
 
-use Collection\KeyCollection;
 use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 use Budkovsky\OpenSslWrapper\PrivateKey;
+use Budkovsky\OpenSslWrapper\Collection\KeyCollection;
 
 class CertificateStoreData
 {

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Budkovsky\ObjectOpenSSL\Collection;
+namespace Budkovsky\OpenSslWrapper\Collection;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\CollectionAbstract;
+use Budkovsky\OpenSslWrapper\Abstraction\CollectionAbstract;
 
 class StringCollection extends CollectionAbstract
 {

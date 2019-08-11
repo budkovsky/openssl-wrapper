@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Budkovsky\ObjectOpenSSL\Enum;
+namespace Budkovsky\OpenSslWrapper\Enum;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 
 class Padding extends EnumAbstract
 {
@@ -12,7 +12,7 @@ class Padding extends EnumAbstract
     const NO_PADDING = OPENSSL_NO_PADDING;
     const PKCS1_OAEP_PADDING = OPENSSL_PKCS1_OAEP_PADDING;
     
-    public function getAll()
+    public static function getAll()
     {
         return [
             'PKCS1_PADDING' => self::PKCS1_PADDING,

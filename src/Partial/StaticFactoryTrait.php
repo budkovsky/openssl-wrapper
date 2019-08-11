@@ -9,7 +9,7 @@ namespace Budkovsky\OpenSslWrapper\Partial;
 
 /**
  * For implementation of StaticFactory
- * @see \Budkovsky\ObjectOpenSSL\Abstraction\StaticFactory
+ * @see \Budkovsky\OpenSslWrapper\Abstraction\StaticFactory
  *
  */
 trait StaticFactoryTrait

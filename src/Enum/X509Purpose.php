@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Enum;
 
-use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 /**
  * @see https://www.php.net/manual/en/openssl.purpose-check.php
  */

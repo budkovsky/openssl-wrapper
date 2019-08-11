@@ -36,7 +36,7 @@ interface KeyInterface
      * @see https://www.php.net/manual/en/function.openssl-free-key.php
      * @see https://www.php.net/manual/en/function.openssl-pkey-free.php
      */
-    public function free();
+//     public function free();
     
     /** @see https://www.php.net/manual/en/function.openssl-decrypt.php */
     public function decrypt(string $data, string $method);

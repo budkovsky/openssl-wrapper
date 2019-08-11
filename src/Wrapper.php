@@ -10,18 +10,23 @@ namespace Budkovsky\OpenSslWrapper;
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 use Budkovsky\OpenSslWrapper\Exception\ComputeDigestException;
-use Budkovsky\ObjectOpenSSL\Entity\CertLocations;
+use Budkovsky\OpenSslWrapper\Entity\CertLocations;
 
 /**
  * OpenSSL object-oriented wrapper for PHP
  * @see https://www.php.net/manual/en/book.openssl.php
  */
-class OpenSslWrapper implements StaticFactoryInterface
+class Wrapper implements StaticFactoryInterface
 {
     
-    public static function create(): OpenSslWrapper
+    public static function create(): Wrapper
     {
         return new static;
+    }
+    
+    public static function getErrorString(): ?string
+    {
+        return openssl_error_string() ?? null;
     }
 
     /**
