@@ -11,7 +11,7 @@ namespace Budkovsky\OpenSslWrapper\Entity;
  * DSA key details
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
-class KeyDetailsDSA extends KeyDetails
+class PKeyDetailsDSA extends PKeyDetails
 {
     /**
      * @var string
@@ -31,12 +31,12 @@ class KeyDetailsDSA extends KeyDetails
     /**
      * @var string
      */
-    private $privKey;
+    private $privateKey;
     
     /**
      * @var string
      */
-    private $pubKey;
+    private $publicKey;
     
     /**
      * {@inheritDoc}
@@ -48,8 +48,8 @@ class KeyDetailsDSA extends KeyDetails
         $this->primeNumber = $dsaDetails['p'];
         $this->subprime = $dsaDetails['q'];
         $this->generatorOfSubgroup = $dsaDetails['g'];
-        $this->privKey = $dsaDetails['priv_key'];
-        $this->pubKey = $dsaDetails['pub_key'];
+        $this->privateKey = $dsaDetails['priv_key'];
+        $this->publicKey = $dsaDetails['pub_key'];
     }
 
     /**
@@ -79,17 +79,30 @@ class KeyDetailsDSA extends KeyDetails
     /**
      * @return string
      */
-    public function getPrivKey(): string
+    public function getPrivateKey(): string
     {
-        return $this->privKey;
+        return $this->privateKey;
     }
 
     /**
      * @return string
      */
-    public function getPubKey(): string
+    public function getPublicKey(): string
     {
-        return $this->pubKey;
+        return $this->publicKey;
     }
 
+    public function toArray(): array
+    {
+        return array_merge(
+            parent::toArray(),
+            ['dsa' => [
+                'p' => $this->primeNumber,
+                'q' => $this->subprime,
+                'g' => $this->generatorOfSubgroup,
+                'priv_key' => $this->privateKey,
+                'pub_key' => $this->publicKey
+            ]]
+        );
+    }
 }

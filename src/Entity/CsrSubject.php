@@ -7,7 +7,15 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Entity;
 
-class CsrSubject
+use Budkovsky\OpenSslWrapper\Abstraction\Arrayable;
+use Budkovsky\OpenSslWrapper\Enum\CsrSubjectProperty as PropertyEnum;
+use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
+
+/**
+ * CSR Subject entity
+ * @see https://www.php.net/manual/en/function.openssl-csr-new.php
+ */
+class CsrSubject implements Arrayable, StaticFactoryInterface
 {
     /** @var string */
     protected $countryName;
@@ -49,31 +57,31 @@ class CsrSubject
     protected function setProperty(string $key, string $value): void
     {
         switch ($key) {
-            case 'countryName':
-            case 'CA':
+            case PropertyEnum::COUNTRY_NAME:
+            case PropertyEnum::CA:
                 $this->countryName = $value;
                 break;
-            case 'stateOrProvinceName':
-            case 'ST':
+            case PropertyEnum::STATE_OR_PROVINCE_NAME:
+            case PropertyEnum::ST:
                 $this->stateOrProvince = $value;
                 break;
-            case 'localityName':
-            case 'L':
+            case PropertyEnum::LOCALITY_NAME:
+            case PropertyEnum::L:
                 $this->localityName = $value;
                 break;
-            case 'organizationName':
-            case 'O':
+            case PropertyEnum::ORGANIZATION_NAME:
+            case PropertyEnum::O:
                 $this->organizationName = $value;
                 break;
-            case 'organizationalUnitName':
-            case 'OU':
+            case PropertyEnum::ORGANIZATION_UNIT_NAME:
+            case PropertyEnum::OU:
                 $this->organizationUnitName = $value;
                 break;
-            case 'commonName':
-            case 'CN':
+            case PropertyEnum::COMMON_NAME:
+            case PropertyEnum::CN:
                 $this->commonName = $value;
                 break;
-            case 'emailAddress':
+            case PropertyEnum::EMAIL_ADDRESS:
                 $this->emailAddress = $value;
                 break;
         }
@@ -190,5 +198,33 @@ class CsrSubject
     {
         $this->emailAddress = $emailAddress;
         return $this;
+    }
+    
+    /**
+     * Get CSR Subject as an array
+     * @see Arrayable
+     * {@inheritDoc}
+     */
+    public function toArray(bool $shortNames = false): array
+    {
+        return [
+            $shortNames ? PropertyEnum::CA : PropertyEnum::COUNTRY_NAME => $this->countryName,
+            $shortNames ? PropertyEnum::ST : PropertyEnum::STATE_OR_PROVINCE_NAME => $this->stateOrProvince,
+            $shortNames ? PropertyEnum::L : PropertyEnum::LOCALITY_NAME => $this->localityName,
+            $shortNames ? PropertyEnum::O : PropertyEnum::ORGANIZATION_NAME => $this->organizationName,
+            $shortNames ? PropertyEnum::OU : PropertyEnum::ORGANIZATION_UNIT_NAME => $this->organizationUnitName,
+            $shortNames ? PropertyEnum::CN : PropertyEnum::COMMON_NAME => $this->commonName,
+            PropertyEnum::EMAIL_ADDRESS => $this->emailAddress
+        ];
+    }
+    
+    /**
+     * Static factory
+     * @param array $subject
+     * @return \Budkovsky\OpenSslWrapper\Entity\CsrSubject
+     */
+    public static function create(array $subject = [])
+    {
+        return new static($subject);
     }
 }

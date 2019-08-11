@@ -1,8 +1,16 @@
 {
-	"name" : "budkovsky/object-openssl",
-	"autoload" : {
-		"psr-4" : {
-			"Budkovsky\\ObjectOpenSSL\\" : "src"
+	"name": "budkovsky/openssl-wrapper",
+	"autoload": {
+		"psr-4": {
+			"Budkovsky\\OpenSslWrapper\\" : "src",
+			"Budkovsky\\OpenSslWrapper\\Tests\\":"tests"
 		}
+	},
+	"require": {
+		"php": "^7.2",
+		"ext-openssl": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^8"
 	}
 }

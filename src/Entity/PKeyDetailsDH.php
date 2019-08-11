@@ -10,7 +10,7 @@ namespace Budkovsky\OpenSslWrapper\Entity;
 /**
  * DH key details
  */
-class KeyDetailsDH extends KeyDetails
+class PKeyDetailsDH extends PKeyDetails
 {
     /**
      * @var string
@@ -83,5 +83,17 @@ class KeyDetailsDH extends KeyDetails
         return $this->publicKey;
     }
 
+    public function toArray(): array
+    {
+        return array_merge(
+            parent::toArray(),
+            ['dh' => [
+                'p' => $this->prime,
+                'g' => $this->generator,
+                'priv_key' => $this->privateKey,
+                'pub_key' => $this->publicKey
+            ]]
+        );
+    }
 }
 

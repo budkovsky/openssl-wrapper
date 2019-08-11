@@ -30,17 +30,15 @@ interface KeyInterface
      * Return raw key string
      * @return string
      */
-    public static function getRaw(): string;
+    public function export(): string;
+    
+    /**
+     * @param string $filePath Path for file to export
+     */
+    public function exportToFile(string $filePath);
     
     /**
      * @see https://www.php.net/manual/en/function.openssl-free-key.php
      * @see https://www.php.net/manual/en/function.openssl-pkey-free.php
      */
-//     public function free();
-    
-    /** @see https://www.php.net/manual/en/function.openssl-decrypt.php */
-    public function decrypt(string $data, string $method);
-    
-    /** @see https://www.php.net/manual/en/function.openssl-encrypt.php */
-    public function encrypt(string $data, string $method);
 }

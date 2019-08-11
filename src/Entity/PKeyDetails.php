@@ -7,11 +7,13 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Entity;
 
+use Budkovsky\OpenSslWrapper\Enum\KeyType as KeyTypeEnum;
+
 /**
  * Key details
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
-class KeyDetails
+class PKeyDetails
 {
     /**
      * @var int
@@ -42,25 +44,25 @@ class KeyDetails
     
     /**
      * @param array $keyDetails
-     * @return KeyDetails
+     * @return PKeyDetails
      */
-    final public static function factory(array $keyDetails): KeyDetails
+    final public static function factory(array $keyDetails): PKeyDetails
     {
         switch ($keyDetails['type']) {
-            case OPENSSL_KEYTYPE_DH:
-                $className = KeyDetailsDH::class;
+            case KeyTypeEnum::DH:
+                $className = PKeyDetailsDH::class;
                 break;
-            case OPENSSL_KEYTYPE_DSA:
-                $className = KeyDetailsDSA::class;
+            case KeyTypeEnum::DSA:
+                $className = PKeyDetailsDSA::class;
                 break;
-            case OPENSSL_KEYTYPE_EC:
-                $className = KeyDetailsEC::class;
+            case KeyTypeEnum::EC:
+                $className = PKeyDetailsEC::class;
                 break;
-            case OPENSSL_KEYTYPE_RSA:
-                $className = KeyDetailsRSA::class;
+            case KeyTypeEnum::RSA:
+                $className = PKeyDetailsRSA::class;
                 break;
             default:
-                $className = KeyDetails::class;
+                $className = PKeyDetails::class;
                 break;
         }
         
@@ -89,5 +91,17 @@ class KeyDetails
     public function getType(): int
     {
         return $this->type;
+    }
+    
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'bits' => $this->bits,
+            'type' => $this->type,
+            'key' => $this->key
+        ];
     }
 }

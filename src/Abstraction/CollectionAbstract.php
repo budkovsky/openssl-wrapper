@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Abstraction;
 
-abstract class CollectionAbstract implements \IteratorAggregate, \Countable, CollectionInterface
+abstract class CollectionAbstract implements CollectionInterface
 {
     /**
      * Collection trait, implements methods for IteratorAggregate, Countable interfaces

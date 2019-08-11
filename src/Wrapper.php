@@ -7,28 +7,19 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper;
 
-use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 use Budkovsky\OpenSslWrapper\Exception\ComputeDigestException;
 use Budkovsky\OpenSslWrapper\Entity\CertLocations;
+use Budkovsky\OpenSslWrapper\Partial\StaticClassTrait;
 
 /**
  * OpenSSL object-oriented wrapper for PHP
  * @see https://www.php.net/manual/en/book.openssl.php
  */
-class Wrapper implements StaticFactoryInterface
+class Wrapper
 {
+    use StaticClassTrait;
     
-    public static function create(): Wrapper
-    {
-        return new static;
-    }
-    
-    public static function getErrorString(): ?string
-    {
-        return openssl_error_string() ?? null;
-    }
-
     /**
      * Gets the cipher iv length
      * @see https://www.php.net/manual/en/function.openssl-cipher-iv-length.php
@@ -38,6 +29,24 @@ class Wrapper implements StaticFactoryInterface
     public static function cipherIvLength(string $method): int
     {
         return openssl_cipher_iv_length($method);
+    }
+    
+    /**
+     * Computes a digest
+     * @see https://www.php.net/manual/en/function.openssl-digest.php
+     * @param string $data
+     * @param string $method
+     * @param bool $rawOutput
+     * @throws ComputeDigestException
+     * @return string
+     */
+    public static function computeDigest(string $data, string $method, bool $rawOutput = false): string
+    {
+        if (!in_array($method, static::getDigestMethods(true))) {
+            throw new ComputeDigestException("Invalid digest method: $method");
+        }
+        
+        return openssl_digest($data, $method, $rawOutput);
     }
 
     /** @see https://www.php.net/manual/en/function.openssl-decrypt.php */
@@ -54,7 +63,7 @@ class Wrapper implements StaticFactoryInterface
         return openssl_decrypt(
             $data,
             $method,
-            $key->getRaw(),
+            $key->export(),
             $options,
             $iv,
             $tag,
@@ -63,24 +72,18 @@ class Wrapper implements StaticFactoryInterface
     }
     
     /**
-     * Computes a digest
-     * @see https://www.php.net/manual/en/function.openssl-digest.php
+     * Encrypts data
+     * @see https://www.php.net/manual/en/function.openssl-decrypt.php
      * @param string $data
      * @param string $method
-     * @param bool $rawOutput
-     * @throws ComputeDigestException
-     * @return string
+     * @param KeyInterface $key
+     * @param int $options
+     * @param string $iv
+     * @param string $tag
+     * @param string $aditionalAuthenticationData
+     * @param int $tagLength
+     * @return string|NULL
      */
-    public static function computeDigest(string $data, string $method, bool $rawOutput = false): string
-    {
-        if (!in_array($method, static::getMessageDigestMethods(true))) {
-            throw new ComputeDigestException("Invalid digest method: $method");
-        }
-        
-        return openssl_digest($data, $method, $rawOutput);
-    }
-    
-    /** @see https://www.php.net/manual/en/function.openssl-decrypt.php */
     public static function encrypt(
         string $data,
         string $method,
@@ -95,7 +98,7 @@ class Wrapper implements StaticFactoryInterface
             return openssl_encrypt(
                 $data,
                 $method,
-                $key->getRaw(),
+                $key->export(),
                 $options,
                 $iv,
                 $tag,
@@ -104,16 +107,32 @@ class Wrapper implements StaticFactoryInterface
                 ) ?? null;
     }
     
-    public static function getErrorString(): string
+    /**
+     * Return openSSL error message
+     * @see https://www.php.net/manual/en/function.openssl-error-string.php
+     * @return string
+     */
+    public static function getErrorString(): ?string
     {
-        return openssl_error_string();
+        return openssl_error_string() ?? null;
     }
     
+    /**
+     * Retrieve the available certificate locations
+     * @see https://www.php.net/manual/en/function.openssl-get-cert-locations.php
+     * @return CertLocations
+     */
     public static function getCertLocations(): CertLocations
     {
         return CertLocations::getInstance();
     }
     
+    /**
+     * Gets available cipher methods
+     * @see https://www.php.net/manual/en/function.openssl-get-cipher-methods.php
+     * @param bool $aliases
+     * @return array
+     */
     public static function getCipherMethods(bool $aliases = false): array
     {
         return openssl_get_cipher_methods($aliases);
@@ -134,12 +153,40 @@ class Wrapper implements StaticFactoryInterface
      * @param bool $asliases
      * @return array
      */
-    public static function getMessageDigestMethods(bool $asliases = false): array 
+    public static function getDigestMethods(bool $asliases = false): array 
     {
         return openssl_get_md_methods($asliases);
     }
     
+    /**
+     * Validates digest method
+     * @param string $digestMethod
+     * @return bool
+     */
+    public static function isDigestMethodValid(string $digestMethod): bool
+    {
+        return in_array($digestMethod, self::getDigestMethods(true));
+    }
     
+    /**
+     * Validates cipher method
+     * @param string $cipherMethod
+     * @return bool
+     */
+    public function isCipherMethodValid(string $cipherMethod): bool
+    {
+        return in_array($cipherMethod, self::getCipherMethods(true));
+    }
     
-    
+    /**
+     * Generate a pseudo-random string of bytes
+     * @see https://www.php.net/manual/en/function.openssl-encrypt.php
+     * @param int $length
+     * @param bool $cryptoStrong
+     * @return string|NULL
+     */
+    public static function getRandomPseudoBytes(int $length, bool $cryptoStrong = true): ?string
+    {
+        return openssl_random_pseudo_bytes($length, $cryptoStrong) ?? null;
+    }
 }

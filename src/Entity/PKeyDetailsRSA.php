@@ -11,7 +11,7 @@ namespace Budkovsky\OpenSslWrapper\Entity;
  * RSA key details
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
-class KeyDetailsRSA extends KeyDetails
+class PKeyDetailsRSA extends PKeyDetails
 {
     /**
      * @var string
@@ -136,74 +136,22 @@ class KeyDetailsRSA extends KeyDetails
     }
     
     /**
-     * Alias for self::getModulus()
-     * @return string
+     * {@inheritDoc}
      */
-    public function getN(): string
+    public function toArray(): array
     {
-        return $this->getModulus();
-    }
-    
-    /**
-     * Alias for self::getPublicExponent()
-     * @return string
-     */
-    public function getE(): string
-    {
-        return $this->getPublicExponent();
-    }
-    
-    /**
-     * Alias for self::privateExponent()
-     * @return string
-     */
-    public function getD():string
-    {
-        return $this->privateExponent();
-    }
-    
-    /**
-     * Alias for self::getPrime1()
-     * @return string
-     */
-    public function getP(): string
-    {
-        return $this->getPrime1();
-    }
-    
-    /**
-     * Alias for self::getPrime2()
-     * @return string
-     */
-    public function getQ(): string
-    {
-        return $this->getPrime2();
-    }
-    
-    /**
-     * Alias for self::getExponent1()
-     * @return string
-     */
-    public function getDmp1(): string
-    {
-        return $this->getExponent1();
-    }
-    
-    /**
-     * Alias for self::getExponent2()
-     * @return string
-     */
-    public function getDmq1(): string
-    {
-        return $this->getExponent2();
-    }
-    
-    /**
-     * Alias for self::getCoefficient()
-     * @return string
-     */
-    public function getIqmp(): string
-    {
-        return $this->getCoefficient();
+        return array_merge(
+            parent::toArray(),
+            ['rsa' => [
+                'n' => $this->modulus,
+                'e' => $this->publicExponent,
+                'd' => $this->privateExponent,
+                'p' => $this->prime1,
+                'q' => $this->prime2,
+                'dmp1' => $this->exponent1,
+                'dmq1' => $this->exponent2,
+                'iqmp' => $this->coefficient
+            ]]
+        );
     }
 }

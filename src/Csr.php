@@ -10,32 +10,48 @@ namespace Budkovsky\OpenSslWrapper;
 
 use Budkovsky\OpenSslWrapper\Entity\CsrSubject;
 use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
-use Budkovsky\OpenSslWrapper\Abstraction\CsrAbstract;
 use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 
 /**
- * OpenSSL CSR functions object-oriented wrapper
+ * OpenSSL CSR
  */
-class Csr extends CsrAbstract
+class Csr
 {
     /** @var string */
-    protected $csr;
+    protected $csrResource;
     
-    
-    /**
-     * {@inheritDoc}
-     */
-    public static function create(): Csr
-    {
-        return new static;
+    public function __construct(
+        bool $new = false, 
+        ?CsrSubject $subject = null, 
+        ?PrivateKey $privateKey = null, 
+        string $passphrase = '',
+        ?ConfigArgs $configArgs = null, 
+        ?array $extraAttribs = null
+    ) {
+        if ($new) {
+            $privateKeyBody = $privateKey->export($passphrase); //must to set to variable for passing by reference
+            $this->csrResource = openssl_csr_new(
+                $subject->toArray(), 
+                $privateKeyBody, 
+                $configArgs ? $configArgs->toArray() : null, 
+                $extraAttribs
+            );
+        }
     }
+    
     /**
-     * TODO implement
+     * Static factory
      * {@inheritDoc}
      */
-    public function load(string $content): Csr
+    public static function create(
+        bool $new = false,
+        ?CsrSubject $subject = null,
+        ?PrivateKey $privateKey = null,
+        string $passphrase = '',
+        ?ConfigArgs $configArgs = null,
+        ?array $extraAttribs = null): Csr
     {
-        
+        return new static($new, $subject, $privateKey, $passphrase, $configArgs, $extraAttribs);
     }
     
     /**
@@ -47,8 +63,7 @@ class Csr extends CsrAbstract
      */
     public function exportToFile(string $outFileName, bool $notext = true) : bool
     {
-        //TODO set resource or string to $csr variable
-        return openssl_csr_export_to_file($this->csr, $outFileName, $notext);
+        return openssl_csr_export_to_file($this->csrResource, $outFileName, $notext);
     }
     
     /**
@@ -60,7 +75,7 @@ class Csr extends CsrAbstract
     public function export(bool $notext = true): ?string
     {
         $out = null;
-        openssl_csr_export($this->csr, $out, $notext);
+        openssl_csr_export($this->csrResource, $out, $notext);
         
         return $out ?? null;
     }
@@ -68,11 +83,17 @@ class Csr extends CsrAbstract
     /**
      * Returns the public key of a CSR
      * @see https://www.php.net/manual/en/function.openssl-csr-get-public-key.php
-     * @return KeyInterface|NULL
+     * @return PublicKey|NULL
      */
-    public function getPublicKey(): ?KeyInterface
+    public function getPublicKey(bool $shortNames = true): ?PublicKey
     {
-        //TODO implementation
+        $privateKeyBody = null;
+        openssl_pkey_export(
+            openssl_csr_get_public_key($this->csrResource, $shortNames), 
+            $privateKeyBody
+        );
+        
+        return $privateKeyBody ? PublicKey::create($privateKeyBody) : null;
     }
     
     /**
@@ -82,24 +103,19 @@ class Csr extends CsrAbstract
      */
     public function getSubject(bool $use_shortnames = true): CsrSubject
     {
-        return new CsrSubject(openssl_csr_get_subject($this->csr));
+        return new CsrSubject(openssl_csr_get_subject($this->csrResource));
     }
     
-    public static function new(CsrSubject $subject, KeyInterface $key, array $configArgs, array $extraAttribs): Csr
-    {
-        //TODO implementation
-        //TODO array parameters change to types
-    }
-
     /** @see https://www.php.net/manual/en/function.openssl-csr-sign.php */
-    public function sign(KeyInterface $caCert, KeyInterface $privKey, int $days, ?ConfigArgs $csrConfigArgs = null, $serial = 0): KeyInterface
-    {
-        //TODO implementation
+    public function sign(
+        PrivateKey $privKey, 
+        int $days = 365, 
+        KeyInterface $caCert = null, 
+        ?ConfigArgs 
+        $configArgs = null, 
+    $serial = 0): X509 {
+        return X509::create(
+            true, $this->csrResource, $privKey, $days, $caCert, $configArgs, $serial
+        );
     }
-    public static function getRaw(): string
-    {}
-    public function free()
-    {}
-
-
 }

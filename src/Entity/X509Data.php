@@ -8,9 +8,9 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * Container for data of X509 certificate
+ * Container for data of X509Data certificate
  */
-class X509
+class X509Data
 {
     /**
      * @var string
@@ -242,4 +242,3 @@ class X509
         return $this->extensions;
     }
 }
-

@@ -11,7 +11,7 @@ namespace Budkovsky\OpenSslWrapper\Entity;
  * EC key details
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
-class KeyDetailsEC extends KeyDetails
+class PKeyDetailsEC extends PKeyDetails
 {
     private $curveName;
     private $curveOid;
@@ -77,5 +77,22 @@ class KeyDetailsEC extends KeyDetails
     public function getPrivateKey(): string
     {
         return $this->privateKey;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray(): string
+    {
+        return array_merge(
+            parent::toArray(),
+            ['ec' => [
+                'curve_name' => $this->curveName,
+                'curve_oid' => $this->curveOid,
+                'x' => $this->xCoordinate,
+                'y' => $this->yCoordinate,
+                'd' => $this->privateKey
+            ]]
+        );
     }
 }

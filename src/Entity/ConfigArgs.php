@@ -1,10 +1,13 @@
 <?php
 namespace Budkovsky\OpenSslWrapper\Entity;
 
+use Budkovsky\OpenSslWrapper\Abstraction\Arrayable;
+use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
+
 /**
  * @see https://www.php.net/manual/en/function.openssl-csr-new.php
  */
-class ConfigArgs
+class ConfigArgs implements Arrayable, StaticFactoryInterface
 {
     /** @var string */
     private $digestAlg;
@@ -33,17 +36,17 @@ class ConfigArgs
     /** @var string */
     private $config;
     
-    public function __construct(array $configArgs)
+    public function __construct(array $configArgs = [])
     {
-            $this->digestAlg = $configArgs['digest_alg'];
-            $this->x509Extensions = $configArgs['x509_extensions'];
-            $this->reqExtensions = $configArgs['req_extensions'];
-            $this->privateKeyBits = $configArgs['private_key_bits'];
-            $this-> privateKeyType = $configArgs['private_key_type'];
-            $this->encryptKey = $configArgs['encrypt_key'];
-            $this->encryptKeyCipher = $configArgs['encrypt_key_cipher'];
-            $this->curveName = $configArgs['curve_name'];
-            $this->config = $configArgs['config'];
+            $this->digestAlg = $configArgs['digest_alg'] ?? null;
+            $this->x509Extensions = $configArgs['x509_extensions'] ?? null;
+            $this->reqExtensions = $configArgs['req_extensions'] ?? null;
+            $this->privateKeyBits = $configArgs['private_key_bits'] ?? null;
+            $this-> privateKeyType = $configArgs['private_key_type'] ?? null;
+            $this->encryptKey = $configArgs['encrypt_key'] ?? null;
+            $this->encryptKeyCipher = $configArgs['encrypt_key_cipher'] ?? null;
+            $this->curveName = $configArgs['curve_name'] ?? null;
+            $this->config = $configArgs['config'] ?? null;
     }
 
     public function getDigestAlg(): string
@@ -169,4 +172,10 @@ class ConfigArgs
             'config' => $this->config
         ];
     }
+    
+    public static function create(array $configArgs = []): ConfigArgs
+    {
+        return new static($configArgs);
+    }
+
 }
