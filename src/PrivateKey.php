@@ -7,10 +7,20 @@ use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
 
-abstract class PrivateKey implements KeyInterface, StaticFactoryInterface
+class PrivateKey implements KeyInterface, StaticFactoryInterface
 {
     /** @var resource */
     protected $keyResource;
+    
+    public function __construct()
+    {
+        
+    }
+    
+    public function __destruct()
+    {
+        openssl_free_key($this->keyResource);
+    }
     
     public function load(string $content, $passphrase = ''): PrivateKey
     {
@@ -30,11 +40,20 @@ abstract class PrivateKey implements KeyInterface, StaticFactoryInterface
         
     }
     
-    public static function new(ConfigArgs $configArgs): PrivateKey
+    public static function new(ConfigArgs $configArgs = []): ?PrivateKey
     {
-        $privateKeyResource = 
+        $resource = openssl_pkey_new($configArgs);
         
         $privateKey = new PrivateKey();
-        $privateKey->keyResource = 
+        $privateKey->keyResource = $resource;
+        
+        return $privateKey;
+    }
+    public function encrypt(string $data, string $method)
+    {}
+
+    public function decrypt(string $data, string $method)
+    {
+        
     }
 }
