@@ -7,7 +7,9 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Enum;
 
-abstract class KeyType
+use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+
+class KeyType extends EnumAbstract
 {
     const DSA = OPENSSL_KEYTYPE_DSA; 
     const DH = OPENSSL_KEYTYPE_DH;

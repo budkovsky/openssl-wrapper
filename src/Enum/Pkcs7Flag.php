@@ -1,7 +1,9 @@
 <?php
 namespace Enum;
 
-abstract class Pkcs7Flag
+use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+
+class Pkcs7Flag extends EnumAbstract
 {
     const TEXT = PKCS7_TEXT;
     const BINARY = PKCS7_BINARY;

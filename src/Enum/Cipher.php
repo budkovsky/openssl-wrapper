@@ -7,11 +7,13 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Enum;
 
+use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+
 /**
  * OpenSSL cipher enumeration
  * @see https://www.php.net/manual/en/openssl.ciphers.php
  */
-abstract class Cipher
+class Cipher extends EnumAbstract
 {
     const RC2_40 = OPENSSL_CIPHER_RC2_40;
     const RC2_64 = OPENSSL_CIPHER_RC2_64;

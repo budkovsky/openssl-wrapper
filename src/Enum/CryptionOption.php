@@ -6,7 +6,9 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Enum;
 
-abstract class CryptOption
+use Budkovsky\ObjectOpenSSL\Abstraction\EnumAbstract;
+
+class CryptionOption extends EnumAbstract
 {
     const RAW_DATA = OPENSSL_RAW_DATA;
     const ZERO_PADDING = OPENSSL_ZERO_PADDING;
