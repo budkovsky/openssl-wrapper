@@ -29,11 +29,12 @@ class Csr
         ?array $extraAttribs = null
     ) {
         if ($new) {
-            $privateKeyBody = $privateKey->export($passphrase); //must to set to variable for passing by reference
+            $privateKeyBody = $privateKey->export($passphrase); //must be set to variable for passing by reference
+            echo $privateKeyBody.PHP_EOL; die;
             $this->csrResource = openssl_csr_new(
                 $subject->toArray(), 
                 $privateKeyBody, 
-                $configArgs ? $configArgs->toArray() : null, 
+                $configArgs ? $configArgs->toArray() : null,
                 $extraAttribs
             );
         }

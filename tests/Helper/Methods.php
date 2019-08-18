@@ -1,5 +1,5 @@
 <?php
-namespace Budkovsky\OpenSsslWrapper\Tests\Helper;
+namespace Budkovsky\OpenSslWrapper\Tests\Helper;
 
 abstract class Methods
 {

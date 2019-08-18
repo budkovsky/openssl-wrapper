@@ -40,10 +40,10 @@ class PKeyDetailsDH extends PKeyDetails
         parent::__construct($keyDetails);
         
         $dhDetails = $keyDetails['dh'];
-        $this->prime = $dhDetails['p'];
-        $this->generator = $dhDetails['g'];
-        $this->privateKey = $dhDetails['priv_key'];
-        $this->publicKey = $dhDetails['pub_key'];
+        $this->prime = $dhDetails['p'] ?? null;
+        $this->generator = $dhDetails['g'] ?? null;
+        $this->privateKey = $dhDetails['priv_key'] ?? null;
+        $this->publicKey = $dhDetails['pub_key'] ?? null;
     }
     
 
@@ -51,7 +51,7 @@ class PKeyDetailsDH extends PKeyDetails
      * (p)Prime number(shared) getter
      * @return string
      */
-    public function getPrime(): string
+    public function getPrime(): ?string
     {
         return $this->prime;
     }
@@ -60,7 +60,7 @@ class PKeyDetailsDH extends PKeyDetails
      * (g)Generator of Z_p(shared) getter
      * @return string
      */
-    public function getGenerator(): string
+    public function getGenerator(): ?string
     {
         return $this->generator;
     }
@@ -69,7 +69,7 @@ class PKeyDetailsDH extends PKeyDetails
      * (priv_key)Private DH value getter
      * @return string
      */
-    public function getPrivateKey(): string
+    public function getPrivateKey(): ?string
     {
         return $this->privateKey;
     }
@@ -78,7 +78,7 @@ class PKeyDetailsDH extends PKeyDetails
      * (pub_key)Public DH value getter
      * @return string
      */
-    public function getPublicKey(): string
+    public function getPublicKey(): ?string
     {
         return $this->publicKey;
     }

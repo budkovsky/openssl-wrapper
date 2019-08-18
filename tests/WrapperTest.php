@@ -5,7 +5,7 @@ namespace Budkovsky\OpenSslWrapper\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
-use Budkovsky\OpenSsslWrapper\Tests\Helper\Methods as MethodsHelper;
+use Budkovsky\OpenSslWrapper\Tests\Helper\Methods as MethodsHelper;
 
 final class WrapperTest extends TestCase
 {

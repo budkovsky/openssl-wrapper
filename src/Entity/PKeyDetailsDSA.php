@@ -45,17 +45,17 @@ class PKeyDetailsDSA extends PKeyDetails
     {
         parent::__construct($keyDetails);
         $dsaDetails = $keyDetails['dsa'];
-        $this->primeNumber = $dsaDetails['p'];
-        $this->subprime = $dsaDetails['q'];
-        $this->generatorOfSubgroup = $dsaDetails['g'];
-        $this->privateKey = $dsaDetails['priv_key'];
-        $this->publicKey = $dsaDetails['pub_key'];
+        $this->primeNumber = $dsaDetails['p'] ?? null;
+        $this->subprime = $dsaDetails['q'] ?? null;
+        $this->generatorOfSubgroup = $dsaDetails['g'] ?? null;
+        $this->privateKey = $dsaDetails['priv_key'] ?? null;
+        $this->publicKey = $dsaDetails['pub_key'] ?? null;
     }
 
     /**
      * @return string
      */
-    public function getPrimeNumber(): string
+    public function getPrimeNumber(): ?string
     {
         return $this->primeNumber;
     }
@@ -63,7 +63,7 @@ class PKeyDetailsDSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getSubprime(): string
+    public function getSubprime(): ?string
     {
         return $this->subprime;
     }
@@ -71,7 +71,7 @@ class PKeyDetailsDSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getGeneratorOfSubgroup(): string
+    public function getGeneratorOfSubgroup(): ?string
     {
         return $this->generatorOfSubgroup;
     }
@@ -79,7 +79,7 @@ class PKeyDetailsDSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getPrivateKey(): string
+    public function getPrivateKey(): ?string
     {
         return $this->privateKey;
     }
@@ -87,7 +87,7 @@ class PKeyDetailsDSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getPublicKey(): string
+    public function getPublicKey(): ?string
     {
         return $this->publicKey;
     }

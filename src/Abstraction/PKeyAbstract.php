@@ -13,30 +13,16 @@ abstract class PKeyAbstract implements KeyInterface
     /** @var resource */
     protected $keyResource;
     
-//     public function __destruct()
-//     {
-//         openssl_free_key($this->keyResource);
-//     }
+    public function __destruct()
+    {
+        openssl_free_key($this->keyResource);
+    }
     
-    abstract public function load(string $content);
+    abstract public function load(string $body);
 
     abstract public static function create();
     
-    public function export(string $passphrase ='', ?ConfigArgs $configArgs = null): string
-    {
-        $output = null;
-        $success = openssl_pkey_export(
-            $this->keyResource, 
-            $output, 
-            $passphrase, 
-            $configArgs ? $configArgs->toArray() : null
-        );
-        if (!$success) {
-            throw new KeyException(OpenSSL::getErrorString());
-        }
-        
-        return $output;
-    }
+    abstract public function export(): string;
     
     public function getRaw(): string
     {
@@ -67,33 +53,33 @@ abstract class PKeyAbstract implements KeyInterface
         return PKeyDetails::factory(openssl_pkey_get_details($this->keyResource));
     }
 
-//     public function decrypt(string $data, int $padding = PaddingEnum::PKCS1_PADDING): string
-//     {
-//         if (!PaddingEnum::isValid($padding)) {
-//             throw new PaddingException(sprintf(
-//                 "Invalid OpenSSL padding parameter for decryption: `%s`. Valid values are: `%s`",
-//                 $padding,
-//                 implode('`, `', PaddingEnum::getAll())
-//             ));
-//         }
+    public function decrypt(string $data, int $padding = PaddingEnum::PKCS1_PADDING): string
+    {
+        if (!PaddingEnum::isValid($padding)) {
+            throw new PaddingException(sprintf(
+                "Invalid OpenSSL padding parameter for decryption: `%s`. Valid values are: `%s`",
+                $padding,
+                implode('`, `', PaddingEnum::getAll())
+            ));
+        }
         
-//         return $this->executeDecryption($data, $padding);
-//     }
+        return $this->executeDecryption($data, $padding);
+    }
     
-//     public function encrypt(string $data, int $padding = PaddingEnum::PKCS1_PADDING): ?string
-//     {
-//         if (!PaddingEnum::isValid($padding)) {
-//             throw new PaddingException(sprintf(
-//                 "Invalid OpenSSL padding parameter for encryption: `%s`. Valid values are: `%s`",
-//                 $padding,
-//                 implode('`, `', PaddingEnum::getAll())
-//                 ));
-//         }
+    public function encrypt(string $data, int $padding = PaddingEnum::PKCS1_PADDING): ?string
+    {
+        if (!PaddingEnum::isValid($padding)) {
+            throw new PaddingException(sprintf(
+                "Invalid OpenSSL padding parameter for encryption: `%s`. Valid values are: `%s`",
+                $padding,
+                implode('`, `', PaddingEnum::getAll())
+                ));
+        }
         
-//         return $this->executeEncryption($data, $padding);
-//     }
+        return $this->executeEncryption($data, $padding);
+    }
    
-//     abstract protected function executeDecryption(string $data, int $padding): ?string;
+    abstract protected function executeDecryption(string $data, int $padding): ?string;
     
-//     abstract protected function executeEncryption(string $data, int $padding): ?string;
+    abstract protected function executeEncryption(string $data, int $padding): ?string;
 }

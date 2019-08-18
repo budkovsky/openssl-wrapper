@@ -61,20 +61,20 @@ class PKeyDetailsRSA extends PKeyDetails
         parent::__construct($keyDetails);
         $rsaDetails = $keyDetails['rsa'];
         
-        $this->modulus = $rsaDetails['n'];
-        $this->publicExponent = $rsaDetails['e'];
-        $this->privateExponent = $rsaDetails['d'];
-        $this->prime1 = $rsaDetails['p'];
-        $this->prime2 = $rsaDetails['q'];
-        $this->exponent1 = $rsaDetails['dmp1'];
-        $this->exponent2 = $rsaDetails['dmq1'];
-        $this->coefficient = $rsaDetails['iqmp'];
+        $this->modulus = $rsaDetails['n'] ?? null;
+        $this->publicExponent = $rsaDetails['e'] ?? null;
+        $this->privateExponent = $rsaDetails['d'] ?? null;
+        $this->prime1 = $rsaDetails['p'] ?? null;
+        $this->prime2 = $rsaDetails['q'] ?? null;
+        $this->exponent1 = $rsaDetails['dmp1'] ?? null;
+        $this->exponent2 = $rsaDetails['dmq1'] ?? null;
+        $this->coefficient = $rsaDetails['iqmp'] ?? null;
     }
 
     /**
      * @return string
      */
-    public function getModulus(): string
+    public function getModulus(): ?string
     {
         return $this->modulus;
     }
@@ -82,7 +82,7 @@ class PKeyDetailsRSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getPublicExponent(): string
+    public function getPublicExponent(): ?string
     {
         return $this->publicExponent;
     }
@@ -90,7 +90,7 @@ class PKeyDetailsRSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getPrivateExponent(): string
+    public function getPrivateExponent(): ?string
     {
         return $this->privateExponent;
     }
@@ -98,7 +98,7 @@ class PKeyDetailsRSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getPrime1(): string
+    public function getPrime1(): ?string
     {
         return $this->prime1;
     }
@@ -106,7 +106,7 @@ class PKeyDetailsRSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getPrime2(): string
+    public function getPrime2(): ?string
     {
         return $this->prime2;
     }
@@ -114,7 +114,7 @@ class PKeyDetailsRSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getExponent1(): string
+    public function getExponent1(): ?string
     {
         return $this->exponent1;
     }
@@ -122,7 +122,7 @@ class PKeyDetailsRSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getExponent2(): string
+    public function getExponent2(): ?string
     {
         return $this->exponent2;
     }
@@ -130,7 +130,7 @@ class PKeyDetailsRSA extends PKeyDetails
     /**
      * @return string
      */
-    public function getCoefficient(): string
+    public function getCoefficient(): ?string
     {
         return $this->coefficient;
     }

@@ -7,31 +7,36 @@ use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
 class PublicKey extends PKeyAbstract
 {
-    public function __construct(?string $keyBody = null)
+    public function __construct(?string $body = null)
     {
-        if ($keyBody) {
-            $this->load($keyBody);
+        if ($body) {
+            $this->load($body);
         }
     }
     
     /**
      * Static factory
-     * @param string $keyBody
+     * @param string $body
      */
-    public static function create(?string $keyBody = null)
+    public static function create(?string $body = null)
     {
-        return new static($keyBody);
+        return new static($body);
     }
 
-    public function load(string $keyBody): PublicKey
+    public function load(string $body): PublicKey
     {
-        $resource = openssl_pkey_get_public($keyBody);
+        $resource = openssl_pkey_get_public($body);
         if ($resource === false) {
             throw new KeyException(OpenSSL::getErrorString());
         }
         $this->keyResource = $resource;
         
         return $this;
+    }
+    
+    public function export(): string 
+    {
+        return $this->getDetails()->getKey();
     }
     
     /**
@@ -60,7 +65,7 @@ class PublicKey extends PKeyAbstract
         return $success ? $crypted : null;
     }
 
-    protected function executeDecryption(string $data, int $padding)
+    protected function executeDecryption(string $data, int $padding): ?string
     {
         $decrypted = null;
         $success = openssl_public_decrypt($data, $decrypted, $this->keyResource, $padding);

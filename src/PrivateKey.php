@@ -8,23 +8,20 @@ use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
 use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
 use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
-use Budkovsky\OpenSslWrapper\Entity\CsrSubject;
 
 class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
 {
     /** @var string */
     protected $passphrase = ''; 
     
-    public function __construct(bool $generateNew = false, ?ConfigArgs $configArgs = null)
+    public function __construct(?ConfigArgs $configArgs = null)
     {
-        if ($generateNew) {
-            $this->keyResource = openssl_pkey_new($configArgs ? $configArgs->toArray() : null);
-        }
+        $this->keyResource = openssl_pkey_new($configArgs ? $configArgs->toArray() : null);
     }
     
-    public function load(string $content, $passphrase = ''): PrivateKey
+    public function load(string $body, $passphrase = ''): PrivateKey
     {
-        $resource = openssl_pkey_get_private($content, $passphrase) ?? null;
+        $resource = openssl_pkey_get_private($body, $passphrase) ?? null;
         if ($resource === false) {
             throw new KeyException(OpenSSL::getErrorString());
         }
@@ -33,28 +30,31 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return $this;
     }
     
-    public static function create(bool $generateNew = false, ?ConfigArgs $configArgs = null): PrivateKey
+    public static function create(?ConfigArgs $configArgs = null): PrivateKey
     {
-        return new static($generateNew, $configArgs);
+        return new static($configArgs);
     }
     
-    public function encrypt(string $data, string $method)
-    {}
-
-    public function getPublicKey(CsrSubject $csrSubject, $shortNames = true, int $days=365, ?ConfigArgs $configArgs = null, ?array $extraAttribs = null): PublicKey
+    public function export(string $passphrase = null, ?ConfigArgs $configArgs = null): string
     {
-        $csr = Csr::create(true, $csrSubject, $this, $this->passphrase, $configArgs, $extraAttribs);
+        $output = null;
+        $success = openssl_pkey_export(
+            $this->keyResource,
+            $output,
+            $passphrase,
+            $configArgs ? $configArgs->toArray() : null
+            );
+        if (!$success) {
+            throw new KeyException(OpenSSL::getErrorString());
+        }
         
-        return $csr->getPublicKey($shortNames);
+        return $output;
     }
 
-//     public function getX509(CsrSubject $csrSubject, $shortNames = true, int $days=365, ?ConfigArgs $configArgs = null, ?array $extraAttribs = null): X509
-//     {
-//         return X509::create()
-//     }
-    
-    public function decrypt(string $data, string $method)
-    {}
+    public function getPublicKey(): PublicKey
+    {
+        return PublicKey::create($this->getDetails()->getKey());
+    }
     
     protected function executeEncryption(string $data, int $padding): ?string
     {
