@@ -7,9 +7,6 @@ use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Tests\Helper\Key as KeyHelper;
 use Budkovsky\OpenSslWrapper\PublicKey;
-use Budkovsky\OpenSslWrapper\Tests\Collection\CryptionDataSetCollection;
-use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
-use Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet;
 
 class PrivateKeyTest extends TestCase
 {
@@ -45,7 +42,7 @@ class PrivateKeyTest extends TestCase
     
     public function testCanEncrypt(): void
     {
-        $collection = $this->encryptRandomContent();
+        $collection = KeyHelper::encryptRandomContent();
         foreach ($collection as $dataSet) {
             /** @var CryptionDataSet $dataSet */
             $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
@@ -58,7 +55,7 @@ class PrivateKeyTest extends TestCase
     
     public function testCanDecrypt(): void
     {
-        $collection = $this->encryptRandomContent(true);
+        $collection = KeyHelper::encryptRandomContent(true);
         foreach ($collection as $dataSet) {
             /** @var CryptionDataSet $dataSet */
             $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
@@ -67,29 +64,5 @@ class PrivateKeyTest extends TestCase
                 $dataSet->getKey()->decrypt($dataSet->getEncryptedContent())
             );
         }
-    }
-    
-    protected function encryptRandomContent(bool $usePublicKey = false, int $collectionLength = 10): CryptionDataSetCollection
-    {
-        $collection = new CryptionDataSetCollection();
-        
-        for ($i = 0; $i < $collectionLength; $i++) {
-            $key = PrivateKey::create();
-            $rawContent = OpenSSL::getRandomPseudoBytes(100 + $i);
-            $encryptedContent = null;
-            if ($usePublicKey) {
-                openssl_public_encrypt($rawContent, $encryptedContent, $key->getPublicKey()->export());
-            } else {
-                openssl_private_encrypt($rawContent, $encryptedContent, $key->export());
-            }
-            $collection->add(
-                CryptionDataSet::create()
-                    ->setKey($key)
-                    ->setRawContent($rawContent)
-                    ->setEncryptedContent($encryptedContent)
-            );
-        }  
-        
-        return $collection;
     }
 }

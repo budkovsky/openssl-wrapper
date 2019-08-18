@@ -11,33 +11,30 @@ namespace Budkovsky\OpenSslWrapper;
 use Budkovsky\OpenSslWrapper\Entity\CsrSubject;
 use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
 use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
+use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 
 /**
- * OpenSSL CSR
+ * Certificate Signing Request
  */
-class Csr
+class Csr implements StaticFactoryInterface
 {
     /** @var string */
     protected $csrResource;
     
-    public function __construct(
-        bool $new = false, 
+    public function __construct( 
+        PrivateKey $privateKey, 
         ?CsrSubject $subject = null, 
-        ?PrivateKey $privateKey = null, 
-        string $passphrase = '',
+        ?string $passphrase = null,
         ?ConfigArgs $configArgs = null, 
         ?array $extraAttribs = null
     ) {
-        if ($new) {
-            $privateKeyBody = $privateKey->export($passphrase); //must be set to variable for passing by reference
-            echo $privateKeyBody.PHP_EOL; die;
-            $this->csrResource = openssl_csr_new(
-                $subject->toArray(), 
-                $privateKeyBody, 
-                $configArgs ? $configArgs->toArray() : null,
-                $extraAttribs
-            );
-        }
+        $privateKeyBody = $privateKey->export($passphrase); //must be set to variable for passing by reference
+        $this->csrResource = openssl_csr_new(
+            $subject ? $subject->toArray() : [], 
+            $privateKeyBody, 
+            $configArgs ? $configArgs->toArray() : null,
+            $extraAttribs
+        );
     }
     
     /**
@@ -45,14 +42,13 @@ class Csr
      * {@inheritDoc}
      */
     public static function create(
-        bool $new = false,
+        PrivateKey $privateKey = null,
         ?CsrSubject $subject = null,
-        ?PrivateKey $privateKey = null,
-        string $passphrase = '',
+        ?string $passphrase = null,
         ?ConfigArgs $configArgs = null,
         ?array $extraAttribs = null): Csr
     {
-        return new static($new, $subject, $privateKey, $passphrase, $configArgs, $extraAttribs);
+        return new static($privateKey, $subject, $passphrase, $configArgs, $extraAttribs);
     }
     
     /**
@@ -88,13 +84,10 @@ class Csr
      */
     public function getPublicKey(bool $shortNames = true): ?PublicKey
     {
-        $privateKeyBody = null;
-        openssl_pkey_export(
-            openssl_csr_get_public_key($this->csrResource, $shortNames), 
-            $privateKeyBody
+        $publicKeyDetails = openssl_pkey_get_details(
+            openssl_csr_get_public_key($this->csrResource, $shortNames)
         );
-        
-        return $privateKeyBody ? PublicKey::create($privateKeyBody) : null;
+        return PublicKey::create($publicKeyDetails['key']) ;
     }
     
     /**
@@ -109,14 +102,14 @@ class Csr
     
     /** @see https://www.php.net/manual/en/function.openssl-csr-sign.php */
     public function sign(
-        PrivateKey $privKey, 
+        PrivateKey $privateKey, 
         int $days = 365, 
         KeyInterface $caCert = null, 
         ?ConfigArgs 
         $configArgs = null, 
     $serial = 0): X509 {
         return X509::create(
-            true, $this->csrResource, $privKey, $days, $caCert, $configArgs, $serial
+            true, $this, $privateKey, $days, $caCert, $configArgs, $serial
         );
     }
 }

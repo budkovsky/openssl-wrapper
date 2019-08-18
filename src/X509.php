@@ -92,6 +92,8 @@ class X509 implements KeyInterface
     protected function setX509Data(bool $shortNames = true): X509
     {
         $this->x509Data = new X509Data(openssl_x509_parse($this->x509Resource, $shortNames));
+        
+        return $this;
     }
 
     /**

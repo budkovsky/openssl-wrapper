@@ -207,7 +207,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
      */
     public function toArray(bool $shortNames = false): array
     {
-        return [
+        $subject = [
             $shortNames ? PropertyEnum::CA : PropertyEnum::COUNTRY_NAME => $this->countryName,
             $shortNames ? PropertyEnum::ST : PropertyEnum::STATE_OR_PROVINCE_NAME => $this->stateOrProvince,
             $shortNames ? PropertyEnum::L : PropertyEnum::LOCALITY_NAME => $this->localityName,
@@ -216,6 +216,15 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
             $shortNames ? PropertyEnum::CN : PropertyEnum::COMMON_NAME => $this->commonName,
             PropertyEnum::EMAIL_ADDRESS => $this->emailAddress
         ];
+        
+        //remove empty field, to avoid error from openssl_csr_new() function
+        foreach ($subject as $key => $value) {
+            if (!$value) {
+                unset($subject[$key]);
+            }
+        }
+        
+        return $subject;
     }
     
     /**

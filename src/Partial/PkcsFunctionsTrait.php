@@ -27,7 +27,4 @@ trait PkcsFunctionsTrait
         }
         return openssl_pbkdf2($password, $salt, $keyLength, $iterations, $digestAlgorithm) ?? null;
     }
-    
-
 }
-

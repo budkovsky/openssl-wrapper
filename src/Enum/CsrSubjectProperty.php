@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Enum;
 
 use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
-use PharIo\Manifest\Email;
 
 /**
  * CSR property enumeration
