@@ -158,6 +158,8 @@ class X509Purposes
                 $this->timestampSigning = $isGeneral;
                 $this->timestampSigningCA = $isCA;
                 break;
+            default:
+                break;
         }
     }
 

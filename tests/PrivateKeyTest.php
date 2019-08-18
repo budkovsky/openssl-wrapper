@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Budkovsky\OpenSsslWrapper\Tests;
+namespace Budkovsky\OpenSslWrapper\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\PrivateKey;

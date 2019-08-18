@@ -6,6 +6,9 @@ use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
 use Budkovsky\OpenSslWrapper\Entity\X509Data;
 use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
+use Budkovsky\OpenSslWrapper\Enum\X509Purpose as PurposeEnum;
+use Budkovsky\OpenSslWrapper\Exception\X509Exception;
+use Budkovsky\OpenSslWrapper\Enum\X509Purpose;
 
 class X509 implements KeyInterface
 {
@@ -20,20 +23,15 @@ class X509 implements KeyInterface
      * @param string $content
      */
     public function __construct(
-        bool $new = false, 
         ?Csr $csr = null, 
         ?PrivateKey $privateKey = null, 
         int $days = 365,
         ?KeyInterface $caCert = null,
         ?ConfigArgs $configArgs = null,
         int $serial = 0
-    ) {
-        if (!$new) {
-            return;
-        }
-            
+    ) {    
         if(!$csr || !$privateKey) {
-            throw new KeyException('CSR or PrivateKey not set, both are needed parameters to create a new X509 certificate');
+            return;
         }
         
         $this->x509Resource = openssl_csr_sign(
@@ -52,7 +50,9 @@ class X509 implements KeyInterface
      */
     public function __destruct()
     {
-        openssl_x509_free($this->x509Resource);
+        if ($this->x509Resource) {
+            openssl_x509_free($this->x509Resource);            
+        }
     }
 
 
@@ -62,7 +62,6 @@ class X509 implements KeyInterface
      * @return X509
      */
     public static function create(
-        bool $new = false,
         ?Csr $csr = null,
         ?PrivateKey $privateKey = null,
         int $days = 365,
@@ -70,7 +69,7 @@ class X509 implements KeyInterface
         ?ConfigArgs $configArgs = null,
         int $serial = 0
     ) {
-        return new static($new, $csr, $privateKey, $days, $caCert,$configArgs, $serial);
+        return new static($csr, $privateKey, $days, $caCert,$configArgs, $serial);
     }
     
     /**
@@ -79,9 +78,9 @@ class X509 implements KeyInterface
      * @see https://www.php.net/manual/en/function.openssl-x509-parse.php
      * {@inheritDoc}
      */
-    public function load(string $content): X509
+    public function load(string $body): X509
     {
-        $this->x509Resource = openssl_x509_read($content) ?? null;
+        $this->x509Resource = openssl_x509_read($body) ?? null;
         if ($this->x509Resource) {
             $this->setX509Data();
         }
@@ -181,5 +180,42 @@ class X509 implements KeyInterface
         }
 
         return openssl_x509_fingerprint($this->x509Resource, $hashAlgorithm, $rawOutput) ?? null;
+    }
+    
+    /**
+     * Checks if a private key corresponds to a certificate
+     * @see https://www.php.net/manual/en/function.openssl-x509-check-private-key.php
+     * @param PrivateKey $privateKey
+     * @param string $passphrase
+     * @param ConfigArgs $configArgs
+     * @return bool
+     */
+    public function checkPrivateKey(PrivateKey $privateKey, string $passphrase = null, ?ConfigArgs $configArgs = null): bool
+    {
+        return openssl_x509_check_private_key(
+            $this->x509Resource, 
+            $privateKey->export($passphrase, $configArgs)
+        );
+    }
+    
+    /**
+     * Verifies if a certificate can be used for a particular purpose
+     * @see https://www.php.net/manual/en/function.openssl-x509-checkpurpose.php
+     * @see \Budkovsky\OpenSslWrapper\Enum\X509Purpose
+     * @param int $purpose
+     * @param array $CAinfo Should be an array of trusted CA files/dirsas described in https://www.php.net/manual/en/openssl.cert.verification.php
+     * @param String $untrustedFile If specified, this should be the name of a PEM encoded file holdingcertificates that can be used to help verify the certificate, althoughno trust is placed in the certificates that come from that file.
+     * @throws X509Exception
+     * @return int Returns TRUE if the certificate can be used for the intended purpose, FALSE if it cannot, or NULL on error
+     */
+    public function checkpurpose(int $purpose, array $CAinfo = [], ?String $untrustedFile = null): ?bool
+    {
+        if (!PurposeEnum::isValid($purpose)) {
+            throw new X509Exception("Invalid X509 purpose: `$purpose`");
+        }
+        
+        $result = openssl_x509_checkpurpose($this->x509Resource, $purpose, $CAinfo, $untrustedFile);
+        
+        return is_bool($result) ? $result : null;
     }
 }

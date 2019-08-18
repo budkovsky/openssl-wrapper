@@ -21,10 +21,10 @@ interface KeyInterface
     
     /**
      * Load key to the object
-     * @param string $content PEM key string
+     * @param string $body PEM key string
      * @return KeyInterface
      */
-    public function load(string $content);
+    public function load(string $body);
     
     /**
      * Return raw key string

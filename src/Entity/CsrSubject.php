@@ -84,6 +84,8 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
             case PropertyEnum::EMAIL_ADDRESS:
                 $this->emailAddress = $value;
                 break;
+            default:
+                break;
         }
     }
     

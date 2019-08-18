@@ -81,6 +81,8 @@ final class CertLocations implements SingletonInterface
             case 'ini_capath':
                 $this->iniCAPath = $value;
                 break;
+            default:
+                break;
         }
     }
     
