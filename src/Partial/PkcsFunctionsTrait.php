@@ -1,7 +1,7 @@
 <?php
 namespace Partial;
 
-use Budkovsky\OpenSslWrapper\OpenSslWrapper;
+use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 use Budkovsky\OpenSslWrapper\Exception\ComputeDigestException;
 
 trait PkcsFunctionsTrait
@@ -22,7 +22,7 @@ trait PkcsFunctionsTrait
         int $iterations,
         string $digestAlgorithm = 'sha1'
     ): ?string {
-        if (!in_array($digestAlgorithm, OpenSslWrapper::getMessageDigestMethods())) {
+        if (!in_array($digestAlgorithm, OpenSSL::getMessageDigestMethods())) {
             throw new ComputeDigestException("Invalid digest algorithm: `$digestAlgorithm`");
         }
         return openssl_pbkdf2($password, $salt, $keyLength, $iterations, $digestAlgorithm) ?? null;
