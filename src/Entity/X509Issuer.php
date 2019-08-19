@@ -12,12 +12,5 @@ namespace Budkovsky\OpenSslWrapper\Entity;
  */
 class X509Issuer extends X509Subject
 {
-    /**
-     * The constructor
-     * @param array $identity Issuer subarray from openssl_x509_parse() result
-     */
-    public function __construct(array $identity)
-    {
-        parent::__construct($identity);
-    }
+
 }
