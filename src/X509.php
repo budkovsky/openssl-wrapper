@@ -8,7 +8,6 @@ use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 use Budkovsky\OpenSslWrapper\Enum\X509Purpose as PurposeEnum;
 use Budkovsky\OpenSslWrapper\Exception\X509Exception;
-use Budkovsky\OpenSslWrapper\Enum\X509Purpose;
 
 class X509 implements KeyInterface
 {
