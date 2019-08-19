@@ -27,7 +27,7 @@ final class WrapperTest extends TestCase
     {
         foreach (OpenSSL::getCipherMethods(true) as $method) {
             $this->assertEquals(
-                openssl_cipher_iv_length($method), 
+                openssl_cipher_iv_length($method),
                 OpenSSL::cipherIvLength($method)
             );
         }
@@ -37,11 +37,11 @@ final class WrapperTest extends TestCase
     {
         for ($i=0; $i<1000; $i++) {
             $this->assertContains(
-                MethodsHelper::getRandomDigestMethod(), 
+                MethodsHelper::getRandomDigestMethod(),
                 openssl_get_md_methods()
             );
             $this->assertContains(
-                MethodsHelper::getRandomDigestMethod(true), 
+                MethodsHelper::getRandomDigestMethod(true),
                 openssl_get_md_methods(true)
             );
         }
@@ -51,11 +51,11 @@ final class WrapperTest extends TestCase
     {
         for ($i=0; $i<1000; $i++) {
             $this->assertContains(
-                MethodsHelper::getRandomCipherMethod(), 
+                MethodsHelper::getRandomCipherMethod(),
                 openssl_get_cipher_methods()
             );
             $this->assertContains(
-                MethodsHelper::getRandomCipherMethod(true), 
+                MethodsHelper::getRandomCipherMethod(true),
                 openssl_get_cipher_methods(true)
             );
         }
@@ -65,35 +65,35 @@ final class WrapperTest extends TestCase
     {
         $certLocations = openssl_get_cert_locations();
         $this->assertEquals(
-            $certLocations['default_cert_file'], 
+            $certLocations['default_cert_file'],
             OpenSSL::getCertLocations()->getDefaultCertFile()
         );
         $this->assertEquals(
-            $certLocations['default_cert_file_env'], 
+            $certLocations['default_cert_file_env'],
             OpenSSL::getCertLocations()->getDefaultCertFileEnv()
         );
         $this->assertEquals(
-            $certLocations['default_cert_dir'], 
+            $certLocations['default_cert_dir'],
             OpenSSL::getCertLocations()->getDefaultCertDir()
         );
         $this->assertEquals(
-            $certLocations['default_cert_dir_env'], 
+            $certLocations['default_cert_dir_env'],
             OpenSSL::getCertLocations()->getDefaultCertDirEnv()
         );
         $this->assertEquals(
-            $certLocations['default_private_dir'], 
+            $certLocations['default_private_dir'],
             OpenSSL::getCertLocations()->getDefaultPrivateDir()
         );
         $this->assertEquals(
-            $certLocations['default_default_cert_area'], 
+            $certLocations['default_default_cert_area'],
             OpenSSL::getCertLocations()->getDefaultDefaultCertArea()
         );
         $this->assertEquals(
-            $certLocations['ini_cafile'], 
+            $certLocations['ini_cafile'],
             OpenSSL::getCertLocations()->getIniCAFile()
         );
         $this->assertEquals(
-            $certLocations['ini_capath'], 
+            $certLocations['ini_capath'],
             OpenSSL::getCertLocations()->getIniCAPath()
         );
     }
@@ -131,7 +131,7 @@ final class WrapperTest extends TestCase
         foreach (OpenSSL::getDigestMethods(true) as $method) {
             $randomPseudoBytes = OpenSSL::getRandomPseudoBytes(rand(10, 100));
             $this->assertEquals(
-                openssl_digest($randomPseudoBytes, $method, false), 
+                openssl_digest($randomPseudoBytes, $method, false),
                 OpenSSL::computeDigest($randomPseudoBytes, $method, false)
             );
             $this->assertEquals(

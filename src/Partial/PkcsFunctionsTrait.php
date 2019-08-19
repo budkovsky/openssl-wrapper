@@ -6,7 +6,7 @@ use Budkovsky\OpenSslWrapper\Exception\ComputeDigestException;
 
 trait PkcsFunctionsTrait
 {
-    /** 
+    /**
      * computes PBKDF2 (Password-Based Key Derivation Function 2), a key derivation function defined in PKCS5 v2
      * @see https://www.php.net/manual/en/function.openssl-pbkdf2.php
      * @param string $password

@@ -32,9 +32,9 @@ abstract class PKeyAbstract implements KeyInterface
     public function exportToFile(string $target, string $passphrase = '', ?ConfigArgs $configArgs = null): PKeyAbstract
     {
         $success = openssl_pkey_export_to_file(
-            $this->keyResource, 
-            $target, 
-            $passphrase, 
+            $this->keyResource,
+            $target,
+            $passphrase,
             $configArgs ? $configArgs->toArray() : null);
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());

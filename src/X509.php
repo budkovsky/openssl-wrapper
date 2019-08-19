@@ -23,26 +23,26 @@ class X509 implements KeyInterface
      * @param string $content
      */
     public function __construct(
-        ?Csr $csr = null, 
-        ?PrivateKey $privateKey = null, 
+        ?Csr $csr = null,
+        ?PrivateKey $privateKey = null,
         int $days = 365,
         ?KeyInterface $caCert = null,
         ?ConfigArgs $configArgs = null,
         int $serial = 0
-    ) {    
+    ) {
         if(!$csr || !$privateKey) {
             return;
         }
         
         $this->x509Resource = openssl_csr_sign(
-            $csr->export(), 
-            $caCert ? $caCert->export() : null, 
-            $privateKey->export(), 
+            $csr->export(),
+            $caCert ? $caCert->export() : null,
+            $privateKey->export(),
             $days,
             $configArgs ? $configArgs->toArray() : null,
             $serial
         ) ?? null;
-        $this->setX509Data(); 
+        $this->setX509Data();
     }
     
     /**
@@ -51,7 +51,7 @@ class X509 implements KeyInterface
     public function __destruct()
     {
         if ($this->x509Resource) {
-            openssl_x509_free($this->x509Resource);            
+            openssl_x509_free($this->x509Resource);
         }
     }
 
@@ -104,7 +104,7 @@ class X509 implements KeyInterface
      * @param array $args
      * @return X509|NULL
      */
-    public function exportToPkcs12File(string $filename, PrivateKey $privateKey, string $password, array $args = []): ?X509 
+    public function exportToPkcs12File(string $filename, PrivateKey $privateKey, string $password, array $args = []): ?X509
     {
         //TODO implementation
         //TODO args to object?
@@ -123,7 +123,7 @@ class X509 implements KeyInterface
     {
         //TODO implementation
         //TODO args to object?
-        $output = null;        
+        $output = null;
         $success = openssl_pkcs12_export($this->x509Resource, $output, $privateKey->getRaw(), $password, $args);
         
         return $success ? $output : null;
@@ -193,7 +193,7 @@ class X509 implements KeyInterface
     public function checkPrivateKey(PrivateKey $privateKey, string $passphrase = null, ?ConfigArgs $configArgs = null): bool
     {
         return openssl_x509_check_private_key(
-            $this->x509Resource, 
+            $this->x509Resource,
             $privateKey->export($passphrase, $configArgs)
         );
     }

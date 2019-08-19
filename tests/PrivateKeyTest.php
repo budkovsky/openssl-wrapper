@@ -28,7 +28,7 @@ class PrivateKeyTest extends TestCase
 
         $this->assertInstanceOf(PrivateKey::class, $key);
         $this->assertEquals(
-            $privateKeyBody, 
+            $privateKeyBody,
             $key->export()
         );
     }
@@ -47,7 +47,7 @@ class PrivateKeyTest extends TestCase
             /** @var CryptionDataSet $dataSet */
             $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
             $this->assertEquals(
-                $dataSet->getEncryptedContent(), 
+                $dataSet->getEncryptedContent(),
                 $dataSet->getKey()->encrypt($dataSet->getRawContent())
             );
         }
@@ -60,7 +60,7 @@ class PrivateKeyTest extends TestCase
             /** @var CryptionDataSet $dataSet */
             $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
             $this->assertEquals(
-                $dataSet->getRawContent(), 
+                $dataSet->getRawContent(),
                 $dataSet->getKey()->decrypt($dataSet->getEncryptedContent())
             );
         }

@@ -67,7 +67,7 @@ class CryptionDataSet implements StaticFactoryInterface
      * @param PKeyAbstract $key
      * @return CryptionDataSet
      */
-    public function setKey(PKeyAbstract $key): CryptionDataSet 
+    public function setKey(PKeyAbstract $key): CryptionDataSet
     {
         $this->key = $key;
         

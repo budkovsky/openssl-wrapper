@@ -11,7 +11,7 @@ use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 
 class KeyType extends EnumAbstract
 {
-    const DSA = OPENSSL_KEYTYPE_DSA; 
+    const DSA = OPENSSL_KEYTYPE_DSA;
     const DH = OPENSSL_KEYTYPE_DH;
     const RSA = OPENSSL_KEYTYPE_RSA;
     const EC = OPENSSL_KEYTYPE_EC;

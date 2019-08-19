@@ -15,7 +15,7 @@ class CryptionDataSetCollection extends CollectionAbstract implements StaticFact
     public function add(CryptionDataSet $cryptionDataSet = null): CryptionDataSetCollection
     {
         if ($cryptionDataSet) {
-            $this->collection[] = $cryptionDataSet;            
+            $this->collection[] = $cryptionDataSet;
         }
         
         return $this;

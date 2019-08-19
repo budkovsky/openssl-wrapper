@@ -21,17 +21,17 @@ class Csr implements StaticFactoryInterface
     /** @var string */
     protected $csrResource;
     
-    public function __construct( 
-        PrivateKey $privateKey, 
-        ?CsrSubject $subject = null, 
+    public function __construct(
+        PrivateKey $privateKey,
+        ?CsrSubject $subject = null,
         ?string $passphrase = null,
-        ?ConfigArgs $configArgs = null, 
+        ?ConfigArgs $configArgs = null,
         ?array $extraAttribs = null
     ) {
         $privateKeyBody = $privateKey->export($passphrase); //must be set to variable for passing by reference
         $this->csrResource = openssl_csr_new(
-            $subject ? $subject->toArray() : [], 
-            $privateKeyBody, 
+            $subject ? $subject->toArray() : [],
+            $privateKeyBody,
             $configArgs ? $configArgs->toArray() : null,
             $extraAttribs
         );
@@ -102,11 +102,11 @@ class Csr implements StaticFactoryInterface
     
     /** @see https://www.php.net/manual/en/function.openssl-csr-sign.php */
     public function sign(
-        PrivateKey $privateKey, 
-        int $days = 365, 
-        KeyInterface $caCert = null, 
-        ?ConfigArgs 
-        $configArgs = null, 
+        PrivateKey $privateKey,
+        int $days = 365,
+        KeyInterface $caCert = null,
+        ?ConfigArgs
+        $configArgs = null,
     $serial = 0): X509 {
         return X509::create(
             true, $this, $privateKey, $days, $caCert, $configArgs, $serial

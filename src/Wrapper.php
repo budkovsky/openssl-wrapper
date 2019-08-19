@@ -93,18 +93,18 @@ class Wrapper
         string $tag = '',
         string $aditionalAuthenticationData = '',
         int $tagLength = 16
-        ): ?string {
-            //TODO implentation & validation
-            return openssl_encrypt(
-                $data,
-                $method,
-                $key->export(),
-                $options,
-                $iv,
-                $tag,
-                $aditionalAuthenticationData,
-                $tagLength
-                ) ?? null;
+    ): ?string {
+        //TODO implentation & validation
+        return openssl_encrypt(
+            $data,
+            $method,
+            $key->export(),
+            $options,
+            $iv,
+            $tag,
+            $aditionalAuthenticationData,
+            $tagLength
+            ) ?? null;
     }
     
     /**
@@ -153,7 +153,7 @@ class Wrapper
      * @param bool $asliases
      * @return array
      */
-    public static function getDigestMethods(bool $asliases = false): array 
+    public static function getDigestMethods(bool $asliases = false): array
     {
         return openssl_get_md_methods($asliases);
     }

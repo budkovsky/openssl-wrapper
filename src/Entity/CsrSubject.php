@@ -46,7 +46,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
     {
         foreach ($subject as $key => $value) {
             $this->setProperty($key, $value);
-        }  
+        }
     }
     
     /**

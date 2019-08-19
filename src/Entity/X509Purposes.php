@@ -12,7 +12,7 @@ namespace Budkovsky\OpenSslWrapper\Entity;
  */
 class X509Purposes
 {
-    /** 
+    /**
      * @var bool
      */
     protected $sslClient;
@@ -243,7 +243,7 @@ class X509Purposes
         return $this->smimeEncryptionCA;
     }
     
-    /** 
+    /**
      * @return bool
      */
     public function isCrlSigning(): bool

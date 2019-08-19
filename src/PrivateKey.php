@@ -12,7 +12,7 @@ use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
 {
     /** @var string */
-    protected $passphrase = ''; 
+    protected $passphrase = '';
     
     public function __construct(?ConfigArgs $configArgs = null)
     {
@@ -71,5 +71,4 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         
         return $success ? $decrypted : null;
     }
-    
 }

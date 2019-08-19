@@ -34,7 +34,7 @@ class PublicKey extends PKeyAbstract
         return $this;
     }
     
-    public function export(): string 
+    public function export(): string
     {
         return $this->getDetails()->getKey();
     }

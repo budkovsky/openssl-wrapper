@@ -50,7 +50,7 @@ class CsrSubjectPropertyMapper
      */
     final public static function toShortName(string $propertyFullName): ?string
     {
-        return PropertyEnum::isValid($propertyFullName) ? 
+        return PropertyEnum::isValid($propertyFullName) ?
             self::TO_SHORT_NAME_MAPPER[$propertyFullName] : null;
     }
     

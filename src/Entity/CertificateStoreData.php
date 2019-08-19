@@ -38,7 +38,7 @@ class CertificateStoreData
     /**
      * privateKey
      * @return PrivateKey
-     * 
+     *
      */
     public function getPrivateKey(): PrivateKey
     {
