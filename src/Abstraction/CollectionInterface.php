@@ -7,5 +7,8 @@ interface CollectionInterface extends \IteratorAggregate, \Countable
 {
     public function set(array $collection);
     
+    /**
+     * Adds item to the collection
+     */
     public function add();
 }

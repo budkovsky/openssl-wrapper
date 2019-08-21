@@ -57,7 +57,7 @@ class X509 implements KeyInterface
 
     /**
      * {@inheritDoc}
-     * @param string  $content
+     * @param string $content
      * @return X509
      */
     public static function create(

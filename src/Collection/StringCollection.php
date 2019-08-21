@@ -4,8 +4,10 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Collection;
 
 use Budkovsky\OpenSslWrapper\Abstraction\CollectionAbstract;
+use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
+use Prophecy\Doubler\Generator\ClassCreator;
 
-class StringCollection extends CollectionAbstract
+class StringCollection extends CollectionAbstract implements StaticFactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -15,5 +17,18 @@ class StringCollection extends CollectionAbstract
         $this->collection[] = $item;
         
         return $this;
+    }
+    
+    /**
+     * Static Factory
+     * @param array $collection
+     * @return StringCollection
+     */
+    public static function create(array $collection = []): StringCollection
+    {
+        $stringCollection = new static();
+        $stringCollection->set($collection);
+        
+        return $stringCollection;
     }
 }

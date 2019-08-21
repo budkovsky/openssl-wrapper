@@ -72,4 +72,12 @@ class PublicKey extends PKeyAbstract
         
         return $success ? $decrypted : null;
     }
+    
+    /**
+     * @return string Return key body in PEM format
+     */
+    public function __toString(): string
+    {
+        return $this->export();
+    }
 }

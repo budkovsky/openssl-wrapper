@@ -11,6 +11,11 @@ use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 use Budkovsky\OpenSslWrapper\Exception\ComputeDigestException;
 use Budkovsky\OpenSslWrapper\Entity\CertLocations;
 use Budkovsky\OpenSslWrapper\Partial\StaticClassTrait;
+use Budkovsky\OpenSslWrapper\Collection\PublicKeyCollection;
+use Budkovsky\OpenSslWrapper\Enum\Cipher;
+use Budkovsky\OpenSslWrapper\Entity\SealResult;
+use Budkovsky\OpenSslWrapper\Collection\StringCollection;
+use Budkovsky\OpenSslWrapper\Exception\OpenSSLWrapperException;
 
 /**
  * OpenSSL object-oriented wrapper for PHP
@@ -188,5 +193,31 @@ class Wrapper
     public static function getRandomPseudoBytes(int $length, bool $cryptoStrong = true): ?string
     {
         return openssl_random_pseudo_bytes($length, $cryptoStrong) ?? null;
+    }
+    
+    /**
+     * TODO unit tests
+     * @param string $data
+     * @param PublicKeyCollection $publicKeyCollection
+     * @param string $method
+     * @param string $iv
+     * @return SealResult|NULL Returns SealResult on success or NULL on error
+     */
+    public function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
+    {
+        if (!static::isCipherMethodValid($method)) {
+            throw new OpenSSLWrapperException("Invalid cipher method: `$method`");
+        }
+        
+        $sealedData = null;
+        $envKeys = null;
+        $sealedDataLength = openssl_seal($data, $sealedData, $envKeys, $publicKeys, $method, $iv);
+
+        return $sealedDataLength === false ? null :
+            SealResult::create()
+                ->setDataLength($sealedDataLength)
+                ->setSealedData($sealedData)
+                ->setEnvKeys(StringCollection::create($envKeys))
+        ;
     }
 }

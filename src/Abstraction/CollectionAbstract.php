@@ -5,10 +5,6 @@ namespace Budkovsky\OpenSslWrapper\Abstraction;
 
 abstract class CollectionAbstract implements CollectionInterface
 {
-    /**
-     * Collection trait, implements methods for IteratorAggregate, Countable interfaces
-     * When use, implement add() method with proper type hinting for collection's items
-     */
     protected $collection = [];
     
     /**
@@ -31,6 +27,10 @@ abstract class CollectionAbstract implements CollectionInterface
         return count($this->collection);
     }
 
+    /**
+     * Sets whole collection, replaces old one, if exists
+     * {@inheritDoc}
+     */
     public function set(array $collection)
     {
         $this->collection = [];
