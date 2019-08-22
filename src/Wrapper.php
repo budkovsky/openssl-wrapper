@@ -67,16 +67,8 @@ class Wrapper
         string $tag = '',
         string $aditionalAuthenticationData = ''
     ): ?string {
-        //TODO implentation & validation
-        return openssl_decrypt(
-            $data,
-            $method,
-            $key->export(),
-            $options,
-            $iv,
-            $tag,
-            $aditionalAuthenticationData
-        ) ?? null;
+        //TODO validation
+        return openssl_decrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData) ?? null;
     }
     
     /**
@@ -104,16 +96,7 @@ class Wrapper
         int $tagLength = 16
     ): ?string {
         //TODO implentation & validation
-        return openssl_encrypt(
-            $data,
-            $method,
-            $key->export(),
-            $options,
-            $iv,
-            $tag,
-            $aditionalAuthenticationData,
-            $tagLength
-            ) ?? null;
+        return openssl_encrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData, $tagLength) ?? null;
     }
     
     /**
@@ -225,5 +208,24 @@ class Wrapper
                 ->setSealedData($sealedData)
                 ->setEnvKeys(StringCollection::create($envKeys))
         ;
+    }
+    
+    /**
+     * Opens sealed data
+     * @see https://www.php.net/manual/en/function.openssl-open.php
+     * TODO unit tests
+     * @param string $sealedData
+     * @param string $envKey
+     * @param PrivateKey $privateKey
+     * @param string $passphrase
+     * @param string $method
+     * @param string $iv
+     * @return string|NULL
+     */
+    public function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = null): ?string
+    {
+        $openData = null;
+        
+        return openssl_open($sealedData, $openData, $envKey, $privateKey->export($passphrase), $method, $iv) ? $openData : null;
     }
 }
