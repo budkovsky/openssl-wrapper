@@ -7,6 +7,7 @@ use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 
 /**
  * SPKI
+ * TODO unit tests
  * @see https://en.wikipedia.org/wiki/Simple_public-key_infrastructure
  * @see https://en.wikipedia.org/wiki/SPKAC
  * @see https://tools.ietf.org/html/rfc2692

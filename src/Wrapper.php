@@ -54,7 +54,10 @@ class Wrapper
         return openssl_digest($data, $method, $rawOutput);
     }
 
-    /** @see https://www.php.net/manual/en/function.openssl-decrypt.php */
+    /** 
+     * TODO unit tests
+     * @see https://www.php.net/manual/en/function.openssl-decrypt.php 
+     */
     public static function decrypt(
         string $data,
         string $method,
@@ -78,6 +81,7 @@ class Wrapper
     
     /**
      * Encrypts data
+     * TODO unit tests
      * @see https://www.php.net/manual/en/function.openssl-decrypt.php
      * @param string $data
      * @param string $method
@@ -114,6 +118,7 @@ class Wrapper
     
     /**
      * Return openSSL error message
+     * TODO unit tests
      * @see https://www.php.net/manual/en/function.openssl-error-string.php
      * @return string
      */
@@ -144,6 +149,7 @@ class Wrapper
     }
     
     /**
+     * TODO unit tests
      * @see https://www.php.net/manual/en/function.openssl-get-curve-names.php
      * @return array
      */

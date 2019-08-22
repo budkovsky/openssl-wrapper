@@ -5,6 +5,10 @@ use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
 use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
+/**
+ * Public key
+ * TODO unit tests
+ */
 class PublicKey extends PKeyAbstract
 {
     public function __construct(?string $body = null)

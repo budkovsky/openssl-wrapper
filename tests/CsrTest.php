@@ -69,6 +69,7 @@ class CsrTest extends TestCase
     
     public function testCanSign(): void
     {
+        //TODO validate is certificate really signed
         $csr = Csr::create(PrivateKey::create());
         $signingKey = PrivateKey::create();
         $signedCert = $csr->sign($signingKey);
@@ -76,6 +77,5 @@ class CsrTest extends TestCase
         $this->assertInstanceOf(X509::class, $signedCert);
         $this->assertIsString($signedCert->export());
         $this->assertNotEmpty($signedCert->export());
-        //TODO validate is certificate really signed
     }
 }

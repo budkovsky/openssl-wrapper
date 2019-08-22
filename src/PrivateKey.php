@@ -9,6 +9,10 @@ use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
 use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
+/**
+ * Private key
+ * TODO unit tests for methods from PKeyAbstract
+ */
 class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
 {
     /** @var string */
@@ -35,6 +39,7 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return new static($configArgs);
     }
     
+    /** TODO unit tests */
     public function export(string $passphrase = null, ?ConfigArgs $configArgs = null): string
     {
         $output = null;
@@ -55,7 +60,7 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
     {
         return PublicKey::create($this->getDetails()->getKey());
     }
-    
+
     protected function executeEncryption(string $data, int $padding): ?string
     {
         $crypted = null;
