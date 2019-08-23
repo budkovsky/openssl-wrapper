@@ -1,8 +1,10 @@
 # Notes for OpenSSL PHP Wrapper
 
+implementation / validation / tests
+
 ## CSR
-- openssl_csr_export_to_file — Exports a CSR to a file
-- openssl_csr_export — Exports a CSR as a string
+- +++ openssl_csr_export_to_file — Exports a CSR to a file
+- +++ openssl_csr_export — Exports a CSR as a string
 - openssl_csr_get_public_key — Returns the public key of a CSR
 - openssl_csr_get_subject — Returns the subject of a CSR
 - openssl_csr_new — Generates a CSR
@@ -36,9 +38,9 @@
 - openssl_x509_read — Parse an X.509 certificate and return a resource identifier forit
 
 ## Lists
-- openssl_get_cipher_methods — Gets available cipher methods
-- openssl_get_curve_names — Gets list of available curve names for ECC
-- openssl_get_md_methods — Gets available digest methods
+- +.+ openssl_get_cipher_methods — Gets available cipher methods
+- +.+ openssl_get_curve_names — Gets list of available curve names for ECC
+- +.+ openssl_get_md_methods — Gets available digest methods
 
 ## Keys functions
 - openssl_free_key — Free key resource
@@ -55,7 +57,7 @@
 ## cryptographic functions
 - openssl_decrypt — Decrypts data
 - openssl_dh_compute_key — Computes shared secret for public value of remote DH public key and local DH key
-- openssl_digest — Computes a digest
+- +++ openssl_digest — Computes a digest
 - openssl_encrypt — Encrypts data
 - openssl_open — Open sealed data
 - openssl_seal — Seal (encrypt) data
@@ -67,10 +69,10 @@
 - openssl_public_encrypt — Encrypts data with public key
 
 ## other
-- openssl_cipher_iv_length — Gets the cipher iv length
-- openssl_error_string — Return openSSL error message
-- openssl_get_cert_locations — Retrieve the available certificate locations
-- openssl_random_pseudo_bytes — Generate a pseudo-random string of bytes
+- +++ openssl_cipher_iv_length — Gets the cipher iv length
+- +.+ openssl_error_string — Return openSSL error message
+- +.+ openssl_get_cert_locations — Retrieve the available certificate locations
+- +.+ openssl_random_pseudo_bytes — Generate a pseudo-random string of bytes
 
 
 	

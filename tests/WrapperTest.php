@@ -6,31 +6,51 @@ namespace Budkovsky\OpenSslWrapper\Tests;
 use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 use Budkovsky\OpenSslWrapper\Tests\Helper\Methods as MethodsHelper;
+use Budkovsky\OpenSslWrapper\Exception\OpenSSLWrapperException;
 
 final class WrapperTest extends TestCase
 {
     public function testCanGetDigestMethods(): void
     {
-        foreach (OpenSSL::getDigestMethods(true) as $method) {
+        $methodList = OpenSSL::getDigestMethods(true);
+        $this->assertIsArray($methodList);
+        $this->assertNotEmpty($methodList);
+        foreach ($methodList as $method) {
             $this->assertContains($method, openssl_get_md_methods(true));
         }
     }
     
     public function testCanGetCipherMethods(): void
     {
-        foreach (OpenSSL::getCipherMethods(true) as $method) {
+        $methodList = OpenSSL::getCipherMethods(true);
+        $this->assertIsArray($methodList);
+        $this->assertNotEmpty($methodList);
+        foreach ($methodList as $method) {
             $this->assertContains($method, openssl_get_cipher_methods(true));
+        }
+    }
+    
+    public function testCanGetCurveNames(): void
+    {
+        $list = OpenSSL::getCurveNames();
+        $this->assertIsArray($list);
+        $this->assertNotEmpty($list);
+        foreach ($list as $curveName) {
+            $this->assertContains($curveName, openssl_get_curve_names());
         }
     }
     
     public function testCanGetCipherIvLength(): void
     {
         foreach (OpenSSL::getCipherMethods(true) as $method) {
+            $this->assertIsInt(OpenSSL::cipherIvLength($method));
             $this->assertEquals(
                 openssl_cipher_iv_length($method),
                 OpenSSL::cipherIvLength($method)
             );
         }
+        $this->expectException(OpenSSLWrapperException::class);
+        OpenSSL::cipherIvLength('ABCD');
     }
     
     public function testCanValidateDigestMethod(): void
@@ -139,5 +159,18 @@ final class WrapperTest extends TestCase
                 OpenSSL::computeDigest($randomPseudoBytes, $method, true)
             );
         }
+    }
+    
+    /** @see https://stackoverflow.com/questions/41952509/openssl-encrypt-returns-false */
+    public function testCanGetErrorString(): void
+    {
+        //it should generate openssl error
+        openssl_encrypt('1234', 'AES-256-CBC', 'kGJeGF2hEQ', OPENSSL_ZERO_PADDING, '1234123412341234');
+        
+        $errorString = OpenSSL::getErrorString();
+        
+        $this->assertNotFalse($errorString);
+        $this->assertIsString($errorString);
+        $this->assertNotEmpty($errorString);
     }
 }

@@ -12,7 +12,6 @@ use Budkovsky\OpenSslWrapper\Exception\ComputeDigestException;
 use Budkovsky\OpenSslWrapper\Entity\CertLocations;
 use Budkovsky\OpenSslWrapper\Partial\StaticClassTrait;
 use Budkovsky\OpenSslWrapper\Collection\PublicKeyCollection;
-use Budkovsky\OpenSslWrapper\Enum\Cipher;
 use Budkovsky\OpenSslWrapper\Entity\SealResult;
 use Budkovsky\OpenSslWrapper\Collection\StringCollection;
 use Budkovsky\OpenSslWrapper\Exception\OpenSSLWrapperException;
@@ -26,13 +25,17 @@ class Wrapper
     use StaticClassTrait;
     
     /**
-     * Gets the cipher iv length
+     * Gets the cipher iv length  for given method
      * @see https://www.php.net/manual/en/function.openssl-cipher-iv-length.php
      * @param string $method
      * @return int
      */
     public static function cipherIvLength(string $method): int
     {
+        if (!static::isCipherMethodValid($method)) {
+            throw new OpenSSLWrapperException("Invalid cipher method `$method`");
+        }
+        
         return openssl_cipher_iv_length($method);
     }
     
@@ -132,7 +135,6 @@ class Wrapper
     }
     
     /**
-     * TODO unit tests
      * @see https://www.php.net/manual/en/function.openssl-get-curve-names.php
      * @return array
      */
@@ -167,7 +169,7 @@ class Wrapper
      * @param string $cipherMethod
      * @return bool
      */
-    public function isCipherMethodValid(string $cipherMethod): bool
+    public static function isCipherMethodValid(string $cipherMethod): bool
     {
         return in_array($cipherMethod, self::getCipherMethods(true));
     }
@@ -185,6 +187,8 @@ class Wrapper
     }
     
     /**
+     * Seal (encrypt) data
+     * @see https://www.php.net/manual/en/function.openssl-seal.php
      * TODO unit tests
      * @param string $data
      * @param PublicKeyCollection $publicKeyCollection
