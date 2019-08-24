@@ -20,7 +20,7 @@ class Csr implements StaticFactoryInterface
 {
     /** @var string */
     protected $csrResource;
-    
+
     public function __construct(
         PrivateKey $privateKey,
         ?CsrSubject $subject = null,
@@ -36,7 +36,7 @@ class Csr implements StaticFactoryInterface
             $extraAttribs
         );
     }
-    
+
     /**
      * Static factory
      * {@inheritDoc}
@@ -50,7 +50,7 @@ class Csr implements StaticFactoryInterface
     {
         return new static($privateKey, $subject, $passphrase, $configArgs, $extraAttribs);
     }
-    
+
     /**
      * Exports a CSR to a file
      * https://www.php.net/manual/en/function.openssl-csr-export-to-file.php
@@ -62,7 +62,7 @@ class Csr implements StaticFactoryInterface
     {
         return openssl_csr_export_to_file($this->csrResource, $outFileName, $notext);
     }
-    
+
     /**
      * Exports a CSR as a string
      * @see https://www.php.net/manual/en/function.openssl-csr-export.php
@@ -73,10 +73,10 @@ class Csr implements StaticFactoryInterface
     {
         $out = null;
         openssl_csr_export($this->csrResource, $out, $notext);
-        
+
         return $out ?? null;
     }
-    
+
     /**
      * Returns the public key of a CSR
      * @see https://www.php.net/manual/en/function.openssl-csr-get-public-key.php
@@ -89,7 +89,7 @@ class Csr implements StaticFactoryInterface
         );
         return PublicKey::create($publicKeyDetails['key']) ;
     }
-    
+
     /**
      * Returns the subject of a CSR
      * @param bool $use_shortnames
@@ -99,7 +99,7 @@ class Csr implements StaticFactoryInterface
     {
         return new CsrSubject(openssl_csr_get_subject($this->csrResource));
     }
-    
+
     /** @see https://www.php.net/manual/en/function.openssl-csr-sign.php */
     public function sign(
         PrivateKey $privateKey,
@@ -109,7 +109,7 @@ class Csr implements StaticFactoryInterface
         $configArgs = null,
     $serial = 0): X509 {
         return X509::create(
-            true, $this, $privateKey, $days, $caCert, $configArgs, $serial
+            $this, $privateKey, $days, $caCert, $configArgs, $serial
         );
     }
 }

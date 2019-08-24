@@ -13,10 +13,10 @@ class X509 implements KeyInterface
 {
     /** @var resource */
     protected $x509Resource;
-    
+
     /** @var X509Data */
     protected $x509Data;
-    
+
     /**
      * The Constructor
      * @param string $content
@@ -32,7 +32,7 @@ class X509 implements KeyInterface
         if(!$csr || !$privateKey) {
             return;
         }
-        
+
         $this->x509Resource = openssl_csr_sign(
             $csr->export(),
             $caCert ? $caCert->export() : null,
@@ -43,7 +43,7 @@ class X509 implements KeyInterface
         ) ?? null;
         $this->setX509Data();
     }
-    
+
     /**
      * The Destructor
      */
@@ -70,7 +70,7 @@ class X509 implements KeyInterface
     ) {
         return new static($csr, $privateKey, $days, $caCert,$configArgs, $serial);
     }
-    
+
     /**
      * Reads certificate, creates resource, parses X509 data and calculates fingerprint
      * @see https://www.php.net/manual/en/function.openssl-x509-read.php
@@ -83,14 +83,14 @@ class X509 implements KeyInterface
         if ($this->x509Resource) {
             $this->setX509Data();
         }
-        
+
         return $this;
     }
-    
+
     protected function setX509Data(bool $shortNames = true): X509
     {
         $this->x509Data = new X509Data(openssl_x509_parse($this->x509Resource, $shortNames));
-        
+
         return $this;
     }
 
@@ -106,10 +106,10 @@ class X509 implements KeyInterface
     public function exportToPkcs12File(string $filename, PrivateKey $privateKey, string $password, array $args = []): ?X509
     {
         //TODO implementation
-        //TODO args to object?
+        //TODO $args to object?
         return openssl_pkcs12_export_to_file($this->x509Resource, $filename, $privateKey->export(), $password, $args) ? $this : null;
     }
-    
+
     /**
      * Exports a PKCS#12 Compatible Certificate Store File to variable
      * @see https://www.php.net/manual/en/function.openssl-pkcs12-export.php
@@ -124,10 +124,10 @@ class X509 implements KeyInterface
         //TODO args to object?
         $output = null;
         $success = openssl_pkcs12_export($this->x509Resource, $output, $privateKey->getRaw(), $password, $args);
-        
+
         return $success ? $output : null;
     }
-    
+
     /**
      * Exports a certificate as a string
      * @see https://www.php.net/manual/en/function.openssl-x509-export.php
@@ -142,7 +142,7 @@ class X509 implements KeyInterface
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());
         }
-        
+
         return $output;
     }
 
@@ -160,10 +160,10 @@ class X509 implements KeyInterface
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Calculates the fingerprint, or digest, of a given X.509 certificate
      * @see https://www.php.net/manual/en/function.openssl-x509-fingerprint.php
@@ -180,7 +180,7 @@ class X509 implements KeyInterface
 
         return openssl_x509_fingerprint($this->x509Resource, $hashAlgorithm, $rawOutput) ?? null;
     }
-    
+
     /**
      * Checks if a private key corresponds to a certificate
      * @see https://www.php.net/manual/en/function.openssl-x509-check-private-key.php
@@ -196,7 +196,7 @@ class X509 implements KeyInterface
             $privateKey->export($passphrase, $configArgs)
         );
     }
-    
+
     /**
      * Verifies if a certificate can be used for a particular purpose
      * @see https://www.php.net/manual/en/function.openssl-x509-checkpurpose.php
@@ -212,9 +212,9 @@ class X509 implements KeyInterface
         if (!PurposeEnum::isValid($purpose)) {
             throw new X509Exception("Invalid X509 purpose: `$purpose`");
         }
-        
+
         $result = openssl_x509_checkpurpose($this->x509Resource, $purpose, $CAinfo, $untrustedFile);
-        
+
         return is_bool($result) ? $result : null;
     }
 }
