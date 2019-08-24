@@ -23,7 +23,7 @@ use Budkovsky\OpenSslWrapper\Exception\OpenSSLWrapperException;
 class Wrapper
 {
     use StaticClassTrait;
-    
+
     /**
      * Gets the cipher iv length  for given method
      * @see https://www.php.net/manual/en/function.openssl-cipher-iv-length.php
@@ -35,10 +35,10 @@ class Wrapper
         if (!static::isCipherMethodValid($method)) {
             throw new OpenSSLWrapperException("Invalid cipher method `$method`");
         }
-        
+
         return openssl_cipher_iv_length($method);
     }
-    
+
     /**
      * Computes a digest
      * @see https://www.php.net/manual/en/function.openssl-digest.php
@@ -53,13 +53,13 @@ class Wrapper
         if (!in_array($method, static::getDigestMethods(true))) {
             throw new ComputeDigestException("Invalid digest method: $method");
         }
-        
+
         return openssl_digest($data, $method, $rawOutput);
     }
 
-    /** 
+    /**
      * TODO unit tests
-     * @see https://www.php.net/manual/en/function.openssl-decrypt.php 
+     * @see https://www.php.net/manual/en/function.openssl-decrypt.php
      */
     public static function decrypt(
         string $data,
@@ -73,7 +73,7 @@ class Wrapper
         //TODO validation
         return openssl_decrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData) ?? null;
     }
-    
+
     /**
      * Encrypts data
      * TODO unit tests
@@ -101,7 +101,7 @@ class Wrapper
         //TODO implentation & validation
         return openssl_encrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData, $tagLength) ?? null;
     }
-    
+
     /**
      * Return openSSL error message
      * TODO unit tests
@@ -112,7 +112,7 @@ class Wrapper
     {
         return openssl_error_string() ?? null;
     }
-    
+
     /**
      * Retrieve the available certificate locations
      * @see https://www.php.net/manual/en/function.openssl-get-cert-locations.php
@@ -122,7 +122,7 @@ class Wrapper
     {
         return CertLocations::getInstance();
     }
-    
+
     /**
      * Gets available cipher methods
      * @see https://www.php.net/manual/en/function.openssl-get-cipher-methods.php
@@ -133,7 +133,7 @@ class Wrapper
     {
         return openssl_get_cipher_methods($aliases);
     }
-    
+
     /**
      * @see https://www.php.net/manual/en/function.openssl-get-curve-names.php
      * @return array
@@ -142,7 +142,7 @@ class Wrapper
     {
         return openssl_get_curve_names();
     }
-        
+
     /**
      * Gets available digest methods
      * @see https://www.php.net/manual/en/function.openssl-get-md-methods.php
@@ -153,7 +153,7 @@ class Wrapper
     {
         return openssl_get_md_methods($asliases);
     }
-    
+
     /**
      * Validates digest method
      * @param string $digestMethod
@@ -163,7 +163,7 @@ class Wrapper
     {
         return in_array($digestMethod, self::getDigestMethods(true));
     }
-    
+
     /**
      * Validates cipher method
      * @param string $cipherMethod
@@ -173,7 +173,7 @@ class Wrapper
     {
         return in_array($cipherMethod, self::getCipherMethods(true));
     }
-    
+
     /**
      * Generate a pseudo-random string of bytes
      * @see https://www.php.net/manual/en/function.openssl-encrypt.php
@@ -185,7 +185,7 @@ class Wrapper
     {
         return openssl_random_pseudo_bytes($length, $cryptoStrong) ?? null;
     }
-    
+
     /**
      * Seal (encrypt) data
      * @see https://www.php.net/manual/en/function.openssl-seal.php
@@ -201,7 +201,7 @@ class Wrapper
         if (!static::isCipherMethodValid($method)) {
             throw new OpenSSLWrapperException("Invalid cipher method: `$method`");
         }
-        
+
         $sealedData = null;
         $envKeys = null;
         $sealedDataLength = openssl_seal($data, $sealedData, $envKeys, $publicKeys, $method, $iv);
@@ -213,7 +213,7 @@ class Wrapper
                 ->setEnvKeys(StringCollection::create($envKeys))
         ;
     }
-    
+
     /**
      * Opens sealed data
      * @see https://www.php.net/manual/en/function.openssl-open.php
@@ -229,7 +229,7 @@ class Wrapper
     public function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = null): ?string
     {
         $openData = null;
-        
+
         return openssl_open($sealedData, $openData, $envKey, $privateKey->export($passphrase), $method, $iv) ? $openData : null;
     }
 }

@@ -14,7 +14,7 @@ class Pkcs7Flag extends EnumAbstract
     const NOATTR = PKCS7_NOATTR;
     const DETACHED = PKCS7_DETACHED;
     const NOSIGS = PKCS7_NOSIGS;
-    
+
     public static function getAll(): array
     {
         return [
