@@ -5,7 +5,6 @@ namespace Budkovsky\OpenSslWrapper\Collection;
 
 use Budkovsky\OpenSslWrapper\Abstraction\CollectionAbstract;
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
-use Prophecy\Doubler\Generator\ClassCreator;
 
 class StringCollection extends CollectionAbstract implements StaticFactoryInterface
 {

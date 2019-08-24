@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper;
 
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
+use Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm;
 
 /**
  * SPKI
@@ -26,10 +27,19 @@ class Spki implements StaticFactoryInterface
      * @param string $passphrase
      * @param int $algorithm
      */
-    public function __construct(?PrivateKey $privateKey = null, ?string $challenge = null, ?string $passphrase = null, int $algorithm = 0)
-    {
+    public function __construct(
+        ?PrivateKey $privateKey = null,
+        ?string $challenge = null,
+        ?string $passphrase = null,
+        int $algorithm = SignatureAlgorithm::MD5
+    ) {
+        
         if ($privateKey && $challenge) {
-            $this->spki = openssl_spki_new($privateKey->export($passphrase), $challenge, $algorithm);
+            $this->spki = openssl_spki_new(
+                openssl_pkey_get_private($privateKey->export($passphrase), $passphrase ?? ''),
+                $challenge,
+                $algorithm
+            );
         }
     }
     
@@ -40,8 +50,12 @@ class Spki implements StaticFactoryInterface
      * @param string $passphrase
      * @param int $algorithm
      */
-    public function create(?PrivateKey $privateKey = null, ?string $challenge = null, ?string $passphrase = null, int $algorithm = 0)
-    {
+    public static function create(
+        ?PrivateKey $privateKey = null,
+        ?string $challenge = null,
+        ?string $passphrase = null,
+        int $algorithm = SignatureAlgorithm::MD5
+    ) {
         return new static($privateKey, $challenge, $passphrase, $algorithm);
     }
     

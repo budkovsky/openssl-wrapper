@@ -5,10 +5,10 @@ implementation / validation / tests
 ## CSR
 - +++ openssl_csr_export_to_file — Exports a CSR to a file
 - +++ openssl_csr_export — Exports a CSR as a string
-- openssl_csr_get_public_key — Returns the public key of a CSR
-- openssl_csr_get_subject — Returns the subject of a CSR
-- openssl_csr_new — Generates a CSR
-- openssl_csr_sign — Sign a CSR with another certificate (or itself) and generate a certificate
+- +.+ openssl_csr_get_public_key — Returns the public key of a CSR
+- +.+ openssl_csr_get_subject — Returns the subject of a CSR
+- +.+ openssl_csr_new — Generates a CSR
+- !-! openssl_csr_sign — Sign a CSR with another certificate (or itself) and generate a certificate
 
 ## PKCS
 - openssl_pbkdf2 — Generates a PKCS5 v2 PBKDF2 string
@@ -22,10 +22,10 @@ implementation / validation / tests
 - openssl_pkcs7_verify — Verifies the signature of an S/MIME signed message
 
 ## SPKI
-- openssl_spki_export_challenge — Exports the challenge assoicated with a signed public key and challenge
-- openssl_spki_export — Exports a valid PEM formatted public key signed public key and challenge
-- openssl_spki_new — Generate a new signed public key and challenge
-- openssl_spki_verify — Verifies a signed public key and challenge
+- +.- openssl_spki_export_challenge — Exports the challenge assoicated with a signed public key and challenge
+- +.- openssl_spki_export — Exports a valid PEM formatted public key signed public key and challenge
+- +-. openssl_spki_new — Generate a new signed public key and challenge
+- +.- openssl_spki_verify — Verifies a signed public key and challenge
 
 ## X509
 - openssl_x509_check_private_key — Checks if a private key corresponds to a certificate
