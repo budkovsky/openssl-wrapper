@@ -17,12 +17,12 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
 {
     /** @var string */
     protected $passphrase = '';
-    
+
     public function __construct(?ConfigArgs $configArgs = null)
     {
         $this->keyResource = openssl_pkey_new($configArgs ? $configArgs->toArray() : null);
     }
-    
+
     public function load(string $body, $passphrase = ''): PrivateKey
     {
         $resource = openssl_pkey_get_private($body, $passphrase) ?? null;
@@ -30,16 +30,15 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
             throw new KeyException(OpenSSL::getErrorString());
         }
         $this->keyResource = $resource;
-        
+
         return $this;
     }
-    
+
     public static function create(?ConfigArgs $configArgs = null): PrivateKey
     {
         return new static($configArgs);
     }
-    
-    /** TODO unit tests */
+
     public function export(string $passphrase = null, ?ConfigArgs $configArgs = null): string
     {
         $output = null;
@@ -52,7 +51,7 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());
         }
-        
+
         return $output;
     }
 
@@ -65,7 +64,7 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
     {
         $crypted = null;
         $success = openssl_private_encrypt($data, $crypted, $this->keyResource, $padding);
-        
+
         return $success ? $crypted : null;
     }
 
@@ -73,7 +72,7 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
     {
         $decrypted = null;
         $success = openssl_private_decrypt($data, $decrypted, $this->keyResource);
-        
+
         return $success ? $decrypted : null;
     }
 }

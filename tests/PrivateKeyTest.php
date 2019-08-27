@@ -14,12 +14,12 @@ class PrivateKeyTest extends TestCase
     {
         $this->assertIsString((new PrivateKey())->export());
     }
-    
+
     public function testCanGenerateNewKeyByStaticFactory(): void
     {
         $this->assertIsString(PrivateKey::create()->export());
     }
-    
+
     public function testCanLoadKeyFromString(): void
     {
         $privateKeyBody = KeyHelper::generateNewPrivateKeyBody();
@@ -32,14 +32,25 @@ class PrivateKeyTest extends TestCase
             $key->export()
         );
     }
-    
+
+
+    public function testCanExport(): void
+    {
+        //TODO unit tests
+    }
+
+    public function testCanExportToFile(): void
+    {
+        //TODO unit tests
+    }
+
     public function testCanGetPublicKey(): void
     {
         $privateKey = PrivateKey::create();
-        
+
         $this->assertInstanceOf(PublicKey::class, $privateKey->getPublicKey());
     }
-    
+
     public function testCanEncrypt(): void
     {
         $collection = KeyHelper::encryptRandomContent();
@@ -52,7 +63,7 @@ class PrivateKeyTest extends TestCase
             );
         }
     }
-    
+
     public function testCanDecrypt(): void
     {
         $collection = KeyHelper::encryptRandomContent(true);

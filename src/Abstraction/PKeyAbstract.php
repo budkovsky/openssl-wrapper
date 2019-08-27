@@ -12,37 +12,28 @@ abstract class PKeyAbstract implements KeyInterface
 {
     /** @var resource */
     protected $keyResource;
-    
+
     public function __destruct()
     {
-        openssl_free_key($this->keyResource);
+        if ($this->keyResource) {
+            openssl_free_key($this->keyResource);
+        }
     }
-    
-    abstract public function load(string $body);
 
-    abstract public static function create();
-    
-    abstract public function export(): string;
-    
-    public function getRaw(): string
-    {
-        return $this->export();
-    }
-    
-    public function exportToFile(string $target, string $passphrase = '', ?ConfigArgs $configArgs = null): PKeyAbstract
+    public function exportToFile(string $filePath, string $passphrase = '', ?ConfigArgs $configArgs = null): PKeyAbstract
     {
         $success = openssl_pkey_export_to_file(
             $this->keyResource,
-            $target,
+            $filePath,
             $passphrase,
             $configArgs ? $configArgs->toArray() : null);
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the key details
      * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
@@ -62,10 +53,10 @@ abstract class PKeyAbstract implements KeyInterface
                 implode('`, `', PaddingEnum::getAll())
             ));
         }
-        
+
         return $this->executeDecryption($data, $padding);
     }
-    
+
     public function encrypt(string $data, int $padding = PaddingEnum::PKCS1_PADDING): ?string
     {
         if (!PaddingEnum::isValid($padding)) {
@@ -75,11 +66,20 @@ abstract class PKeyAbstract implements KeyInterface
                 implode('`, `', PaddingEnum::getAll())
                 ));
         }
-        
+
         return $this->executeEncryption($data, $padding);
     }
-   
+
     abstract protected function executeDecryption(string $data, int $padding): ?string;
-    
+
     abstract protected function executeEncryption(string $data, int $padding): ?string;
+
+    /**
+     * Casts PKey object to a string
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->export();
+    }
 }

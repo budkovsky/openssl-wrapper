@@ -4,6 +4,7 @@ namespace Budkovsky\OpenSslWrapper;
 use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
 use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
+use Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm;
 
 /**
  * Public key
@@ -17,7 +18,7 @@ class PublicKey extends PKeyAbstract
             $this->load($body);
         }
     }
-    
+
     /**
      * Static factory
      * @param string $body
@@ -34,15 +35,19 @@ class PublicKey extends PKeyAbstract
             throw new KeyException(OpenSSL::getErrorString());
         }
         $this->keyResource = $resource;
-        
+
         return $this;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     * TODO unit tests
+     */
     public function export(): string
     {
         return $this->getDetails()->getKey();
     }
-    
+
     /**
      * Verify signature
      * @see https://www.php.net/manual/en/function.openssl-verify.php
@@ -52,12 +57,12 @@ class PublicKey extends PKeyAbstract
      * @throws KeyException
      * @return int
      */
-    public function verify(string $data, string $signature, string $signatureAlgorithm = 'sha1'): int
+    public function verify(string $data, string $signature, int $signatureAlgorithm = SignatureAlgorithm::SHA1): int
     {
-        if (!in_array($signatureAlgorithm, OpenSSL::getMessageDigestMethods(true))) {
+        if (!SignatureAlgorithm::isValid($signatureAlgorithm)) {
             throw new KeyException("Invalid method digest parameter: `$signatureAlgorithm`");
         }
-        
+
         return openssl_verify($data, $signature, $this->keyResource, $signatureAlgorithm);
     }
 
@@ -65,7 +70,7 @@ class PublicKey extends PKeyAbstract
     {
         $crypted = null;
         $success = openssl_public_encrypt($data, $crypted, $this->keyResource, $padding);
-        
+
         return $success ? $crypted : null;
     }
 
@@ -73,15 +78,7 @@ class PublicKey extends PKeyAbstract
     {
         $decrypted = null;
         $success = openssl_public_decrypt($data, $decrypted, $this->keyResource, $padding);
-        
+
         return $success ? $decrypted : null;
-    }
-    
-    /**
-     * @return string Return key body in PEM format
-     */
-    public function __toString(): string
-    {
-        return $this->export();
     }
 }

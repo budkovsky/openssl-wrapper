@@ -12,23 +12,28 @@ use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 class Key
 {
     use StaticClassTrait;
-    
+
     public static function generateNewPrivateKeyBody(): string
     {
         $keyResource = openssl_pkey_new();
         $keyBody = null;
         openssl_pkey_export($keyResource, $keyBody);
-        
+
         return $keyBody;
     }
-    
+
+    public static function generateNewPublicKeyBody(): string
+    {
+        return openssl_pkey_get_details(openssl_pkey_new())['key'];
+    }
+
     public static function encryptRandomContent(bool $usePublicKey = false, int $collectionLength = 10): CryptionDataSetCollection
     {
         $collection = new CryptionDataSetCollection();
-        
+
         for ($i = 0; $i < $collectionLength; $i++) {
             $key = PrivateKey::create();
-            $rawContent = OpenSSL::getRandomPseudoBytes(100 + $i);
+            $rawContent = OpenSSL::getRandomPseudoBytes(100);
             $encryptedContent = null;
             if ($usePublicKey) {
                 openssl_public_encrypt($rawContent, $encryptedContent, $key->getPublicKey()->export());
@@ -40,9 +45,9 @@ class Key
                 ->setKey($key)
                 ->setRawContent($rawContent)
                 ->setEncryptedContent($encryptedContent)
-                );
+            );
         }
-        
+
         return $collection;
     }
 }

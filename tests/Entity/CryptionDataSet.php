@@ -5,6 +5,7 @@ namespace Budkovsky\OpenSslWrapper\Tests\Entity;
 
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
+use Budkovsky\OpenSslWrapper\PrivateKey;
 
 class CryptionDataSet implements StaticFactoryInterface
 {
@@ -13,10 +14,10 @@ class CryptionDataSet implements StaticFactoryInterface
 
     /** @var string */
     private $encryptedContent;
-    
-    /** @var PKeyAbstract */
+
+    /** @var PrivateKey */
     private $key;
-    
+
     /**
      * @return string
      */
@@ -24,7 +25,7 @@ class CryptionDataSet implements StaticFactoryInterface
     {
         return $this->rawContent;
     }
-    
+
     /**
      * @param string $rawContent
      * @return CryptionDataSet
@@ -32,7 +33,7 @@ class CryptionDataSet implements StaticFactoryInterface
     public function setRawContent(string $rawContent): CryptionDataSet
     {
         $this->rawContent = $rawContent;
-        
+
         return $this;
     }
 
@@ -51,31 +52,31 @@ class CryptionDataSet implements StaticFactoryInterface
     public function setEncryptedContent(string $encryptedContent): CryptionDataSet
     {
         $this->encryptedContent = $encryptedContent;
-        
+
         return $this;
     }
-    
+
     /**
      * @return PKeyAbstract
      */
-    public function getKey(): PKeyAbstract
+    public function getKey(): PrivateKey
     {
         return $this->key;
     }
-    
+
     /**
      * @param PKeyAbstract $key
      * @return CryptionDataSet
      */
-    public function setKey(PKeyAbstract $key): CryptionDataSet
+    public function setKey(PrivateKey $key): CryptionDataSet
     {
         $this->key = $key;
-        
+
         return $this;
     }
 
-  
-    
+
+
     /**
      * Static Factory
      * @return CryptionDataSet
