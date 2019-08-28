@@ -49,21 +49,33 @@ class PublicKey extends PKeyAbstract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function exportToFile(string $filePath): PublicKey
+    {
+        if (!file_put_contents($filePath,$this->export())) {
+            throw new KeyException("Error while exporting public to file: `$filePath`");
+        }
+
+        return $this;
+    }
+
+    /**
      * Verify signature
      * @see https://www.php.net/manual/en/function.openssl-verify.php
-     * @param string $data
+     * @param string $content
      * @param string $signature
      * @param string $signatureAlgorithm
      * @throws KeyException
      * @return int
      */
-    public function verify(string $data, string $signature, int $signatureAlgorithm = SignatureAlgorithm::SHA1): int
+    public function verify(string $content, string $signature, int $signatureAlgorithm = SignatureAlgorithm::SHA1): int
     {
         if (!SignatureAlgorithm::isValid($signatureAlgorithm)) {
             throw new KeyException("Invalid method digest parameter: `$signatureAlgorithm`");
         }
 
-        return openssl_verify($data, $signature, $this->keyResource, $signatureAlgorithm);
+        return openssl_verify($content, $signature, $this->keyResource, $signatureAlgorithm);
     }
 
     protected function executeEncryption(string $data, int $padding): ?string

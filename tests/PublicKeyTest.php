@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\PublicKey;
 use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Tests\Helper\Key as KeyHelper;
+use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
 class PublicKeyTest extends TestCase
 {
@@ -31,12 +32,22 @@ class PublicKeyTest extends TestCase
 
     public function testCanExport(): void
     {
-        //TODO unit tests
+        $publicKey = PrivateKey::create()->getPublicKey();
+        $this->assertIsString($publicKey->export());
+        $this->assertNotEmpty($publicKey->export());
     }
 
     public function testCanExportToFile(): void
     {
-        //TODO unit tests
+        $publicKey = PrivateKey::create()->getPublicKey();
+        $filePath = sprintf(
+            '%/%.pem',
+            $_SERVER['TEMP'],
+            bin2hex(OpenSSL::getRandomPseudoBytes(10))
+        );
+        $publicKey->exportToFile($filePath);
+        $this->assertFileExists($filePath);
+        $this->assertNotEmpty(file_get_contents($filePath));
     }
 
     public function testCanEncrypt(): void
@@ -56,6 +67,7 @@ class PublicKeyTest extends TestCase
         }
     }
 
+
     public function testCanDecrypt(): void
     {
         $collection = KeyHelper::encryptRandomContent();
@@ -71,8 +83,12 @@ class PublicKeyTest extends TestCase
         }
     }
 
+
     public function testCanVerify(): void
     {
-        //TODO tests
+        $content = bin2hex(OpenSSL::getRandomPseudoBytes(1000));
+        $privateKey = PrivateKey::create();
+        $signature = $privateKey->sign($content);
+        $this->assertEquals(1, $privateKey->getPublicKey()->verify($content, $signature));
     }
 }

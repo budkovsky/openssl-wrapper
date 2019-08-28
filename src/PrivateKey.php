@@ -8,6 +8,7 @@ use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
 use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
 use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
+use Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm;
 
 /**
  * Private key
@@ -55,9 +56,42 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return $output;
     }
 
+    public function exportToFile(string $filePath, ?string $passphrase = null, ?ConfigArgs $configArgs = null): PKeyAbstract
+    {
+        $success = openssl_pkey_export_to_file(
+            $this->keyResource,
+            $filePath,
+            $passphrase,
+            $configArgs ? $configArgs->toArray() : null);
+        if (!$success) {
+            throw new KeyException(OpenSSL::getErrorString());
+        }
+
+        return $this;
+    }
+
     public function getPublicKey(): PublicKey
     {
         return PublicKey::create($this->getDetails()->getKey());
+    }
+
+    /**
+     * Generate signature
+     * @see https://www.php.net/manual/en/function.openssl-sign.php
+     * @see \Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm
+     * @param string $content
+     * @param int $signatureAlgorithm
+     * @return string|NULL
+     */
+    public function sign(string $content, int $signatureAlgorithm = SignatureAlgorithm::SHA1): ?string
+    {
+        if (!SignatureAlgorithm::isValid($signatureAlgorithm)) {
+            throw new KeyException("Invalid algorithm for verify signature: `$signatureAlgorithm`");
+        }
+        $signature = null;
+        openssl_sign($content, $signature, $this->keyResource, $signatureAlgorithm);
+
+        return $signature ?? null;
     }
 
     protected function executeEncryption(string $data, int $padding): ?string
