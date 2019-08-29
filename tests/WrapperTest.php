@@ -202,4 +202,40 @@ final class WrapperTest extends TestCase
             $this->assertEquals($dataSet->getData(), $openData);
         }
     }
+
+    public function testCanEncryptByPublicKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(true);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $encryptedContent = OpenSSL::encrypt(
+                $dataSet->getRawContent(),
+                $dataSet->getMethod(),
+                $dataSet->getKey()->getPublicKey(),
+                $dataSet->getIv()
+            );
+            $this->assertIsString($encryptedContent);
+            $this->assertNotEmpty($encryptedContent);
+            $this->assertEquals($dataSet->getEncryptedContent(), $encryptedContent);
+            $this->assertNotEquals($dataSet->getRawContent(), $encryptedContent);
+        }
+    }
+
+    public function testCanEncryptByPrivateKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(false);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $encryptedContent = OpenSSL::encrypt(
+                $dataSet->getRawContent(),
+                $dataSet->getMethod(),
+                $dataSet->getKey(),
+                $dataSet->getIv()
+            );
+            $this->assertIsString($encryptedContent);
+            $this->assertNotEmpty($encryptedContent);
+            $this->assertEquals($dataSet->getEncryptedContent(), $encryptedContent);
+            $this->assertNotEquals($dataSet->getRawContent(), $encryptedContent);
+        }
+    }
 }

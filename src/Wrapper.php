@@ -92,14 +92,24 @@ class Wrapper
         string $data,
         string $method,
         KeyInterface $key,
+        string $iv,
         int $options = 0,
-        string $iv = '',
-        string $tag = '',
-        string $aditionalAuthenticationData = '',
+        ?string $tag = null,
+        string $additionalAuthenticationData = '',
         int $tagLength = 16
     ): ?string {
         //TODO implentation & validation
-        return openssl_encrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData, $tagLength) ?? null;
+        //return openssl_encrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData, $tagLength) ?? null;
+
+        $params = [$data, $method, $key, $options, $iv];
+
+        if ($tag) {
+            $params[] = $tag;
+            $params[] = $additionalAuthenticationData;
+            $params[] = $tagLength;
+        }
+
+        return call_user_func_array('openssl_encrypt', $params) ?? null;
     }
 
     /**

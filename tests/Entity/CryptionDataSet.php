@@ -15,8 +15,14 @@ class CryptionDataSet implements StaticFactoryInterface
     /** @var string */
     private $encryptedContent;
 
-    /** @var PrivateKey */
+    /** @var PKeyAbstract */
     private $key;
+
+    /** @var string */
+    private $method;
+
+    /** @var string */
+    private $iv;
 
     /**
      * @return string
@@ -59,7 +65,7 @@ class CryptionDataSet implements StaticFactoryInterface
     /**
      * @return PKeyAbstract
      */
-    public function getKey(): PrivateKey
+    public function getKey(): PKeyAbstract
     {
         return $this->key;
     }
@@ -68,14 +74,36 @@ class CryptionDataSet implements StaticFactoryInterface
      * @param PKeyAbstract $key
      * @return CryptionDataSet
      */
-    public function setKey(PrivateKey $key): CryptionDataSet
+    public function setKey(PKeyAbstract $key): CryptionDataSet
     {
         $this->key = $key;
 
         return $this;
     }
 
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
 
+    public function setMethod(string $method): CryptionDataSet
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    public function getIv(): string
+    {
+        return $this->iv;
+    }
+
+    public function setIv(string $iv): CryptionDataSet
+    {
+        $this->iv = $iv;
+
+        return $this;
+    }
 
     /**
      * Static Factory
@@ -85,5 +113,4 @@ class CryptionDataSet implements StaticFactoryInterface
     {
         return new static();
     }
-
 }

@@ -33,7 +33,7 @@ class KeyTestHelper
 
         for ($i = 0; $i < $collectionLength; $i++) {
             $key = PrivateKey::create();
-            $rawContent = OpenSSL::getRandomPseudoBytes(100);
+            $rawContent = bin2hex(OpenSSL::getRandomPseudoBytes(100));
             $encryptedContent = null;
             if ($usePublicKey) {
                 openssl_public_encrypt($rawContent, $encryptedContent, $key->getPublicKey()->export());
