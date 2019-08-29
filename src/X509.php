@@ -18,7 +18,7 @@ class X509 implements KeyInterface
     protected $x509Data;
 
     /**
-     * The Constructor
+     * X509 constructor
      * @param string $content
      */
     public function __construct(
@@ -45,7 +45,7 @@ class X509 implements KeyInterface
     }
 
     /**
-     * The Destructor
+     * X509 destructor
      */
     public function __destruct()
     {
@@ -53,7 +53,6 @@ class X509 implements KeyInterface
             openssl_x509_free($this->x509Resource);
         }
     }
-
 
     /**
      * {@inheritDoc}
@@ -212,9 +211,17 @@ class X509 implements KeyInterface
         if (!PurposeEnum::isValid($purpose)) {
             throw new X509Exception("Invalid X509 purpose: `$purpose`");
         }
-
         $result = openssl_x509_checkpurpose($this->x509Resource, $purpose, $CAinfo, $untrustedFile);
 
         return is_bool($result) ? $result : null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString(): string
+    {
+        return $this->export();
+    }
 }
+

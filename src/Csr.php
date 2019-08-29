@@ -24,11 +24,10 @@ class Csr implements StaticFactoryInterface
     public function __construct(
         PrivateKey $privateKey,
         ?CsrSubject $subject = null,
-        ?string $passphrase = null,
         ?ConfigArgs $configArgs = null,
         ?array $extraAttribs = null
     ) {
-        $privateKeyBody = $privateKey->export($passphrase); //must be set to variable for passing by reference
+        $privateKeyBody = $privateKey->export(); //must be set to variable for passing by reference
         $this->csrResource = openssl_csr_new(
             $subject ? $subject->toArray() : [],
             $privateKeyBody,
@@ -44,11 +43,10 @@ class Csr implements StaticFactoryInterface
     public static function create(
         PrivateKey $privateKey = null,
         ?CsrSubject $subject = null,
-        ?string $passphrase = null,
         ?ConfigArgs $configArgs = null,
         ?array $extraAttribs = null): Csr
     {
-        return new static($privateKey, $subject, $passphrase, $configArgs, $extraAttribs);
+        return new static($privateKey, $subject, $configArgs, $extraAttribs);
     }
 
     /**

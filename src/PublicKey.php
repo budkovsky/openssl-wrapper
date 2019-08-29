@@ -11,6 +11,10 @@ use Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm;
  */
 class PublicKey extends PKeyAbstract
 {
+    /**
+     * PublicKey constructor
+     * @param string $body
+     */
     public function __construct(?string $body = null)
     {
         if ($body) {
@@ -77,6 +81,9 @@ class PublicKey extends PKeyAbstract
         return openssl_verify($content, $signature, $this->keyResource, $signatureAlgorithm);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function executeEncryption(string $data, int $padding): ?string
     {
         $crypted = null;
@@ -85,6 +92,9 @@ class PublicKey extends PKeyAbstract
         return $success ? $crypted : null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function executeDecryption(string $data, int $padding): ?string
     {
         $decrypted = null;

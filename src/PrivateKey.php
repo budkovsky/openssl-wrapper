@@ -17,13 +17,20 @@ use Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm;
 class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
 {
     /** @var string */
-    protected $passphrase = '';
+    protected $passphrase;
 
+    /**
+     * PrivateKey constructor
+     * @param ConfigArgs $configArgs
+     */
     public function __construct(?ConfigArgs $configArgs = null)
     {
         $this->keyResource = openssl_pkey_new($configArgs ? $configArgs->toArray() : null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function load(string $body, $passphrase = ''): PrivateKey
     {
         $resource = openssl_pkey_get_private($body, $passphrase) ?? null;
@@ -35,18 +42,38 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return $this;
     }
 
+    /**
+     * Passphrase setter
+     * @param string $passphrase
+     * @return PrivateKey
+     */
+    public function setPassPhrase(string $passphrase): PrivateKey
+    {
+        $this->passphrase = $passphrase;
+
+        return $this;
+    }
+
+    /**
+     * PrivateKey static factory
+     * @param ConfigArgs $configArgs
+     * @return PrivateKey
+     */
     public static function create(?ConfigArgs $configArgs = null): PrivateKey
     {
         return new static($configArgs);
     }
 
-    public function export(string $passphrase = null, ?ConfigArgs $configArgs = null): string
+    /**
+     * {@inheritDoc}
+     */
+    public function export(?ConfigArgs $configArgs = null): string
     {
         $output = null;
         $success = openssl_pkey_export(
             $this->keyResource,
             $output,
-            $passphrase,
+            $this->passphrase,
             $configArgs ? $configArgs->toArray() : null
             );
         if (!$success) {
@@ -56,12 +83,15 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return $output;
     }
 
-    public function exportToFile(string $filePath, ?string $passphrase = null, ?ConfigArgs $configArgs = null): PKeyAbstract
+    /**
+     * {@inheritDoc}
+     */
+    public function exportToFile(string $filePath, ?ConfigArgs $configArgs = null): PKeyAbstract
     {
         $success = openssl_pkey_export_to_file(
             $this->keyResource,
             $filePath,
-            $passphrase,
+            $this->passphrase,
             $configArgs ? $configArgs->toArray() : null);
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());
@@ -70,6 +100,10 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return $this;
     }
 
+    /**
+     * Returns public key related with private key
+     * @return PublicKey
+     */
     public function getPublicKey(): PublicKey
     {
         return PublicKey::create($this->getDetails()->getKey());
@@ -94,6 +128,9 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return $signature ?? null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function executeEncryption(string $data, int $padding): ?string
     {
         $crypted = null;
@@ -102,6 +139,9 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
         return $success ? $crypted : null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function executeDecryption(string $data, int $padding): ?string
     {
         $decrypted = null;
