@@ -41,7 +41,7 @@ class PublicKeyTest extends TestCase
     {
         $publicKey = PrivateKey::create()->getPublicKey();
         $filePath = sprintf(
-            '%/%.pem',
+            '%s/%s.pem',
             $_SERVER['TEMP'],
             bin2hex(OpenSSL::getRandomPseudoBytes(10))
         );

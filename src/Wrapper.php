@@ -104,7 +104,6 @@ class Wrapper
 
     /**
      * Return openSSL error message
-     * TODO unit tests
      * @see https://www.php.net/manual/en/function.openssl-error-string.php
      * @return string
      */
