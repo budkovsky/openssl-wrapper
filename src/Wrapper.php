@@ -188,14 +188,13 @@ class Wrapper
     /**
      * Seal (encrypt) data
      * @see https://www.php.net/manual/en/function.openssl-seal.php
-     * TODO unit tests
      * @param string $data
      * @param PublicKeyCollection $publicKeyCollection
      * @param string $method
      * @param string $iv
      * @return SealResult|NULL Returns SealResult on success or NULL on error
      */
-    public function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
+    public static function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
     {
         if (!static::isCipherMethodValid($method)) {
             throw new OpenSSLWrapperException("Invalid cipher method: `$method`");
@@ -203,7 +202,7 @@ class Wrapper
 
         $sealedData = null;
         $envKeys = null;
-        $sealedDataLength = openssl_seal($data, $sealedData, $envKeys, $publicKeys, $method, $iv);
+        $sealedDataLength = openssl_seal($data, $sealedData, $envKeys, $publicKeys->toArray(), $method, $iv);
 
         return $sealedDataLength === false ? null :
             SealResult::create()
@@ -216,7 +215,6 @@ class Wrapper
     /**
      * Opens sealed data
      * @see https://www.php.net/manual/en/function.openssl-open.php
-     * TODO unit tests
      * @param string $sealedData
      * @param string $envKey
      * @param PrivateKey $privateKey
@@ -225,7 +223,7 @@ class Wrapper
      * @param string $iv
      * @return string|NULL
      */
-    public function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = null): ?string
+    public static function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = ''): ?string
     {
         $openData = null;
 

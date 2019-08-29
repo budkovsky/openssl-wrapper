@@ -9,7 +9,7 @@ use Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet;
 use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
-class Key
+class KeyTestHelper
 {
     use StaticClassTrait;
 

@@ -19,5 +19,7 @@ class PublicKeyCollection extends CollectionAbstract
         if ($publicKey !== null) {
             $this->collection[] = $publicKey;
         }
+
+        return $this;
     }
 }

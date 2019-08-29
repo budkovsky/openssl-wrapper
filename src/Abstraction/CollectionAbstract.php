@@ -6,7 +6,7 @@ namespace Budkovsky\OpenSslWrapper\Abstraction;
 abstract class CollectionAbstract implements CollectionInterface
 {
     protected $collection = [];
-    
+
     /**
      * {@inheritDoc}
      * @see \IteratorAggregate::getIterator()
@@ -34,9 +34,17 @@ abstract class CollectionAbstract implements CollectionInterface
     public function set(array $collection)
     {
         $this->collection = [];
-        
+
         foreach ($collection as $item) {
             $this->add($item);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->collection;
     }
 }

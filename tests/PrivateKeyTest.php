@@ -5,7 +5,7 @@ namespace Budkovsky\OpenSslWrapper\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\PrivateKey;
-use Budkovsky\OpenSslWrapper\Tests\Helper\Key as KeyHelper;
+use Budkovsky\OpenSslWrapper\Tests\Helper\KeyTestHelper as KeyHelper;
 use Budkovsky\OpenSslWrapper\PublicKey;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
