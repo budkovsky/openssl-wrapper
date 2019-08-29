@@ -12,8 +12,8 @@ STATUS:
 implementation / validation / tests
 
 ## CSR
-- +++ `openssl_csr_export_to_file` Exports a CSR to a file
-- +++ `openssl_csr_export` Exports a CSR as a string
+- +.+ `openssl_csr_export_to_file` Exports a CSR to a file
+- +.+ `openssl_csr_export` Exports a CSR as a string
 - +.+ `openssl_csr_get_public_key` Returns the public key of a CSR
 - +.+ `openssl_csr_get_subject` Returns the subject of a CSR
 - +.+ `openssl_csr_new` Generates a CSR
@@ -55,8 +55,8 @@ implementation / validation / tests
 - ... `openssl_free_key` Free key resource
 - +.+ `openssl_get_privatekey` Alias of openssl_pkey_get_private
 - +.+ `openssl_get_publickey` Alias of openssl_pkey_get_public
-- --- `openssl_pkey_export_to_file` Gets an exportable representation of a key into a file
-- +.- `openssl_pkey_export` Gets an exportable representation of a key into a string
+- o.o `openssl_pkey_export_to_file` Gets an exportable representation of a key into a file
+- o.o `openssl_pkey_export` Gets an exportable representation of a key into a string
 - ... `openssl_pkey_free` Frees a private key
 - +.+ `openssl_pkey_get_details` Returns an array with the key details
 - --- `openssl_pkey_get_private` Get a private key
@@ -70,12 +70,12 @@ implementation / validation / tests
 - --- `openssl_encrypt` Encrypts data
 - +.. `openssl_open` Open sealed data
 - +.. `openssl_seal` Seal (encrypt) data
-- --- `openssl_sign` Generate signature
-- o-- `openssl_verify` Verify signature
+- +++ `openssl_sign` Generate signature
+- +++ `openssl_verify` Verify signature
 - +.+ `openssl_private_decrypt` Decrypts data with private key
 - +.+ `openssl_private_encrypt` Encrypts data with private key
-- +.. `openssl_public_decrypt` Decrypts data with public key
-- +.. `openssl_public_encrypt` Encrypts data with public key
+- +.+ `openssl_public_decrypt` Decrypts data with public key
+- +.+ `openssl_public_encrypt` Encrypts data with public key
 
 ## other
 - +++ `openssl_cipher_iv_length` Gets the cipher iv length

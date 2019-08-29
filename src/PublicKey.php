@@ -8,7 +8,6 @@ use Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm;
 
 /**
  * Public key
- * TODO unit tests
  */
 class PublicKey extends PKeyAbstract
 {
