@@ -33,16 +33,16 @@ class WrapperTestHelper
     public static function encryptRandomContent(bool $usePublicKey = false, int $collectionLength = 10): CryptionDataSetCollection
     {
         $collection = new CryptionDataSetCollection();
-
         for ($i = 0; $i < $collectionLength; $i++) {
             $key = PrivateKey::create();
             $rawContent = bin2hex(OpenSSL::getRandomPseudoBytes(100));
             $method = 'aes-128-cbc';
             $iv = OpenSSL::getRandomPseudoBytes(OpenSSL::cipherIvLength($method));
+            $rawKey = $usePublicKey ? $key->getPublicKey()->export() : $key->export();
             $encryptedContent = openssl_encrypt(
                 $rawContent,
                 $method,
-                $usePublicKey ? $key->getPublicKey()->export() : $key->export(),
+                $rawKey,
                 0,
                 $iv
             );

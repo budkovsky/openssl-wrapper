@@ -238,4 +238,23 @@ final class WrapperTest extends TestCase
             $this->assertNotEquals($dataSet->getRawContent(), $encryptedContent);
         }
     }
+
+//     public function testCanDecryptByPublicKey(): void
+//     {
+//         $collection = WrapperTestHelper::encryptRandomContent(false, 1);
+//         foreach ($collection as $dataSet) {
+//             /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+//             var_dump($dataSet->getRawContent(), $dataSet->getKey()->export());
+//             $decryptedContent = OpenSSL::decrypt(
+//                 $dataSet->getEncryptedContent(),
+//                 $dataSet->getMethod(),
+//                 $dataSet->getKey(),
+//                 $dataSet->getIv()
+//             );
+//             $this->assertIsString($decryptedContent);
+//             $this->assertNotEmpty($decryptedContent);
+//             $this->assertEquals($dataSet->getRawContent(), $decryptedContent);
+//             $this->assertNotEquals($dataSet->getEncryptedContent(), $decryptedContent);
+//         }
+//     }
 }

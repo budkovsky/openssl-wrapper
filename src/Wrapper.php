@@ -65,13 +65,25 @@ class Wrapper
         string $data,
         string $method,
         KeyInterface $key,
+        string $iv,
         int $options = 0,
-        string $iv = '',
-        string $tag = '',
-        string $aditionalAuthenticationData = ''
+        ?string $tag = null,
+        ?string $additionalAuthenticationData = null
     ): ?string {
         //TODO validation
-        return openssl_decrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData) ?? null;
+
+        $params = [$data, $method, $key->export(), $options, $iv];
+        if ($tag) {
+            $params[] = $tag;
+        }
+        if ($additionalAuthenticationData) {
+            $params[] = $additionalAuthenticationData;
+        }
+
+        //return openssl_decrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData) ?? null;
+        $result = call_user_func_array('openssl_decrypt', $params) ?? null;
+
+        return $result !== false ? $result : null;
     }
 
     /**
@@ -109,7 +121,9 @@ class Wrapper
             $params[] = $tagLength;
         }
 
-        return call_user_func_array('openssl_encrypt', $params) ?? null;
+        $result = call_user_func_array('openssl_encrypt', $params);
+
+        return $result !== false ? $result : null;
     }
 
     /**
