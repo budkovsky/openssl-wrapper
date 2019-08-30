@@ -239,22 +239,39 @@ final class WrapperTest extends TestCase
         }
     }
 
-//     public function testCanDecryptByPublicKey(): void
-//     {
-//         $collection = WrapperTestHelper::encryptRandomContent(false, 1);
-//         foreach ($collection as $dataSet) {
-//             /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
-//             var_dump($dataSet->getRawContent(), $dataSet->getKey()->export());
-//             $decryptedContent = OpenSSL::decrypt(
-//                 $dataSet->getEncryptedContent(),
-//                 $dataSet->getMethod(),
-//                 $dataSet->getKey(),
-//                 $dataSet->getIv()
-//             );
-//             $this->assertIsString($decryptedContent);
-//             $this->assertNotEmpty($decryptedContent);
-//             $this->assertEquals($dataSet->getRawContent(), $decryptedContent);
-//             $this->assertNotEquals($dataSet->getEncryptedContent(), $decryptedContent);
-//         }
-//     }
+    public function testCanDecryptByPrivateKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(false, 1);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $decryptedContent = OpenSSL::decrypt(
+                $dataSet->getEncryptedContent(),
+                $dataSet->getMethod(),
+                $dataSet->getKey(),
+                $dataSet->getIv()
+            );
+            $this->assertIsString($decryptedContent);
+            $this->assertNotEmpty($decryptedContent);
+            $this->assertEquals($dataSet->getRawContent(), $decryptedContent);
+            $this->assertNotEquals($dataSet->getEncryptedContent(), $decryptedContent);
+        }
+    }
+
+    public function testCanDecryptByPublicKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(true, 1);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $decryptedContent = OpenSSL::decrypt(
+                $dataSet->getEncryptedContent(),
+                $dataSet->getMethod(),
+                $dataSet->getKey()->getPublicKey(),
+                $dataSet->getIv()
+                );
+            $this->assertIsString($decryptedContent);
+            $this->assertNotEmpty($decryptedContent);
+            $this->assertEquals($dataSet->getRawContent(), $decryptedContent);
+            $this->assertNotEquals($dataSet->getEncryptedContent(), $decryptedContent);
+        }
+    }
 }

@@ -58,7 +58,7 @@ class Wrapper
     }
 
     /**
-     * TODO unit tests
+     * Symetric data decryption
      * @see https://www.php.net/manual/en/function.openssl-decrypt.php
      */
     public static function decrypt(
@@ -70,8 +70,6 @@ class Wrapper
         ?string $tag = null,
         ?string $additionalAuthenticationData = null
     ): ?string {
-        //TODO validation
-
         $params = [$data, $method, $key->export(), $options, $iv];
         if ($tag) {
             $params[] = $tag;
@@ -79,16 +77,13 @@ class Wrapper
         if ($additionalAuthenticationData) {
             $params[] = $additionalAuthenticationData;
         }
-
-        //return openssl_decrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData) ?? null;
         $result = call_user_func_array('openssl_decrypt', $params) ?? null;
 
         return $result !== false ? $result : null;
     }
 
     /**
-     * Encrypts data
-     * TODO unit tests
+     * Symetric data encryption
      * @see https://www.php.net/manual/en/function.openssl-decrypt.php
      * @param string $data
      * @param string $method
@@ -120,7 +115,6 @@ class Wrapper
             $params[] = $additionalAuthenticationData;
             $params[] = $tagLength;
         }
-
         $result = call_user_func_array('openssl_encrypt', $params);
 
         return $result !== false ? $result : null;
