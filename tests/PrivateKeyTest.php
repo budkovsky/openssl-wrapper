@@ -49,7 +49,7 @@ class PrivateKeyTest extends TestCase
     {
         $filePath = sprintf(
             '%s/%s.pem',
-            $_SERVER['TEMP'],
+            sys_get_temp_dir(),
             bin2hex(OpenSSL::getRandomPseudoBytes(16))
         );
         $privateKey = PrivateKey::create();

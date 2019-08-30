@@ -37,7 +37,7 @@ class WrapperTestHelper
         for ($i = 0; $i < $collectionLength; $i++) {
             $key = PrivateKey::create();
             $rawContent = bin2hex(OpenSSL::getRandomPseudoBytes(100));
-            $method = 'AES-256-CBC';
+            $method = 'aes-128-cbc';
             $iv = OpenSSL::getRandomPseudoBytes(OpenSSL::cipherIvLength($method));
             $encryptedContent = openssl_encrypt(
                 $rawContent,

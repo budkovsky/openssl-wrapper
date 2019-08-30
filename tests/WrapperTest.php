@@ -167,7 +167,7 @@ final class WrapperTest extends TestCase
     public function testCanGetErrorString(): void
     {
         //it should generate openssl error
-        openssl_encrypt('1234', 'AES-256-CBC', 'kGJeGF2hEQ', OPENSSL_ZERO_PADDING, '1234123412341234');
+        openssl_encrypt('1234', 'aes-128-cbc', 'kGJeGF2hEQ', OPENSSL_ZERO_PADDING, '1234123412341234');
 
         $errorString = OpenSSL::getErrorString();
 
