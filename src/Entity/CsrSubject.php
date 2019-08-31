@@ -19,25 +19,25 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
 {
     /** @var string */
     protected $countryName;
-    
+
     /** @var string */
     protected $stateOrProvince;
-    
+
     /** @var string */
     protected $localityName;
-    
+
     /** @var string */
     protected $organizationName;
-    
+
     /** @var string */
-    protected $organizationUnitName;
-    
+    protected $organizationalUnitName;
+
     /** @var string */
     protected $commonName;
-    
+
     /** @var string */
     protected $emailAddress;
-    
+
     /**
      * The constructor
      * @param array $subject
@@ -48,7 +48,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
             $this->setProperty($key, $value);
         }
     }
-    
+
     /**
      * Property setter
      * @param string $key
@@ -73,7 +73,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
             case PropertyEnum::O:
                 $this->organizationName = $value;
                 break;
-            case PropertyEnum::ORGANIZATION_UNIT_NAME:
+            case PropertyEnum::ORGANIZATIONAL_UNIT_NAME:
             case PropertyEnum::OU:
                 $this->organizationUnitName = $value;
                 break;
@@ -88,7 +88,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
                 break;
         }
     }
-    
+
     /** @return string */
     public function getCountryName(): ?string
     {
@@ -114,9 +114,9 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
     }
 
     /** @return string */
-    public function getOrganizationUnitName(): ?string
+    public function getOrganizationalUnitName(): ?string
     {
-        return $this->organizationUnitName;
+        return $this->organizationalUnitName;
     }
 
     /** @return string */
@@ -130,7 +130,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
     {
         return $this->emailAddress;
     }
-    
+
     /**
      * @param string $countryName
      * @return CsrSubject
@@ -175,9 +175,9 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
      * @param string $organizationUnitName
      * @return CsrSubject
      */
-    public function setOrganizationUnitName(string $organizationUnitName): CsrSubject
+    public function setOrganizationalUnitName(string $organizationalUnitName): CsrSubject
     {
-        $this->organizationUnitName = $organizationUnitName;
+        $this->organizationalUnitName = $organizationalUnitName;
         return $this;
     }
 
@@ -188,7 +188,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
     public function setCommonName(string $commonName): CsrSubject
     {
         $this->commonName = $commonName;
-        
+
         return $this;
     }
 
@@ -201,7 +201,7 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
         $this->emailAddress = $emailAddress;
         return $this;
     }
-    
+
     /**
      * Get CSR Subject as an array
      * @see Arrayable
@@ -214,21 +214,21 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
             $shortNames ? PropertyEnum::ST : PropertyEnum::STATE_OR_PROVINCE_NAME => $this->stateOrProvince,
             $shortNames ? PropertyEnum::L : PropertyEnum::LOCALITY_NAME => $this->localityName,
             $shortNames ? PropertyEnum::O : PropertyEnum::ORGANIZATION_NAME => $this->organizationName,
-            $shortNames ? PropertyEnum::OU : PropertyEnum::ORGANIZATION_UNIT_NAME => $this->organizationUnitName,
+            $shortNames ? PropertyEnum::OU : PropertyEnum::ORGANIZATIONAL_UNIT_NAME => $this->organizationalUnitName,
             $shortNames ? PropertyEnum::CN : PropertyEnum::COMMON_NAME => $this->commonName,
             PropertyEnum::EMAIL_ADDRESS => $this->emailAddress
         ];
-        
+
         //remove empty field, to avoid error from openssl_csr_new() function
         foreach ($subject as $key => $value) {
             if (!$value) {
                 unset($subject[$key]);
             }
         }
-        
+
         return $subject;
     }
-    
+
     /**
      * Static factory
      * @param array $subject

@@ -11,15 +11,15 @@ use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
  */
 abstract class CsrSubjectProperty extends EnumAbstract
 {
-    
+
     //full property names
     const COUNTRY_NAME = 'countryName';
     const STATE_OR_PROVINCE_NAME = 'stateOrProvinceName';
     const LOCALITY_NAME = 'localityName';
     const ORGANIZATION_NAME = 'organizationName';
-    const ORGANIZATION_UNIT_NAME = 'organizationUnitName';
+    const ORGANIZATIONAL_UNIT_NAME = 'organizationalUnitName';
     const COMMON_NAME = 'commonName';
-    
+
     //short property names
     const CA = 'CA';
     const ST = 'ST';
@@ -27,10 +27,10 @@ abstract class CsrSubjectProperty extends EnumAbstract
     const O = 'O';
     const OU = 'OU';
     const CN = 'CN';
-    
+
     //both short and fullname property modes use 'emailAddress' property
     const EMAIL_ADDRESS = 'emailAddress';
-    
+
     /**
      * Property short name list
      * @var array
@@ -44,7 +44,7 @@ abstract class CsrSubjectProperty extends EnumAbstract
         self::CN,
         self::EMAIL_ADDRESS
     ];
-    
+
     /**
      * Property full name list
      * @var array
@@ -58,7 +58,7 @@ abstract class CsrSubjectProperty extends EnumAbstract
         self::COMMON_NAME,
         self::EMAIL_ADDRESS
     ];
-    
+
     /**
      * @param boolean $shortNames
      * @return array
@@ -67,7 +67,7 @@ abstract class CsrSubjectProperty extends EnumAbstract
     {
         return $shortNames ? self::PROPERTY_SHORT_NAMES : self::PROPERTY_FULL_NAMES;
     }
-    
+
     /**
      * Is item a valid property name for CSR Subject?
      * @param string $propertyName

@@ -27,13 +27,26 @@ class Csr implements StaticFactoryInterface
         ?ConfigArgs $configArgs = null,
         ?array $extraAttribs = null
     ) {
-        $privateKeyBody = $privateKey->export(); //must be set to variable for passing by reference
-        $this->csrResource = openssl_csr_new(
+        $keyResource = openssl_pkey_get_private($privateKey->export());
+
+        $params = [
             $subject ? $subject->toArray() : [],
-            $privateKeyBody,
-            $configArgs ? $configArgs->toArray() : null,
-            $extraAttribs
-        );
+            &$keyResource
+        ];
+        if ($configArgs) {
+            $params[] = $configArgs->toArray();
+        }
+        if ($extraAttribs) {
+            $params [] = $extraAttribs;
+        }
+
+        $this->csrResource = call_user_func_array('openssl_csr_new', $params);
+//         $this->csrResource = openssl_csr_new(
+//             $subject ? $subject->toArray() : [],
+//             $privateKeyBody,
+//             $configArgs ? $configArgs->toArray() : null,
+//             $extraAttribs
+//         );
     }
 
     /**

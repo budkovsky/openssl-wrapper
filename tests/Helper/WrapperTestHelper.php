@@ -18,7 +18,7 @@ class WrapperTestHelper
     {
         $dataSet = new SealDataSet();
         $dataSet->setData('Lorem ipsum dolor sit amet');
-        $dataSet->setMethod('RC4');
+        $dataSet->setMethod('rc4');
         $publicKeys = new PublicKeyCollection();
         for ($i = 0; $i < $howManyKeys; $i++) {
             $privateKey = PrivateKey::create();
