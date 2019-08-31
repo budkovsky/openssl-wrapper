@@ -63,11 +63,13 @@ class X509Test extends TestCase
     public function testCanExportToPkcs12(): void
     {
         //TODO tests
+        $this->markTestIncomplete('incomplete test: export PKCS12');
     }
 
     public function testCanExportToPkcs12File(): void
     {
         //TODO tests
+        $this->markTestIncomplete('incomplete test: export PKCS12 to file');
     }
 
     public function testCanGetFingerprint(): void
