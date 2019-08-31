@@ -51,4 +51,6 @@ class EntityTestHelper
     {
         return $reflector->hasMethod("set{$property->getName()}");
     }
+
+
 }
