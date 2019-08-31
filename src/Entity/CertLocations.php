@@ -15,28 +15,28 @@ final class CertLocations implements SingletonInterface
 {
     /** @var string */
     private $defaultCertFile;
-    
+
     /** @var string */
     private $defaultCertFileEnv;
-    
+
     /** @var string */
     private $defaultCertDir;
-    
+
     /** @var string */
     private $defaultCertDirEnv;
-    
+
     /** @var string */
     private $defaultPrivateDir;
-    
+
     /** @var string */
     private $defaultDefaultCertArea;
-    
+
     /** @var string */
     private $iniCAFile;
-    
+
     /** @var string */
     private $iniCAPath;
-    
+
     /**
      * Non public constructor
      */
@@ -46,9 +46,9 @@ final class CertLocations implements SingletonInterface
             $this->setProperty($key, $value);
         }
     }
-    
+
     private function __clone(){}
-    
+
     /**
      * Property setter
      * @param string $key
@@ -85,7 +85,7 @@ final class CertLocations implements SingletonInterface
                 break;
         }
     }
-    
+
     /**
      * Singleton instance getter
      * @return CertLocations
@@ -93,11 +93,11 @@ final class CertLocations implements SingletonInterface
     public static function getInstance(): CertLocations
     {
         static $instance;
-        
+
         if (!$instance) {
             $instance = new static;
         }
-        
+
         return $instance;
     }
 

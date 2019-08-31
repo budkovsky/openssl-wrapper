@@ -8,8 +8,6 @@ use Budkovsky\OpenSslWrapper\X509;
 use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Tests\Helper\CsrTestHelper;
 use Budkovsky\OpenSslWrapper\Tests\Helper\X509TestHelper;
-use Budkovsky\OpenSslWrapper\Enum\X509Purpose;
-use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
 class X509Test extends TestCase
 {
