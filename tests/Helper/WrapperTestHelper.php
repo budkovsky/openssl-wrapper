@@ -34,11 +34,11 @@ class WrapperTestHelper
     {
         $collection = new CryptionDataSetCollection();
         for ($i = 0; $i < $collectionLength; $i++) {
-            $key = PrivateKey::create();
+            $privateKey = PrivateKey::create();
             $rawContent = bin2hex(OpenSSL::getRandomPseudoBytes(100));
             $method = 'aes-128-cbc';
             $iv = OpenSSL::getRandomPseudoBytes(OpenSSL::cipherIvLength($method));
-            $rawKey = $usePublicKey ? $key->getPublicKey()->export() : $key->export();
+            $rawKey = $usePublicKey ? $privateKey->getPublicKey()->export() : $privateKey->export();
             $encryptedContent = openssl_encrypt(
                 $rawContent,
                 $method,
@@ -51,7 +51,7 @@ class WrapperTestHelper
             }
             $collection->add(
                 CryptionDataSet::create()
-                    ->setKey($key)
+                    ->setPrivateKey($privateKey)
                     ->setRawContent($rawContent)
                     ->setEncryptedContent($encryptedContent)
                     ->setMethod($method)

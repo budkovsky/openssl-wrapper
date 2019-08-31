@@ -211,7 +211,7 @@ final class WrapperTest extends TestCase
             $encryptedContent = OpenSSL::encrypt(
                 $dataSet->getRawContent(),
                 $dataSet->getMethod(),
-                $dataSet->getKey()->getPublicKey(),
+                $dataSet->getPrivateKey()->getPublicKey(),
                 $dataSet->getIv()
             );
             $this->assertIsString($encryptedContent);
@@ -229,7 +229,7 @@ final class WrapperTest extends TestCase
             $encryptedContent = OpenSSL::encrypt(
                 $dataSet->getRawContent(),
                 $dataSet->getMethod(),
-                $dataSet->getKey(),
+                $dataSet->getPrivateKey(),
                 $dataSet->getIv()
             );
             $this->assertIsString($encryptedContent);
@@ -247,7 +247,7 @@ final class WrapperTest extends TestCase
             $decryptedContent = OpenSSL::decrypt(
                 $dataSet->getEncryptedContent(),
                 $dataSet->getMethod(),
-                $dataSet->getKey(),
+                $dataSet->getPrivateKey(),
                 $dataSet->getIv()
             );
             $this->assertIsString($decryptedContent);
@@ -265,7 +265,7 @@ final class WrapperTest extends TestCase
             $decryptedContent = OpenSSL::decrypt(
                 $dataSet->getEncryptedContent(),
                 $dataSet->getMethod(),
-                $dataSet->getKey()->getPublicKey(),
+                $dataSet->getPrivateKey()->getPublicKey(),
                 $dataSet->getIv()
                 );
             $this->assertIsString($decryptedContent);

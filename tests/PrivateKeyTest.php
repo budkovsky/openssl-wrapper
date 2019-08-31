@@ -8,6 +8,7 @@ use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Tests\Helper\KeyTestHelper as KeyHelper;
 use Budkovsky\OpenSslWrapper\PublicKey;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
+;
 
 class PrivateKeyTest extends TestCase
 {
@@ -70,11 +71,11 @@ class PrivateKeyTest extends TestCase
     {
         $collection = KeyHelper::encryptRandomContent();
         foreach ($collection as $dataSet) {
-            /** @var CryptionDataSet $dataSet */
-            $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $this->assertInstanceOf(PrivateKey::class, $dataSet->getPrivateKey());
             $this->assertEquals(
                 $dataSet->getEncryptedContent(),
-                $dataSet->getKey()->encrypt($dataSet->getRawContent())
+                $dataSet->getPrivateKey()->encrypt($dataSet->getRawContent())
             );
         }
     }
@@ -83,11 +84,11 @@ class PrivateKeyTest extends TestCase
     {
         $collection = KeyHelper::encryptRandomContent(true);
         foreach ($collection as $dataSet) {
-            /** @var CryptionDataSet $dataSet */
-            $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $this->assertInstanceOf(PrivateKey::class, $dataSet->getPrivateKey());
             $this->assertEquals(
                 $dataSet->getRawContent(),
-                $dataSet->getKey()->decrypt($dataSet->getEncryptedContent())
+                $dataSet->getPrivateKey()->decrypt($dataSet->getEncryptedContent())
             );
         }
     }

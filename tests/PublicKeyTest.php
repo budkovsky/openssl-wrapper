@@ -54,14 +54,14 @@ class PublicKeyTest extends TestCase
     {
         $collection = KeyHelper::encryptRandomContent(true, 10);
         foreach ($collection as $dataSet) {
-            /** @var CryptionDataSet $dataSet */
-            $this->assertInstanceOf(PublicKey::class, $dataSet->getKey()->getPublicKey());
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $this->assertInstanceOf(PublicKey::class, $dataSet->getPrivateKey()->getPublicKey());
             $this->assertIsString($dataSet->getEncryptedContent());
             $this->assertNotEmpty($dataSet->getEncryptedContent());
             $this->assertEquals(
                 $dataSet->getRawContent(),
-                $dataSet->getKey()->decrypt(
-                    $dataSet->getKey()->getPublicKey()->encrypt($dataSet->getRawContent())
+                $dataSet->getPrivateKey()->decrypt(
+                    $dataSet->getPrivateKey()->getPublicKey()->encrypt($dataSet->getRawContent())
                 )
             );
         }
@@ -72,13 +72,13 @@ class PublicKeyTest extends TestCase
     {
         $collection = KeyHelper::encryptRandomContent();
         foreach ($collection as $dataSet) {
-            /** @var CryptionDataSet $dataSet */
-            $this->assertInstanceOf(PublicKey::class, $dataSet->getKey()->getPublicKey());
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $this->assertInstanceOf(PublicKey::class, $dataSet->getPrivateKey()->getPublicKey());
             $this->assertIsString($dataSet->getRawContent());
             $this->assertNotEmpty($dataSet->getRawContent());
             $this->assertEquals(
                 $dataSet->getRawContent(),
-                $dataSet->getKey()->getPublicKey()->decrypt($dataSet->getEncryptedContent())
+                $dataSet->getPrivateKey()->getPublicKey()->decrypt($dataSet->getEncryptedContent())
             );
         }
     }

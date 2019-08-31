@@ -32,17 +32,17 @@ class KeyTestHelper
         $collection = new CryptionDataSetCollection();
 
         for ($i = 0; $i < $collectionLength; $i++) {
-            $key = PrivateKey::create();
+            $privateKey = PrivateKey::create();
             $rawContent = bin2hex(OpenSSL::getRandomPseudoBytes(100));
             $encryptedContent = null;
             if ($usePublicKey) {
-                openssl_public_encrypt($rawContent, $encryptedContent, $key->getPublicKey()->export());
+                openssl_public_encrypt($rawContent, $encryptedContent, $privateKey->getPublicKey()->export());
             } else {
-                openssl_private_encrypt($rawContent, $encryptedContent, $key->export());
+                openssl_private_encrypt($rawContent, $encryptedContent, $privateKey->export());
             }
             $collection->add(
                 CryptionDataSet::create()
-                ->setKey($key)
+                ->setPrivateKey($privateKey)
                 ->setRawContent($rawContent)
                 ->setEncryptedContent($encryptedContent)
             );
