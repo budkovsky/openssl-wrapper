@@ -42,6 +42,19 @@ class X509 implements KeyInterface
             $serial
         ) ?? null;
         $this->setX509Data();
+
+//         $exportTarget = sprintf(
+//             '%s/%s.cert',
+//             sys_get_temp_dir(),
+//             bin2hex(OpenSSL::getRandomPseudoBytes(10))
+//         );
+//         $this->exportToFile($exportTarget);
+//         var_dump(openssl_x509_checkpurpose(
+//             $this->x509Resource,
+//             X509_PURPOSE_NS_SSL_SERVER,
+//             null,
+//             $exportTarget
+//         ));
     }
 
     /**
@@ -88,9 +101,15 @@ class X509 implements KeyInterface
 
     protected function setX509Data(bool $shortNames = true): X509
     {
-        $this->x509Data = new X509Data(openssl_x509_parse($this->x509Resource, $shortNames));
+        $parsedData = openssl_x509_parse($this->x509Resource, $shortNames);
+        $this->x509Data = new X509Data($parsedData);
 
         return $this;
+    }
+
+    public function getX509Data(): X509Data
+    {
+        return $this->x509Data;
     }
 
     /**
@@ -208,10 +227,19 @@ class X509 implements KeyInterface
      */
     public function checkpurpose(int $purpose, array $CAinfo = [], ?String $untrustedFile = null): ?bool
     {
+        //TODO unit tests
         if (!PurposeEnum::isValid($purpose)) {
             throw new X509Exception("Invalid X509 purpose: `$purpose`");
         }
-        $result = openssl_x509_checkpurpose($this->x509Resource, $purpose, $CAinfo, $untrustedFile);
+        $params = [$this, $purpose];
+        if (!empty($CAinfo)) {
+            $params[] = $CAinfo;
+        }
+        if (!$untrustedFile) {
+            $params[] = $untrustedFile;
+        }
+        $result = call_user_func_array('openssl_x509_checkpurpose', $params);
+        //$result = openssl_x509_checkpurpose($this->x509Resource, $purpose, $CAinfo, $untrustedFile);
 
         return is_bool($result) ? $result : null;
     }

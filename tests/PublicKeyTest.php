@@ -67,7 +67,6 @@ class PublicKeyTest extends TestCase
         }
     }
 
-
     public function testCanDecrypt(): void
     {
         $collection = KeyHelper::encryptRandomContent();
@@ -82,7 +81,6 @@ class PublicKeyTest extends TestCase
             );
         }
     }
-
 
     public function testCanVerify(): void
     {

@@ -8,6 +8,8 @@ use Budkovsky\OpenSslWrapper\X509;
 use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Tests\Helper\CsrTestHelper;
 use Budkovsky\OpenSslWrapper\Tests\Helper\X509TestHelper;
+use Budkovsky\OpenSslWrapper\Enum\X509Purpose;
+use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
 class X509Test extends TestCase
 {
@@ -78,5 +80,20 @@ class X509Test extends TestCase
         $this->assertIsString($x509->getFingerprint());
         $this->assertEquals(40, strlen($x509->getFingerprint('sha1')));
         $this->assertEquals(32, strlen($x509->getFingerprint('md5')));
+    }
+
+    public function testCanCheckPrivateKey(): void
+    {
+        $privateKey = PrivateKey::create();
+        $x509 = new X509(CsrTestHelper::getCsrExample($privateKey), $privateKey);
+
+        $this->assertTrue($x509->checkPrivateKey($privateKey));
+        $this->assertFalse($x509->checkPrivateKey(PrivateKey::create()));
+    }
+
+    public function testCanCheckPurpose(): void
+    {
+        $x509 = X509TestHelper::getX509example();
+
     }
 }
