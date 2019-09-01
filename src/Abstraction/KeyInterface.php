@@ -14,26 +14,20 @@ namespace Budkovsky\OpenSslWrapper\Abstraction;
 interface KeyInterface extends StaticFactoryInterface, StringableInterface
 {
     /**
-     * Load key from string to the object
+     * Loads key from a string
      * @param string $body PEM key string
-     * @return KeyInterface
      */
     public function load(string $body);
 
     /**
-     * Returns raw key string
+     * Returns key string
      * @return string
      */
     public function export(): string;
 
     /**
-     * Exports raw key string to a file
+     * Exports key string to a file
      * @param string $filePath Path for file to export
      */
     public function exportToFile(string $filePath);
-
-    /**
-     * @see https://www.php.net/manual/en/function.openssl-free-key.php
-     * @see https://www.php.net/manual/en/function.openssl-pkey-free.php
-     */
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace Budkovsky\OpenSslWrapper;
 
 use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
@@ -9,6 +11,9 @@ use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 use Budkovsky\OpenSslWrapper\Enum\X509Purpose as PurposeEnum;
 use Budkovsky\OpenSslWrapper\Exception\X509Exception;
 
+/**
+ * X509 certificate object
+ */
 class X509 implements KeyInterface
 {
     /** @var resource */

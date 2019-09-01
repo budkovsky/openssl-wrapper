@@ -5,6 +5,11 @@ use Budkovsky\OpenSslWrapper\Enum\Padding as PaddingEnum;
 use Budkovsky\OpenSslWrapper\Exception\PaddingException;
 use Budkovsky\OpenSslWrapper\Entity\PKeyDetails;
 
+/**
+ * PKey abstract
+ * @see \Budkovsky\OpenSslWrapper\PrivateKey
+ * @see \Budkovsky\OpenSslWrapper\PublicKey
+ */
 abstract class PKeyAbstract implements KeyInterface
 {
     /** @var resource */

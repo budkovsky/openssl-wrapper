@@ -8,7 +8,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * DH key details
+ * DH key details entity
  */
 class PKeyDetailsDH extends PKeyDetails
 {
@@ -16,36 +16,36 @@ class PKeyDetailsDH extends PKeyDetails
      * @var string
      */
     private $prime;
-    
+
     /**
      * @var string
      */
     private $generator;
-    
+
     /**
      * @var string
      */
     private $privateKey;
-    
+
     /**
      * @var string
      */
     private $publicKey;
-    
+
     /**
      * {@inheritDoc}
      */
     public function __construct(array $keyDetails)
     {
         parent::__construct($keyDetails);
-        
+
         $dhDetails = $keyDetails['dh'];
         $this->prime = $dhDetails['p'] ?? null;
         $this->generator = $dhDetails['g'] ?? null;
         $this->privateKey = $dhDetails['priv_key'] ?? null;
         $this->publicKey = $dhDetails['pub_key'] ?? null;
     }
-    
+
 
     /**
      * (p)Prime number(shared) getter

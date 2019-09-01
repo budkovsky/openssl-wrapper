@@ -9,7 +9,7 @@ namespace Budkovsky\OpenSslWrapper\Abstraction;
 interface StaticFactoryInterface
 {
     /**
-     * Creates new object
+     * Creates new object by static method
      */
     public static function create();
 }

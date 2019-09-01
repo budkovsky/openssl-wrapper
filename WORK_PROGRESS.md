@@ -37,14 +37,14 @@ implementation / validation / tests
 - +.- `openssl_spki_verify` Verifies a signed public key and challenge
 
 ## X509
-- +-- `openssl_x509_check_private_key` Checks if a private key corresponds to a certificate
-- +-- `openssl_x509_checkpurpose` Verifies if a certificate can be used for a particular purpose
-- +.- `openssl_x509_export_to_file` Exports a certificate to file
-- +.- `openssl_x509_export` Exports a certificate as a string
-- +.- `openssl_x509_fingerprint` Calculates the fingerprint, or digest, of a given X.509 certificate
+- +.+ `openssl_x509_check_private_key` Checks if a private key corresponds to a certificate
+- +-! `openssl_x509_checkpurpose` Verifies if a certificate can be used for a particular purpose
+- +++ `openssl_x509_export_to_file` Exports a certificate to file
+- +++ `openssl_x509_export` Exports a certificate as a string
+- +.+ `openssl_x509_fingerprint` Calculates the fingerprint, or digest, of a given X.509 certificate
 - ... `openssl_x509_free` Free certificate resource
-- +-- `openssl_x509_parse` Parse an X509 certificate and return the information as an array
-- +-- `openssl_x509_read` Parse an X.509 certificate and return a resource identifier forit
+- +.+ `openssl_x509_parse` Parse an X509 certificate and return the information as an array
+- +.+ `openssl_x509_read` Parse an X.509 certificate and return a resource identifier forit
 
 ## Lists
 - +.+ `openssl_get_cipher_methods` Gets available cipher methods
@@ -55,30 +55,30 @@ implementation / validation / tests
 - ... `openssl_free_key` Free key resource
 - +.+ `openssl_get_privatekey` Alias of openssl_pkey_get_private
 - +.+ `openssl_get_publickey` Alias of openssl_pkey_get_public
-- o.o `openssl_pkey_export_to_file` Gets an exportable representation of a key into a file
-- o.o `openssl_pkey_export` Gets an exportable representation of a key into a string
+- +.+ `openssl_pkey_export_to_file` Gets an exportable representation of a key into a file
+- +.+ `openssl_pkey_export` Gets an exportable representation of a key into a string
 - ... `openssl_pkey_free` Frees a private key
 - +.+ `openssl_pkey_get_details` Returns an array with the key details
-- --- `openssl_pkey_get_private` Get a private key
+- +.+ `openssl_pkey_get_private` Get a private key
 - +.+ `openssl_pkey_get_public` Extract public key from certificate and prepare it for use
 - +.+ `openssl_pkey_new` Generates a new private key
 
 ## cryptographic functions
-- --- `openssl_decrypt` Decrypts data
+- +++ `openssl_decrypt` Decrypts data
 - ??? `openssl_dh_compute_key` Computes shared secret for public value of remote DH public key and local DH key
 - +++ `openssl_digest` Computes a digest
-- --- `openssl_encrypt` Encrypts data
-- +.. `openssl_open` Open sealed data
-- +.. `openssl_seal` Seal (encrypt) data
+- +++ `openssl_encrypt` Encrypts data
+- +++ `openssl_open` Open sealed data
+- +++ `openssl_seal` Seal (encrypt) data
 - +++ `openssl_sign` Generate signature
 - +++ `openssl_verify` Verify signature
-- +.+ `openssl_private_decrypt` Decrypts data with private key
-- +.+ `openssl_private_encrypt` Encrypts data with private key
-- +.+ `openssl_public_decrypt` Decrypts data with public key
-- +.+ `openssl_public_encrypt` Encrypts data with public key
+- +++ `openssl_private_decrypt` Decrypts data with private key
+- +++ `openssl_private_encrypt` Encrypts data with private key
+- +++ `openssl_public_decrypt` Decrypts data with public key
+- +++ `openssl_public_encrypt` Encrypts data with public key
 
 ## other
 - +++ `openssl_cipher_iv_length` Gets the cipher iv length
-- +.+ `openssl_error_string` Return openSSL error message
+- +++ `openssl_error_string` Return openSSL error message
 - +.+ `openssl_get_cert_locations` Retrieve the available certificate locations
 - +.+ `openssl_random_pseudo_bytes` Generate a pseudo-random string of bytes

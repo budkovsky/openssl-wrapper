@@ -9,15 +9,18 @@ namespace Budkovsky\OpenSslWrapper\Enum;
 
 use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 
+/**
+ * KeyType enumeration
+ */
 class KeyType extends EnumAbstract
 {
     const DSA = OPENSSL_KEYTYPE_DSA;
     const DH = OPENSSL_KEYTYPE_DH;
     const RSA = OPENSSL_KEYTYPE_RSA;
     const EC = OPENSSL_KEYTYPE_EC;
-    
+
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public static function getAll(): array
     {

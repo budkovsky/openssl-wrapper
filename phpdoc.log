@@ -1,0 +1,40 @@
+Collecting files .. OK
+Initializing parser .. OK
+Parsing files
+Parsing [32mC:\Users\piotrek\git\openssl-wrapper\src\Wrapper.php[39m
+Parse Error: Syntax error, unexpected '?', expecting T_VARIABLE on line 70  [37;41mNo summary was found for this file[39;49m
+Storing cache in "C:\Users\piotrek\git\openssl-wrapper\docs\api" .. OK
+Load cache                                                         ..    0.001s
+Preparing template "clean"                                         ..    0.011s
+Preparing 17 transformations                                       ..    0.000s
+Build "elements" index                                             ..    0.000s
+Replace textual FQCNs with object aliases                          ..    0.000s
+Resolve @link and @see tags in descriptions                        ..    0.000s
+Enriches inline example tags with their sources                    ..    0.000s
+Build "packages" index                                             ..    0.000s
+Build "namespaces" index and add namespaces to "elements"          ..    0.000s
+Collect all markers embedded in tags                               ..    0.000s
+Transform analyzed project into artifacts                          .. 
+Applying 17 transformations
+  Initialize writer "phpDocumentor\Plugin\Core\Transformer\Writer\FileIo"
+  Initialize writer "phpDocumentor\Plugin\Twig\Writer\Twig"
+  Initialize writer "phpDocumentor\Plugin\Graphs\Writer\Graph"
+  Execute transformation using writer "FileIo"
+  Execute transformation using writer "FileIo"
+  Execute transformation using writer "FileIo"
+  Execute transformation using writer "FileIo"
+  Execute transformation using writer "FileIo"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "twig"
+  Execute transformation using writer "Graph"
+Unable to find the `dot` command of the GraphViz package. Is GraphViz correctly installed and present in your path?   0.194s
+Analyze results and write report to log                            ..    0.000s

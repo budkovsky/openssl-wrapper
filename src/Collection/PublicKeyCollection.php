@@ -6,11 +6,14 @@ namespace Budkovsky\OpenSslWrapper\Collection;
 use Budkovsky\OpenSslWrapper\PublicKey;
 use Budkovsky\OpenSslWrapper\Abstraction\CollectionAbstract;
 
+/**
+ * PublicKeyCollection
+ */
 class PublicKeyCollection extends CollectionAbstract
 {
 
     /**
-     * Adds public key to the collection
+     * {@inheritDoc}
      * @param PublicKey $publicKey
      * @return PublicKeyCollection
      */

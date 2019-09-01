@@ -8,7 +8,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * EC key details
+ * EC key details entity
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
 class PKeyDetailsEC extends PKeyDetails
@@ -18,7 +18,7 @@ class PKeyDetailsEC extends PKeyDetails
     private $xCoordinate;
     private $yCoordinate;
     private $privateKey;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -78,7 +78,7 @@ class PKeyDetailsEC extends PKeyDetails
     {
         return $this->privateKey;
     }
-    
+
     /**
      * {@inheritDoc}
      */

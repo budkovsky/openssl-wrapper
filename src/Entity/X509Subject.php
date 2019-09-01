@@ -8,7 +8,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * Container of "subject" data from X509 certificate
+ * X509Subject entity
  */
 class X509Subject
 {
@@ -57,7 +57,7 @@ class X509Subject
         $this->setLongNames($identity);
         $this->setShortNames($identity);
     }
-    
+
     /**
      * Parse and set long name fields
      * @param array $identity
@@ -72,7 +72,7 @@ class X509Subject
         $this->commonName = $identity['commonName'] ?? null;
         $this->emailAddress = $identity['emailAddress'] ?? null;
     }
-    
+
     /**
      * Parse and set short name fields
      * @param array $identity
@@ -86,7 +86,7 @@ class X509Subject
         $this->organizationalUnitName = $identity['OU'] ?? null;
         $this->commonName = $identity['CN'] ?? null;
     }
-    
+
     /**
      * @return string
      */
@@ -142,7 +142,7 @@ class X509Subject
     {
         return $this->emailAddress;
     }
-   
+
     /**
      * @return string
      */
@@ -150,7 +150,7 @@ class X509Subject
     {
         return $this->getCountryName();
     }
-    
+
     /**
      * @return string
      */
@@ -158,7 +158,7 @@ class X509Subject
     {
         return $this->getStateOrProvinceName();
     }
-    
+
     /**
      * @return string
      */
@@ -166,7 +166,7 @@ class X509Subject
     {
         return $this->getLocalityName();
     }
-    
+
     /**
      * @return string
      */
@@ -174,7 +174,7 @@ class X509Subject
     {
         return $this->getOrganizationName();
     }
-    
+
     /**
      * @return string
      */
@@ -182,7 +182,7 @@ class X509Subject
     {
         return $this->getOrganizationalUnitName();
     }
-    
+
     /**
      * @return string
      */

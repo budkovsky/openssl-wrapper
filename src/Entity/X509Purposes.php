@@ -8,7 +8,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * Container for X509 certificate's purposes
+ *X509Purposes entity
  */
 class X509Purposes
 {
@@ -16,52 +16,52 @@ class X509Purposes
      * @var bool
      */
     protected $sslClient;
-    
+
     /**
      * @var bool
      */
     protected $sslClientCA;
-    
+
     /**
      * @var bool
      */
     protected $sslServer;
-    
+
     /**
      * @var bool
      */
     protected $sslServerCA;
-    
+
     /**
      * @var bool
      */
     protected $netscapeSslServer;
-    
+
     /**
      * @var bool
      */
     protected $netscapeSslServerCA;
-    
+
     /**
      * @var bool
      */
     protected $smimeSigning;
-    
+
     /**
      * @var bool
      */
     protected $smimeSigningCA;
-    
+
     /**
      * @var bool
      */
     protected $smimeEncryption;
-    
+
     /**
      * @var bool
      */
     protected $smimeEncryptionCA;
-    
+
     /**
      * @var bool
      */
@@ -71,37 +71,37 @@ class X509Purposes
      * @var bool
      */
     protected $crlSigningCA;
-    
+
     /**
      * @var bool
      */
     protected $anyPurpose;
-    
+
     /**
      * @var bool
      */
     protected $anyPurposeCA;
-    
+
     /**
      * @var bool
      */
     protected $ocspHelper;
-    
+
     /**
      * @var bool
      */
     protected $ocspHelperCA;
-    
+
     /**
      * @var bool
      */
     protected $timestampSigning;
-    
+
     /**
      * @var bool
      */
     protected $timestampSigningCA;
-    
+
     /**
      * The constructor
      * @param array $purposes Puroposes subarray from openssl_x509_parse() result
@@ -112,7 +112,7 @@ class X509Purposes
             $this->setPurpose($record[2], $record[0], $record[1]);
         }
     }
-    
+
     /**
      * Purposes setter
      * @param string $name
@@ -170,7 +170,7 @@ class X509Purposes
     {
         return $this->sslClient;
     }
-    
+
     /**
      * @return bool
      */
@@ -178,7 +178,7 @@ class X509Purposes
     {
         return $this->sslClientCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -186,7 +186,7 @@ class X509Purposes
     {
         return $this->sslServer;
     }
-    
+
     /**
      * @return bool
      */
@@ -194,7 +194,7 @@ class X509Purposes
     {
         return $this->sslServerCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -202,7 +202,7 @@ class X509Purposes
     {
         return $this->netscapeSslServer;
     }
-    
+
     /**
      * @return bool
      */
@@ -210,7 +210,7 @@ class X509Purposes
     {
         return $this->netscapeSslServerCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -218,7 +218,7 @@ class X509Purposes
     {
         return $this->smimeSigning;
     }
-    
+
     /**
      * @return bool
      */
@@ -226,7 +226,7 @@ class X509Purposes
     {
         return $this->smimeSigningCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -234,7 +234,7 @@ class X509Purposes
     {
         return $this->smimeEncryption;
     }
-    
+
     /**
      * @return bool
      */
@@ -242,7 +242,7 @@ class X509Purposes
     {
         return $this->smimeEncryptionCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -250,7 +250,7 @@ class X509Purposes
     {
         return $this->crlSigning;
     }
-    
+
     /**
      * @return bool
      */
@@ -258,7 +258,7 @@ class X509Purposes
     {
         return $this->crlSigningCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -266,7 +266,7 @@ class X509Purposes
     {
         return $this->anyPurpose;
     }
-    
+
     /**
      * @return bool
      */
@@ -274,7 +274,7 @@ class X509Purposes
     {
         return $this->anyPurposeCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -282,7 +282,7 @@ class X509Purposes
     {
         return $this->ocspHelper;
     }
-    
+
     /**
      * @return bool
      */
@@ -290,7 +290,7 @@ class X509Purposes
     {
         return $this->ocspHelperCA;
     }
-    
+
     /**
      * @return bool
      */
@@ -298,7 +298,7 @@ class X509Purposes
     {
         return $this->timestampSigning;
     }
-    
+
     /**
      * @return bool
      */

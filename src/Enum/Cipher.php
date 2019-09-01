@@ -23,9 +23,9 @@ class Cipher extends EnumAbstract
     const AES_128_CBC = OPENSSL_CIPHER_AES_128_CBC;
     const AES_192_CBC = OPENSSL_CIPHER_AES_192_CBC;
     const AES_256_CBC = OPENSSL_CIPHER_AES_256_CBC;
-    
+
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public static function getAll(): array
     {

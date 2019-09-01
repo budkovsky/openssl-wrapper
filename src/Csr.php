@@ -1,9 +1,4 @@
 <?php
-/**
- * 2019 Budkovsky
- * @see https://www.php.net/manual/en/openssl.certparams.php
- * @see https://www.php.net/manual/en/ref.openssl.php
- */
 declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper;

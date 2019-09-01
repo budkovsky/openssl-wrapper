@@ -10,16 +10,18 @@ class StringCollection extends CollectionAbstract implements StaticFactoryInterf
 {
     /**
      * {@inheritDoc}
+     * @param string $item
+     * @return StringCollection
      */
     public function add(string $item = ''): StringCollection
     {
         $this->collection[] = $item;
-        
+
         return $this;
     }
-    
+
     /**
-     * Static Factory
+     * {@inheritDoc}
      * @param array $collection
      * @return StringCollection
      */
@@ -27,7 +29,7 @@ class StringCollection extends CollectionAbstract implements StaticFactoryInterf
     {
         $stringCollection = new static();
         $stringCollection->set($collection);
-        
+
         return $stringCollection;
     }
 }

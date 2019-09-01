@@ -3,6 +3,9 @@ namespace Budkovsky\OpenSslWrapper\Enum;
 
 use Budkovsky\OpenSslWrapper\Abstraction\EnumAbstract;
 
+/**
+ * SignatureAlgorithm enumeration
+ */
 class SignatureAlgorithm extends EnumAbstract
 {
 
@@ -16,7 +19,10 @@ class SignatureAlgorithm extends EnumAbstract
     const MD5 = OPENSSL_ALGO_MD5;
     const MD4 = OPENSSL_ALGO_MD4;
     //const MD2 = OPENSSL_ALGO_MD2;
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public static function getAll(): array
     {
         return [

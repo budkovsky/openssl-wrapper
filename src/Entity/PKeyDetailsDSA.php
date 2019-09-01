@@ -8,7 +8,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * DSA key details
+ * DSA key details entity
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
 class PKeyDetailsDSA extends PKeyDetails
@@ -17,27 +17,27 @@ class PKeyDetailsDSA extends PKeyDetails
      * @var string
      */
     private $primeNumber;
-    
+
     /**
      * @var string
      */
     private $subprime;
-    
+
     /**
      * @var string
      */
     private $generatorOfSubgroup;
-    
+
     /**
      * @var string
      */
     private $privateKey;
-    
+
     /**
      * @var string
      */
     private $publicKey;
-    
+
     /**
      * {@inheritDoc}
      */
