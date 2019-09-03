@@ -25,7 +25,7 @@ class Wrapper
     use StaticClassTrait;
 
     /**
-     * Gets the cipher iv length  for given method
+     * Gets the cipher iv length for given method
      * @see https://www.php.net/manual/en/function.openssl-cipher-iv-length.php
      * @param string $method
      * @return int

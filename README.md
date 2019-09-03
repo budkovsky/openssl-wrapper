@@ -2,7 +2,7 @@
 
 PHP OpenSSL object-oriented implementation.
 Wraps PHP functions from ext-openssl extension to modern, PHP7-compatible objects with full type-hinting.
-No results returned by reference, no "false" boolean return on failed, when expecting  scalar / object values. 
+No results returned by reference, no "false" boolean return on failed, when expecting  scalar / object values.
 According to PHP7 type-hinting implementation, sometimes "null" can be returned instead.
 
 ## Requirements
@@ -10,48 +10,18 @@ According to PHP7 type-hinting implementation, sometimes "null" can be returned 
 * ext-openssl PHP extension
 
 ## Dependencies
-Optional dependency for unit tests execution is PHPUnit 8.
+Optional dependency for unit tests execution is PHPUnit 8. No dependecies for using as library.
 
-## Installation
-
-## Wrapper class
-Wrapper contains functions not associated with other objects like *PrivateKey* or *X509*. Functions are callable staticly, for example:
-
-```php
-OpenSSL::getDigestMethods(true);
-```
-Wrapper includes two extra methods, not exist in orginal OpenSSL extension for PHP.
-
-```php
-Wrapper::isDigestMethodValid($someMethod);
-Wrapper::isCipherMethodValid($otherMethod);
-```
-
-## Documentation
-- [PrivateKey class](./docs/PRIVATEKEY.md)
-- [PublicKey class](./docs/PUBLICKEY.md)
-
-
-## ConfigArgs
-
-## Csr class
-
-## X509 class
-
-## Entities
-
-## Enums
-
-## Collections
-
-## Exceptions
-
-## Abstraction
-
-## Traits
-
-## Unit tests
-
-Unit tests are placed in `/tests` folder and require PHPUnit 8.
-
-
+## Details and use cases
+- [Wrapper class](./docs/README.wrapper.md)
+- [PrivateKey class](./docs/README.privatekey.md)
+- [PublicKey class](./docs/README.publickey.md)
+- [CSR class](./docs/README.csr.md)
+- [X509 class](./docs/README.x509.md)
+- [Entities](./docs/README.entities.md)
+- [Enumenrations](./docs/README.enums.md)
+- [Exceptions](./docs/README.exceptions.md)
+- [Collections](./docs/README.collections.md)
+- [Abstraction](./docs/README.abstraction.md)
+- [Traits](./docs/README.traits.md)
+- [Tests](./docs/README.tests.md)
