@@ -13,6 +13,7 @@ List of available methods:
 - [decrypt](#decrypt)
 - [encrypt](#encrypt)
 - [getErrorString](#getErrorString)
+- [getCertLocations](#getCertLocations)
 - [getCurveNames](#getCurveNames)
 - [getCipherMethods](#getCipherMethods)
 - [isCipherMethodValid](#isCipherMethodValid)
