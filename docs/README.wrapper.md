@@ -154,6 +154,7 @@ Returns raw binary pseudo-random string.
 public static function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
 ```
 Seal (encrypt) data with multiple keys.
+Returns [SealResult](README.entities.md#sealresult) entity.
 [See more](https://www.php.net/manual/en/function.openssl-seal.php)
 
 ---
