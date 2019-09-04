@@ -111,8 +111,7 @@ class Csr implements StaticFactoryInterface
         PrivateKey $privateKey,
         int $days = 365,
         KeyInterface $caCert = null,
-        ?ConfigArgs
-        $configArgs = null,
+        ?ConfigArgs $configArgs = null,
     $serial = 0): X509 {
         return X509::create(
             $this, $privateKey, $days, $caCert, $configArgs, $serial

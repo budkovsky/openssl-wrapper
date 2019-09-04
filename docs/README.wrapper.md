@@ -1,8 +1,7 @@
-[<<< HOME](../README.md)
+[<<< OpenSSL Wrapper for PHP](../README.md)
 
-# OpenSSL Wrapper for PHP
+# Wrapper class
 
-## Wrapper class
 Wrapper contains functions not associated with other objects like *PrivateKey* or *PublicKey*.
 Functions are callable staticly and Wrapper class doesn't contain any properties.
 More complex functions are associated with other, instantiationable classes.
@@ -23,10 +22,9 @@ List of available methods:
 - [seal](#seal)
 - [unseal](#unseal)
 
-
 ---
 
-### cipherIvLength
+## cipherIvLength
 ```php
 public static function cipherIvLength(string $method): int
 ```
@@ -40,7 +38,7 @@ returned by `Wrapper::getCipherMethods()`. Cipher length value can be useful wit
 
 ---
 
-### computeDigest
+## computeDigest
 ```php
 public static function computeDigest(string $data, string $method, bool $rawOutput = false): string
 ```
@@ -48,7 +46,7 @@ Computes a digest hash value for the given data using a given method, and return
 
 ---
 
-### decrypt
+## decrypt
 ```php
 public static function decrypt(
     string $data,
@@ -65,7 +63,7 @@ Returned data is raw binary or base64 encoded string, or NULL on fail.
 
 ---
 
-### encrypt
+## encrypt
 ```php
 public static function encrypt(
     string $data,
@@ -83,7 +81,7 @@ Returns a raw binary or base64 encoded string.
 
 ---
 
-### getErrorString
+## getErrorString
 ```php
 public static function getErrorString(): ?string
 ```
@@ -91,7 +89,7 @@ Return openSSL message on error or NULL if none.
 
 ---
 
-### getCertLocations
+## getCertLocations
 ```php
 public static function getCertLocations(): CertLocations
 ```
@@ -100,14 +98,14 @@ Returns [CertLocations](README.entities.md#certlocations) entity.
 
 ---
 
-### getCurveNames
+## getCurveNames
 ```php
 public static function getCurveNames(): array
 ```
 
 ---
 
-### getCipherMethods
+## getCipherMethods
 ```php
 public static function getCipherMethods(bool $aliases = false): array
 ```
@@ -115,7 +113,7 @@ List of available cipher methods.
 
 ---
 
-### isCipherMethodValid
+## isCipherMethodValid
 ```php
 public static function isCipherMethodValid(string $cipherMethod): bool
 ```
@@ -124,7 +122,7 @@ Extra method, not existing in orginal OpenSSL extension for PHP.
 
 ---
 
-### getDigestMethods
+## getDigestMethods
 ```php
 public static function getDigestMethods(bool $asliases = false): array
 ```
@@ -132,7 +130,7 @@ Available digest methods.
 
 ---
 
-### isDigestMethodValid
+## isDigestMethodValid
 ```php
 public static function isDigestMethodValid(string $digestMethod): bool
 ```
@@ -141,7 +139,7 @@ Extra method, not existing in orginal OpenSSL extension for PHP.
 
 ---
 
-### getRandomPseudoBytes
+## getRandomPseudoBytes
 ```php
 public static function getRandomPseudoBytes(int $length, bool $cryptoStrong = true): ?string
 ```
@@ -149,7 +147,7 @@ Returns raw binary pseudo-random string.
 
 ---
 
-### seal
+## seal
 ```php
 public static function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
 ```
@@ -159,7 +157,7 @@ Returns [SealResult](README.entities.md#sealresult) entity.
 
 ---
 
-### unseal
+## unseal
 ```php
 public static function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = ''): ?string
 ```
