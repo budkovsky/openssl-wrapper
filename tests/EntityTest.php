@@ -5,7 +5,6 @@ namespace Budkovsky\OpenSslWrapper\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\Tests\Helper\EntityTestHelper;
-use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Entity\CertLocations;
 use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
 

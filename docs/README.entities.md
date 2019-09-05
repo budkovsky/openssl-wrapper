@@ -1,87 +1,54 @@
-[<<< HOME](../README.md)
+[<<< OpenSSL Wrapper for PHP](../README.md)
 
-# OpenSSL Wrapper for PHP
+# Entities
 
-## Entities
+Entities are simple data containers with private properties and public setter/getter methods.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tempor orci quis purus convallis, et molestie ipsum ullamcorper. Quisque nec porttitor sem, ac vehicula mi. Vestibulum ut massa a tellus cursus interdum. Vestibulum quam sem, congue a commodo et, tristique vel est. Etiam et elit ac felis rutrum commodo. Curabitur interdum dui id magna malesuada, vel mattis enim auctor. Donec sagittis viverra tortor. Phasellus vehicula facilisis risus, at efficitur dui luctus laoreet. Donec neque augue, vestibulum at eleifend vitae, suscipit id ante. Morbi luctus congue elit, ac fermentum odio laoreet vel.
+---
 
-Maecenas nec mi purus. Quisque vitae pharetra lacus. Donec tincidunt consequat sagittis. Suspendisse lobortis sit amet felis vel porttitor. Nullam mattis vulputate enim at tristique. Etiam sem nunc, lobortis ut nunc non, porta finibus felis. Vivamus elementum metus id eleifend maximus. Donec porta ex ac arcu laoreet malesuada.
+## CertLocations
 
-Cras lobortis suscipit augue, quis aliquam leo. Cras sit amet sem et lorem consectetur finibus. Nulla facilisi. Vivamus eget libero nisl. Proin et auctor ipsum. Donec quis laoreet nibh, ac porta lectus. Vestibulum sagittis euismod dui in elementum. Suspendisse porta, tortor et sollicitudin dapibus, magna lectus accumsan est, vel euismod est odio sit amet erat. Phasellus semper ante id metus pharetra semper. Curabitur eu nisl ac sem consequat molestie. Etiam lobortis ligula quis dui euismod, ac blandit leo ornare.
+`CertLocations` class implements singleton design pattern
+and stores paths to the system certificates locations.
+Class doesn't have any setter, getters only and should be recognized as read-only data container.
 
-Etiam rutrum aliquam tellus, in molestie diam pulvinar at. Morbi laoreet mattis quam, ut ornare enim. Sed eget tincidunt nunc, sed vulputate metus. Suspendisse mattis vehicula dolor non sollicitudin. Etiam quis est bibendum, laoreet sapien at, pharetra mauris. Vivamus arcu arcu, dictum sit amet quam sit amet, varius rutrum lorem. Praesent ullamcorper eleifend lorem, iaculis fermentum magna malesuada ut. Integer rhoncus nibh pharetra sapien feugiat, id porta enim ultricies. Pellentesque egestas diam vitae elit consequat, sit amet fringilla risus mollis. Aenean convallis augue tortor, scelerisque lacinia risus finibus a. Ut elementum, ligula sed ultrices tincidunt, lorem mi dignissim erat, a tempor erat ipsum non est. Duis ac interdum enim. Etiam scelerisque facilisis metus quis sodales. Curabitur euismod varius turpis, congue congue turpis.
+```php
+$certLocations = CertLocations::getInstance();
+```
+Available getter methods:
+- getDefaultCertFile()
+- getDefaultCertFileEnv()
+- getDefaultCertDir();
+- getDefaultCertDirEnv()
+- getDefaultPrivateDir()
+- getDefaultDefaultCertArea()
+- getIniCAFile()
+- getIniCAPath()
 
-Mauris id tortor a turpis consequat tempor. Maecenas sit amet cursus ipsum. Proin convallis a nibh at luctus. Morbi felis nisl, porttitor non ligula vitae, elementum maximus turpis. Curabitur sollicitudin pellentesque nibh et suscipit. Aenean eu tellus quis sapien congue posuere id et magna. Maecenas rutrum purus eu eleifend convallis. Nam lacinia fringilla pulvinar. Sed nulla odio, mattis id convallis quis, rutrum vel enim. Mauris commodo convallis suscipit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus luctus egestas odio at vulputate.
+---
 
-Vestibulum quis luctus turpis. Fusce molestie varius ipsum eleifend ornare. Quisque eget iaculis nisl, volutpat varius lorem. Praesent cursus diam et tortor fringilla, non pretium odio facilisis. Integer egestas, urna in ultrices dapibus, tellus eros rutrum libero, sed facilisis ipsum est sit amet turpis. In pharetra augue a justo consectetur, vitae sollicitudin neque lobortis. Ut pharetra lectus sit amet purus varius, in ornare purus vestibulum.
+## ConfigArgs
+`ConfigArgs` groups key parameters useful with `Csr`, `PrivateKey` and `X509` objects.
+Available properties:
+- digestAlg (string)
+- x509Extensions (string)
+- reqExtensions (string)
+- privateKeyBits (int)
+- privateKeyType (int)
+- encryptKey (bool)
+- encryptKeyCipher (int)
+- curveName (string)
+- config (string)
 
-Vestibulum accumsan placerat libero vel tincidunt. Vivamus volutpat nisl sodales congue venenatis. Vivamus gravida mi laoreet tempus posuere. In bibendum hendrerit mauris, quis cursus nisl viverra vel. Duis id lacinia velit, in semper tellus. Donec luctus pulvinar ornare. Morbi vel iaculis urna, in tincidunt ante. Sed a bibendum turpis, quis placerat purus. Nullam consequat iaculis dui, vitae porta ante consectetur et. In hac habitasse platea dictumst. Maecenas eu augue nec erat malesuada elementum a a neque. Sed convallis ante cursus, vulputate magna eget, viverra augue. Nulla sed sapien elit. Cras ut hendrerit nibh, et vulputate magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla vel lacus eget risus sagittis facilisis.
+Example of use:
+```php
+$configArgs = ConfigArgs::create()->setPrivateKeyBits(4096)->setEncryptKey(false);
+$privateKey = new PrivateKey($configArgs);
+```
 
-Cras elementum nibh eros. Integer tincidunt nisi elit, id ultrices eros pellentesque non. Cras malesuada sem nec efficitur pellentesque. Ut ex lectus, vulputate ac iaculis ac, interdum vel eros. Vivamus sapien libero, sodales ut dictum ac, condimentum id ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lorem sem, ornare ut elit ac, dignissim placerat dui. Suspendisse a pretium velit, varius volutpat nunc. Aenean id scelerisque ante.
+---
 
-Donec sollicitudin dolor nec ex dapibus posuere. Aliquam accumsan ligula volutpat ultricies volutpat. Integer et urna sit amet purus ultrices condimentum eget vel neque. Nulla facilisi. Nunc venenatis aliquam posuere. Cras vitae imperdiet leo, sed suscipit magna. Sed nec vehicula nisl. Proin in mattis enim. Cras urna nulla, porttitor vitae dapibus pulvinar, tincidunt vel elit. Vivamus arcu libero, efficitur non sollicitudin vulputate, sodales eu felis. Duis in nisi eu turpis tincidunt volutpat.
+## CsrSubject
 
-Aenean malesuada ipsum id porta vulputate. Aliquam magna mauris, bibendum quis facilisis non, vulputate non est. Pellentesque dictum turpis sed sem tristique luctus. Ut quis faucibus dolor. Curabitur in sapien eu enim laoreet imperdiet a malesuada diam. Cras sagittis justo vitae cursus aliquam. Etiam hendrerit posuere nisi blandit venenatis.
 
-Donec ac accumsan erat, et cursus ligula. Aliquam a ultrices tellus. Ut magna erat, volutpat at imperdiet sed, viverra ut odio. Phasellus placerat euismod pretium. Nullam placerat ipsum in sapien porttitor ultrices id at elit. Ut et volutpat tellus. In porttitor, eros in sagittis scelerisque, augue metus vulputate ipsum, ultricies tincidunt arcu dolor eu neque. Integer tempor vel ligula a blandit. Sed fringilla ipsum et magna euismod, fermentum rutrum mi ultrices. Aenean nec purus quis ex rutrum aliquam sed nec urna.
-
-Mauris risus diam, rutrum id vulputate sed, dictum eu nibh. Fusce ac purus condimentum, pellentesque elit vel, tempus eros. Nulla porttitor, risus pretium pulvinar vehicula, odio neque laoreet erat, ut dignissim urna risus aliquam ante. Nullam ac leo felis. Fusce sapien augue, molestie viverra rhoncus a, posuere non ex. Proin consequat dignissim purus, venenatis pharetra velit suscipit sed. Quisque lacinia lectus ac enim mollis, a dignissim est consequat. Cras mollis lectus in pellentesque viverra.
-
-Donec vestibulum lorem ac diam sollicitudin dictum. Etiam sed enim cursus, condimentum felis laoreet, sodales libero. Nullam finibus in nunc id porta. Nullam lacinia orci eget ipsum pulvinar elementum. Quisque eget neque sit amet tellus pellentesque faucibus et vel neque. Praesent laoreet orci non est dapibus, quis vehicula enim gravida. Suspendisse a ex sem. Curabitur vulputate elit nec ante sagittis placerat. Sed finibus augue vel massa pulvinar faucibus. Ut venenatis elit ut turpis dignissim malesuada. In vel viverra nisi, id rutrum risus. Nam sem ligula, tristique quis molestie in, lobortis a erat. Duis sit amet tellus ut tortor mollis dictum et eu leo. Suspendisse placerat imperdiet massa vulputate tempor.
-
-Vivamus et metus id eros rutrum finibus vel at purus. Proin ullamcorper luctus eros vitae venenatis. Vestibulum tempus sodales nisl, eu hendrerit odio posuere at. Mauris condimentum massa ut facilisis fermentum. Donec egestas, est id dignissim tristique, purus purus auctor justo, a molestie ipsum massa ac dui. In at nibh non enim tincidunt varius eu id magna. Mauris sit amet rhoncus nibh, eu imperdiet urna. Quisque bibendum odio eu placerat tempus. Curabitur at pretium tellus.
-
-Quisque in efficitur nulla. Nam sodales neque vel vulputate placerat. Nullam eget arcu pulvinar, malesuada leo vitae, hendrerit ipsum. Quisque neque lorem, feugiat sit amet lacus at, facilisis rhoncus orci. Mauris vitae augue nec ante dictum maximus. Fusce in dolor vel erat maximus volutpat. Maecenas ullamcorper tortor vitae magna dapibus, id vestibulum lacus iaculis. Phasellus blandit vitae mi a ullamcorper. Aenean interdum, purus ut commodo sodales, mi justo dapibus erat, pulvinar lacinia felis lorem eu justo. Suspendisse rutrum sollicitudin mauris, in rhoncus turpis tempor in. Vestibulum molestie diam ligula, id congue augue tincidunt nec. Donec risus turpis, condimentum a felis nec, tristique semper urna.
-
-Phasellus hendrerit massa eu volutpat ullamcorper. Donec molestie sapien non lectus imperdiet, ut scelerisque nibh finibus. Vestibulum et diam urna. Sed lacinia fringilla tincidunt. Ut tortor sem, viverra id sollicitudin vel, cursus id velit. Mauris pellentesque quam et ante malesuada, sed viverra sem dignissim. Mauris lacinia justo dui. Suspendisse pharetra malesuada nunc. Integer efficitur et nibh vel dictum. Phasellus pretium, metus eget suscipit imperdiet, nunc sapien condimentum nunc, in porta quam neque quis eros. Maecenas neque ante, sagittis a placerat ultrices, eleifend vel nulla. Curabitur ut ultrices nunc.
-
-Cras sollicitudin eleifend nisi, ac dapibus risus sagittis a. Sed tincidunt lacinia imperdiet. In id tempus arcu. Sed vitae nisl luctus, eleifend purus vitae, facilisis risus. Pellentesque eget varius felis, sit amet laoreet est. Fusce vitae accumsan purus. Vestibulum pharetra efficitur tincidunt.
-
-Nam eget mattis augue. Curabitur hendrerit accumsan ex, eget venenatis ante tincidunt eu. Nullam cursus, tellus in eleifend auctor, nisl nisl dignissim magna, vel convallis orci augue eu nibh. Nunc ut risus posuere, facilisis lorem et, sollicitudin eros. Nam id massa egestas, scelerisque diam hendrerit, accumsan leo. Pellentesque rutrum neque eget nibh pulvinar, eget scelerisque ante bibendum. Ut laoreet finibus nisl, sed dictum magna. Ut lobortis nibh sapien. Quisque elit dui, ultrices at euismod at, congue id velit. Mauris interdum risus ac metus facilisis commodo.
-
-In augue augue, vulputate in dolor eget, sodales vulputate tellus. Integer sed nisl vel velit lobortis tempus et sed tellus. Maecenas ut mattis magna. Duis venenatis felis vel lorem facilisis faucibus. Etiam sem mauris, fringilla non enim eu, blandit blandit enim. Praesent pellentesque sem id volutpat maximus. Aliquam et arcu ut sem ultricies eleifend. In pellentesque sollicitudin orci a porttitor. Vestibulum ac neque venenatis, egestas tellus sed, tempor odio. Sed augue massa, condimentum vitae vestibulum ac, vulputate sit amet erat. Nunc volutpat arcu vel dui rhoncus, vel porttitor massa suscipit. Donec nec diam in felis interdum placerat eu ultrices lectus.
-
-Sed non velit rhoncus, dapibus nunc eget, aliquet urna. Nullam gravida mauris lectus. Integer finibus neque vel turpis varius sollicitudin. Aenean blandit ut neque ut tincidunt. Integer condimentum ex nec turpis iaculis, vel placerat leo suscipit. Donec varius ante id urna ultricies condimentum. Donec pulvinar arcu quis elementum sollicitudin.
-
-Integer id posuere dolor. Praesent lorem magna, suscipit sed cursus sit amet, viverra in neque. Etiam eu tristique arcu. Nam vehicula luctus orci ac cursus. Curabitur at urna eu neque maximus egestas. Nunc dignissim ante vel maximus luctus. Nunc vitae augue id ante pulvinar venenatis. In non lacinia augue. Phasellus justo ex, vulputate sit amet eros sit amet, interdum ornare dui. Fusce molestie quam in sem sollicitudin, non facilisis nulla consectetur. Pellentesque bibendum pellentesque scelerisque. Aenean accumsan, sem ac hendrerit laoreet, risus sapien bibendum elit, eu ultricies dui diam in tortor. Sed molestie quis lorem consequat egestas.
-
-Morbi hendrerit purus odio, id efficitur urna tincidunt vitae. Aliquam ac nunc id erat vestibulum rhoncus ut ac lacus. Sed vel massa viverra, iaculis ligula eu, sodales nibh. Etiam ut urna egestas diam auctor auctor. Phasellus eget fringilla lectus. Praesent vitae ligula sapien. Aenean eleifend congue dolor, in auctor augue posuere nec. Maecenas et ultricies sapien. Suspendisse potenti.
-
-Morbi non semper ipsum, vel ultricies lorem. Sed malesuada sodales imperdiet. Nullam dolor neque, vehicula vel malesuada ac, interdum quis nisl. Nullam in felis ut ante mollis interdum et eget ipsum. Suspendisse justo dolor, mattis eu molestie lobortis, posuere a enim. Duis sed sollicitudin dui. Duis varius dictum ante, id molestie velit.
-
-Vestibulum sed lectus pharetra, lobortis nibh ut, sodales erat. Sed suscipit arcu non dignissim consectetur. Phasellus blandit ullamcorper commodo. Donec pharetra efficitur justo at gravida. Praesent facilisis sagittis luctus. Nunc nisl ligula, sodales vitae lacus ornare, pellentesque sodales felis. Aliquam eu leo ipsum. Duis orci risus, ultrices vel turpis vel, facilisis ullamcorper neque. Sed congue luctus velit, nec dictum sem elementum eu. In pharetra at lectus a feugiat.
-
-Nam convallis ultrices rhoncus. Sed in mauris velit. Pellentesque mollis pellentesque leo, non pellentesque metus condimentum non. Nullam lectus mauris, scelerisque et condimentum vitae, ultricies at dui. Aliquam finibus eros neque, nec accumsan mauris mollis sit amet. Vestibulum metus arcu, laoreet sed faucibus id, dapibus maximus ante. Morbi pellentesque ac nisi et iaculis. Vivamus rutrum mollis turpis at egestas. Aenean egestas blandit enim et fringilla. Aenean eget dolor id ex imperdiet ultricies. Vestibulum id tellus ut urna facilisis semper. Nunc in sem dignissim, aliquam metus vel, dignissim tellus. Ut sagittis nulla risus, non interdum leo commodo eu. Praesent sagittis eros non ipsum dictum, scelerisque sollicitudin metus scelerisque.
-
-### CertLocations
-
-Fusce non blandit mauris, at viverra ante. Suspendisse congue volutpat mattis. Etiam tempus nibh id massa maximus vestibulum. Nunc tortor neque, molestie volutpat ipsum in, elementum molestie dolor. Nam faucibus odio et tincidunt volutpat. Maecenas rutrum tempor ex sit amet rutrum. Ut ac pharetra est. Vivamus tincidunt dolor mi, dignissim porttitor est fermentum quis. Vestibulum porttitor placerat ligula, vel efficitur sem laoreet eget. Morbi accumsan felis mauris, eu semper odio dapibus vitae. In placerat elit sit amet nisl aliquet, id lacinia est luctus.
-
-Etiam blandit blandit dictum. Aliquam a risus sit amet diam dapibus rutrum. Praesent quis massa a nisl molestie tincidunt eu ac sem. Etiam ultricies gravida dolor, a euismod nisi scelerisque vel. Fusce id laoreet elit, vitae dictum lorem. Aenean et ipsum faucibus, iaculis eros faucibus, ultrices quam. Mauris tempor faucibus urna eget vulputate. Fusce tincidunt tincidunt est et consequat. Nullam sed hendrerit arcu. Nam faucibus, leo ac placerat malesuada, nulla turpis imperdiet elit, non efficitur mi ex vel lorem.
-
-Etiam mattis ipsum eget quam laoreet, a luctus dui suscipit. Nam eget lacus pulvinar, vestibulum tortor nec, ultricies sapien. Mauris lacinia scelerisque dignissim. In eu iaculis nunc, eget semper ipsum. Suspendisse eu mi est. Mauris ultrices lobortis ligula ut feugiat. Donec sit amet est pulvinar, condimentum dolor in, porta ante.
-
-Vivamus aliquam diam ut tellus ornare posuere. Pellentesque vehicula aliquet libero sed fermentum. Vestibulum vel ligula auctor, ullamcorper velit sit amet, molestie neque. Vivamus semper, eros non sagittis tincidunt, nibh orci consectetur dui, sed dapibus nibh ligula eget mauris. Suspendisse vel neque nisl. Praesent vitae lectus ac eros pretium ornare ac quis nibh. In hac habitasse platea dictumst. Etiam vitae sapien purus. Pellentesque vel pulvinar augue. Suspendisse mollis mollis metus, non laoreet risus pharetra ac.
-
-Integer quam risus, posuere id porttitor quis, molestie in nibh. Pellentesque condimentum arcu et aliquet pretium. Pellentesque tincidunt, mi in suscipit dignissim, augue leo scelerisque enim, a pulvinar metus quam id sapien. In non dictum tortor. Morbi id consectetur quam. Duis a ex non mi tincidunt fermentum dignissim quis lectus. Suspendisse finibus, neque at dignissim vestibulum, augue nisl porta ipsum, vel laoreet nisi ante at justo. Nunc dapibus erat eu leo pharetra, vestibulum interdum est consectetur. Aliquam condimentum, quam vitae dictum blandit, leo ligula rutrum nisi, sit amet condimentum mauris lorem fringilla lorem. Aenean elit justo, tristique et dui vel, bibendum euismod lectus.
-
-Pellentesque lacinia vitae orci vitae interdum. Etiam sagittis lobortis mi, non tincidunt est porttitor et. Vestibulum aliquet odio nibh, eget sodales tortor tempor a. Praesent pulvinar mauris lacus, eget varius nulla eleifend in. Nulla ex enim, consectetur in fermentum hendrerit, suscipit eget eros. Nam tortor ipsum, finibus vitae feugiat sit amet, vestibulum nec purus. Sed pretium tortor et sem viverra tristique.
-
-Curabitur in velit eget mauris tincidunt blandit. Aliquam laoreet ut nisi et eleifend. Donec in lectus id augue pellentesque consequat. Aenean non mollis eros. Cras suscipit nisl sapien, in maximus diam facilisis vitae. Aliquam erat volutpat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean iaculis velit at pharetra congue. Aenean a nisl dui. Praesent vitae congue nunc. Nullam sagittis est urna, et dapibus erat hendrerit sit amet. Integer id nulla sed tellus suscipit dictum in cursus tellus. In id dolor ipsum. Proin nec justo quis purus sollicitudin facilisis. Morbi leo orci, ullamcorper laoreet orci non, egestas laoreet metus.
-
-### SealResult
-
-Fusce non blandit mauris, at viverra ante. Suspendisse congue volutpat mattis. Etiam tempus nibh id massa maximus vestibulum. Nunc tortor neque, molestie volutpat ipsum in, elementum molestie dolor. Nam faucibus odio et tincidunt volutpat. Maecenas rutrum tempor ex sit amet rutrum. Ut ac pharetra est. Vivamus tincidunt dolor mi, dignissim porttitor est fermentum quis. Vestibulum porttitor placerat ligula, vel efficitur sem laoreet eget. Morbi accumsan felis mauris, eu semper odio dapibus vitae. In placerat elit sit amet nisl aliquet, id lacinia est luctus.
-
-Etiam blandit blandit dictum. Aliquam a risus sit amet diam dapibus rutrum. Praesent quis massa a nisl molestie tincidunt eu ac sem. Etiam ultricies gravida dolor, a euismod nisi scelerisque vel. Fusce id laoreet elit, vitae dictum lorem. Aenean et ipsum faucibus, iaculis eros faucibus, ultrices quam. Mauris tempor faucibus urna eget vulputate. Fusce tincidunt tincidunt est et consequat. Nullam sed hendrerit arcu. Nam faucibus, leo ac placerat malesuada, nulla turpis imperdiet elit, non efficitur mi ex vel lorem.
-
-Etiam mattis ipsum eget quam laoreet, a luctus dui suscipit. Nam eget lacus pulvinar, vestibulum tortor nec, ultricies sapien. Mauris lacinia scelerisque dignissim. In eu iaculis nunc, eget semper ipsum. Suspendisse eu mi est. Mauris ultrices lobortis ligula ut feugiat. Donec sit amet est pulvinar, condimentum dolor in, porta ante.
-
-Vivamus aliquam diam ut tellus ornare posuere. Pellentesque vehicula aliquet libero sed fermentum. Vestibulum vel ligula auctor, ullamcorper velit sit amet, molestie neque. Vivamus semper, eros non sagittis tincidunt, nibh orci consectetur dui, sed dapibus nibh ligula eget mauris. Suspendisse vel neque nisl. Praesent vitae lectus ac eros pretium ornare ac quis nibh. In hac habitasse platea dictumst. Etiam vitae sapien purus. Pellentesque vel pulvinar augue. Suspendisse mollis mollis metus, non laoreet risus pharetra ac.
-
-Integer quam risus, posuere id porttitor quis, molestie in nibh. Pellentesque condimentum arcu et aliquet pretium. Pellentesque tincidunt, mi in suscipit dignissim, augue leo scelerisque enim, a pulvinar metus quam id sapien. In non dictum tortor. Morbi id consectetur quam. Duis a ex non mi tincidunt fermentum dignissim quis lectus. Suspendisse finibus, neque at dignissim vestibulum, augue nisl porta ipsum, vel laoreet nisi ante at justo. Nunc dapibus erat eu leo pharetra, vestibulum interdum est consectetur. Aliquam condimentum, quam vitae dictum blandit, leo ligula rutrum nisi, sit amet condimentum mauris lorem fringilla lorem. Aenean elit justo, tristique et dui vel, bibendum euismod lectus.
-
-Pellentesque lacinia vitae orci vitae interdum. Etiam sagittis lobortis mi, non tincidunt est porttitor et. Vestibulum aliquet odio nibh, eget sodales tortor tempor a. Praesent pulvinar mauris lacus, eget varius nulla eleifend in. Nulla ex enim, consectetur in fermentum hendrerit, suscipit eget eros. Nam tortor ipsum, finibus vitae feugiat sit amet, vestibulum nec purus. Sed pretium tortor et sem viverra tristique.
-
-Curabitur in velit eget mauris tincidunt blandit. Aliquam laoreet ut nisi et eleifend. Donec in lectus id augue pellentesque consequat. Aenean non mollis eros. Cras suscipit nisl sapien, in maximus diam facilisis vitae. Aliquam erat volutpat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean iaculis velit at pharetra congue. Aenean a nisl dui. Praesent vitae congue nunc. Nullam sagittis est urna, et dapibus erat hendrerit sit amet. Integer id nulla sed tellus suscipit dictum in cursus tellus. In id dolor ipsum. Proin nec justo quis purus sollicitudin facilisis. Morbi leo orci, ullamcorper laoreet orci non, egestas laoreet metus.
+---

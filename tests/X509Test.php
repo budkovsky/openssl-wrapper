@@ -8,6 +8,7 @@ use Budkovsky\OpenSslWrapper\X509;
 use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Tests\Helper\CsrTestHelper;
 use Budkovsky\OpenSslWrapper\Tests\Helper\X509TestHelper;
+use Budkovsky\OpenSslWrapper\Exception\OpenSSLWrapperException;
 
 class X509Test extends TestCase
 {
@@ -91,7 +92,6 @@ class X509Test extends TestCase
 
     public function testCanCheckPurpose(): void
     {
-        $x509 = X509TestHelper::getX509example();
-
+        throw new OpenSSLWrapperException('Not implemented: '.__METHOD__);
     }
 }

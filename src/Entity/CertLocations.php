@@ -12,7 +12,7 @@ use Budkovsky\OpenSslWrapper\Abstraction\SingletonInterface;
  * CertLocations entity
  * @see https://www.php.net/manual/en/function.openssl-get-cert-locations.php
  */
-final class CertLocations implements SingletonInterface
+class CertLocations implements SingletonInterface
 {
     /** @var string */
     private $defaultCertFile;
