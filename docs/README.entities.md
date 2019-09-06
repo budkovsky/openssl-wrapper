@@ -126,23 +126,89 @@ List of additional properties:
 ---
 
 ## SealResult
+Entity returned by `Wrapper::seal()` function. List of properties:
+- dataLength (int)
+- sealedData (string)
+- envKeys (StringCollection)
+[See more](https://www.php.net/manual/en/function.openssl-sign.php)
 
 ---
 
 ## X509Data
+Container for X509 certificate details data.
+Read-only entity.
+Returned by `X509::getX509Data` method.
+List of properties:
+- name (string)
+- subject (X509Subject)
+- hash (string)
+- issuer (X509Issuer)
+- version (int)
+- serialNumber (string)
+- serialNumberHex (string)
+- validFrom (string)
+- validTo (string)
+- validFromTimeT (int)
+- validToTimeT (int)
+- signatureTypeSN (string)
+- signatureTypeLN (string)
+- signatureTypeNID (int)
+- purposes (X509Purpose)
+- extensions (X509Extensions)
+[See more](https://www.php.net/manual/en/function.openssl-x509-parse.php)
 
 ---
 
 ## X509Extensions
+X509 certificate extensions data.
+Read-only entity.
+Part of `X509Data` entity. List of properties:
+- basicConstraints
+- nsCertType
+- keyUsage
+- extendedKeyUsage
 
 ---
 
 ## X509Issuer
+X509 certificate issuer data.
+Extends `X509Subject` class, ale fields and methods are the same.
 
 ---
 
 ## X509Purposes
+X509 certificate purposes data.
+Read-only entity.
+Part of `X509Data` entity. List of properties:
+- sslClient (bool)
+- sslClientCA (bool)
+- sslServer (bool)
+- sslServerCA (bool)
+- netscapeSslServer (bool)
+- netscapeSslServerCA (bool)
+- smimeSigning (bool)
+- smimeSigningCA (bool)
+- smimeEncryption (bool)
+- smimeEncryptionCA (bool)
+- crlSigning (bool)
+- crlSigningCA (bool)
+- anyPurpose (bool)
+- anyPurposeCA (bool)
+- ocspHelper (bool)
+- ocspHelperCA (bool)
+- timestampSigning (bool)
+- timestampSigningCA (bool)
 
 ---
 
 ## X509Subject
+X509 certificate subject data.
+Read-only entity.
+Part od `X509Data` entity. List of properties:
+- countryName (string)
+- stateOrProvinceName (string)
+- localityName (string)
+- organizationName (string)
+- organizationalUnitName (string)
+- commonName (string)
+- emailAddress (string)

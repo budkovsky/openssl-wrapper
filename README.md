@@ -19,7 +19,7 @@ Optional dependency for unit tests execution is PHPUnit 8. No dependecies for us
 - [CSR class](./docs/README.csr.md)
 - [X509 class](./docs/README.x509.md)
 - [Entities](./docs/README.entities.md)
-- [Enumenrations](./docs/README.enums.md)
+- [Enumerations](./docs/README.enums.md)
 - [Exceptions](./docs/README.exceptions.md)
 - [Collections](./docs/README.collections.md)
 - [Abstraction](./docs/README.abstraction.md)
