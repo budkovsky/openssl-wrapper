@@ -8,7 +8,6 @@ use Budkovsky\OpenSslWrapper\PrivateKey;
 use Budkovsky\OpenSslWrapper\Tests\Helper\KeyTestHelper as KeyHelper;
 use Budkovsky\OpenSslWrapper\PublicKey;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
-;
 
 class PrivateKeyTest extends TestCase
 {

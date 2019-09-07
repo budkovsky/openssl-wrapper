@@ -92,6 +92,7 @@ class X509Test extends TestCase
 
     public function testCanCheckPurpose(): void
     {
+        $this->markTestIncomplete('incomplete test: X509 check purpose');
         throw new OpenSSLWrapperException('Not implemented: '.__METHOD__);
     }
 }
