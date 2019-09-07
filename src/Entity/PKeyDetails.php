@@ -10,7 +10,7 @@ namespace Budkovsky\OpenSslWrapper\Entity;
 use Budkovsky\OpenSslWrapper\Enum\KeyType as KeyTypeEnum;
 
 /**
- * Key details
+ * Key details entity
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
 class PKeyDetails
@@ -24,13 +24,13 @@ class PKeyDetails
      * @var string
      */
     private $key;
-    
+
     /**
      * @see \Budkovsky\OpenSslWrapper\Enum\KeyType
      * @var int
      */
     private $type;
-    
+
     /**
      * The constructor
      * @param array $keyDetails
@@ -41,7 +41,7 @@ class PKeyDetails
         $this->key = $keyDetails['key'];
         $this->type = $keyDetails['type'];
     }
-    
+
     /**
      * @param array $keyDetails
      * @return PKeyDetails
@@ -65,10 +65,10 @@ class PKeyDetails
                 $className = PKeyDetails::class;
                 break;
         }
-        
+
         return new $className($keyDetails);
     }
-    
+
     /**
      * @return int
      */
@@ -76,7 +76,7 @@ class PKeyDetails
     {
         return $this->bits;
     }
-    
+
     /**
      * @return string
      */
@@ -84,7 +84,7 @@ class PKeyDetails
     {
         return $this->key;
     }
-    
+
     /**
      * @return int
      */
@@ -92,7 +92,7 @@ class PKeyDetails
     {
         return $this->type;
     }
-    
+
     /**
      * @return array
      */

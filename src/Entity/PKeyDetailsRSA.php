@@ -8,7 +8,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * RSA key details
+ * RSA key details entity
  * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
  */
 class PKeyDetailsRSA extends PKeyDetails
@@ -17,42 +17,42 @@ class PKeyDetailsRSA extends PKeyDetails
      * @var string
      */
     private $modulus;
-    
+
     /**
      * @var string
      */
     private $publicExponent;
-    
+
     /**
      * @var string
      */
     private $privateExponent;
-    
+
     /**
      * @var string
      */
     private $prime1;
-    
+
     /**
      * @var string
      */
     private $prime2;
-    
+
     /**
      * @var string
      */
     private $exponent1;
-    
+
     /**
      * @var string
      */
     private $exponent2;
-    
+
     /**
      * @var string
      */
     private $coefficient;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -60,7 +60,7 @@ class PKeyDetailsRSA extends PKeyDetails
     {
         parent::__construct($keyDetails);
         $rsaDetails = $keyDetails['rsa'];
-        
+
         $this->modulus = $rsaDetails['n'] ?? null;
         $this->publicExponent = $rsaDetails['e'] ?? null;
         $this->privateExponent = $rsaDetails['d'] ?? null;
@@ -78,7 +78,7 @@ class PKeyDetailsRSA extends PKeyDetails
     {
         return $this->modulus;
     }
-  
+
     /**
      * @return string
      */
@@ -134,7 +134,7 @@ class PKeyDetailsRSA extends PKeyDetails
     {
         return $this->coefficient;
     }
-    
+
     /**
      * {@inheritDoc}
      */

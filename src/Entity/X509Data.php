@@ -8,7 +8,8 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * Container for data of X509Data certificate
+ * X509Data entity
+ * @see https://www.php.net/manual/en/function.openssl-x509-parse.php
  */
 class X509Data
 {
@@ -116,7 +117,7 @@ class X509Data
         $this->purposes = new X509Purposes($x509Data['purposes']) ?? null;
         $this->extensions = new X509Extensions($x509Data['extensions']) ?? null;
     }
-    
+
     /**
      * @return string
      */

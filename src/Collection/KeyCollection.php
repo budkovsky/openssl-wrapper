@@ -8,7 +8,7 @@ use Budkovsky\OpenSslWrapper\Abstraction\KeyInterface;
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 
 /**
- * Collection of KeyAbstract objects
+ * Collection of KeyInterface objects
  */
 class KeyCollection extends CollectionAbstract implements StaticFactoryInterface
 {
@@ -22,7 +22,8 @@ class KeyCollection extends CollectionAbstract implements StaticFactoryInterface
     }
 
     /**
-     @ Static Factory
+     * Static Factory
+     * @param array $collection optional
      * @return KeyCollection
      */
     public static function create(?array $collection = null): KeyCollection

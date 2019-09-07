@@ -5,8 +5,9 @@ namespace Budkovsky\OpenSslWrapper\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\PrivateKey;
-use Budkovsky\OpenSslWrapper\Tests\Helper\Key as KeyHelper;
+use Budkovsky\OpenSslWrapper\Tests\Helper\KeyTestHelper as KeyHelper;
 use Budkovsky\OpenSslWrapper\PublicKey;
+use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 
 class PrivateKeyTest extends TestCase
 {
@@ -14,12 +15,12 @@ class PrivateKeyTest extends TestCase
     {
         $this->assertIsString((new PrivateKey())->export());
     }
-    
+
     public function testCanGenerateNewKeyByStaticFactory(): void
     {
         $this->assertIsString(PrivateKey::create()->export());
     }
-    
+
     public function testCanLoadKeyFromString(): void
     {
         $privateKeyBody = KeyHelper::generateNewPrivateKeyBody();
@@ -32,37 +33,70 @@ class PrivateKeyTest extends TestCase
             $key->export()
         );
     }
-    
+
+    public function testCanExport(): void
+    {
+        $keyBody = PrivateKey::create()->export();
+        $this->assertIsString($keyBody);
+        $this->assertNotEmpty($keyBody);
+        $this->assertEquals(
+            $keyBody,
+            PrivateKey::create()->load($keyBody)->export()
+        );
+    }
+
+    public function testCanExportToFile(): void
+    {
+        $filePath = sprintf(
+            '%s/%s.pem',
+            sys_get_temp_dir(),
+            bin2hex(OpenSSL::getRandomPseudoBytes(16))
+        );
+        $privateKey = PrivateKey::create();
+        $privateKey->exportToFile($filePath);
+        $this->assertFileExists($filePath);
+        $this->assertNotEmpty(file_get_contents($filePath));
+        $this->assertEquals($privateKey->export(), file_get_contents($filePath));
+    }
+
     public function testCanGetPublicKey(): void
     {
         $privateKey = PrivateKey::create();
-        
+
         $this->assertInstanceOf(PublicKey::class, $privateKey->getPublicKey());
     }
-    
+
     public function testCanEncrypt(): void
     {
         $collection = KeyHelper::encryptRandomContent();
         foreach ($collection as $dataSet) {
-            /** @var CryptionDataSet $dataSet */
-            $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $this->assertInstanceOf(PrivateKey::class, $dataSet->getPrivateKey());
             $this->assertEquals(
                 $dataSet->getEncryptedContent(),
-                $dataSet->getKey()->encrypt($dataSet->getRawContent())
+                $dataSet->getPrivateKey()->encrypt($dataSet->getRawContent())
             );
         }
     }
-    
+
     public function testCanDecrypt(): void
     {
         $collection = KeyHelper::encryptRandomContent(true);
         foreach ($collection as $dataSet) {
-            /** @var CryptionDataSet $dataSet */
-            $this->assertInstanceOf(PrivateKey::class, $dataSet->getKey());
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $this->assertInstanceOf(PrivateKey::class, $dataSet->getPrivateKey());
             $this->assertEquals(
                 $dataSet->getRawContent(),
-                $dataSet->getKey()->decrypt($dataSet->getEncryptedContent())
+                $dataSet->getPrivateKey()->decrypt($dataSet->getEncryptedContent())
             );
         }
+    }
+
+    public function testCanSign(): void
+    {
+        $content = bin2hex(OpenSSL::getRandomPseudoBytes(1000));
+        $signature = PrivateKey::create()->sign($content);
+        $this->assertIsString($signature);
+        $this->assertNotEmpty($signature);
     }
 }

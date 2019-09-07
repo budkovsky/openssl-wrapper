@@ -3,46 +3,28 @@ namespace Budkovsky\OpenSslWrapper\Abstraction;
 
 use Budkovsky\OpenSslWrapper\Enum\Padding as PaddingEnum;
 use Budkovsky\OpenSslWrapper\Exception\PaddingException;
-use Budkovsky\OpenSslWrapper\Entity\ConfigArgs;
-use Budkovsky\OpenSslWrapper\Exception\KeyException;
-use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
 use Budkovsky\OpenSslWrapper\Entity\PKeyDetails;
 
+/**
+ * PKey abstract
+ * @see \Budkovsky\OpenSslWrapper\PrivateKey
+ * @see \Budkovsky\OpenSslWrapper\PublicKey
+ */
 abstract class PKeyAbstract implements KeyInterface
 {
     /** @var resource */
     protected $keyResource;
-    
+
+    /**
+     * PKey destructor
+     */
     public function __destruct()
     {
-        openssl_free_key($this->keyResource);
-    }
-    
-    abstract public function load(string $body);
-
-    abstract public static function create();
-    
-    abstract public function export(): string;
-    
-    public function getRaw(): string
-    {
-        return $this->export();
-    }
-    
-    public function exportToFile(string $target, string $passphrase = '', ?ConfigArgs $configArgs = null): PKeyAbstract
-    {
-        $success = openssl_pkey_export_to_file(
-            $this->keyResource,
-            $target,
-            $passphrase,
-            $configArgs ? $configArgs->toArray() : null);
-        if (!$success) {
-            throw new KeyException(OpenSSL::getErrorString());
+        if ($this->keyResource) {
+            openssl_free_key($this->keyResource);
         }
-        
-        return $this;
     }
-    
+
     /**
      * Returns the key details
      * @see https://www.php.net/manual/en/function.openssl-pkey-get-details.php
@@ -53,6 +35,13 @@ abstract class PKeyAbstract implements KeyInterface
         return PKeyDetails::factory(openssl_pkey_get_details($this->keyResource));
     }
 
+    /**
+     * Decrypt data using PKey
+     * @param string $data
+     * @param int $padding
+     * @throws PaddingException
+     * @return string
+     */
     public function decrypt(string $data, int $padding = PaddingEnum::PKCS1_PADDING): string
     {
         if (!PaddingEnum::isValid($padding)) {
@@ -62,10 +51,17 @@ abstract class PKeyAbstract implements KeyInterface
                 implode('`, `', PaddingEnum::getAll())
             ));
         }
-        
+
         return $this->executeDecryption($data, $padding);
     }
-    
+
+    /**
+     * Encrypt data using PKey
+     * @param string $data
+     * @param int $padding
+     * @throws PaddingException
+     * @return string|NULL
+     */
     public function encrypt(string $data, int $padding = PaddingEnum::PKCS1_PADDING): ?string
     {
         if (!PaddingEnum::isValid($padding)) {
@@ -75,11 +71,32 @@ abstract class PKeyAbstract implements KeyInterface
                 implode('`, `', PaddingEnum::getAll())
                 ));
         }
-        
+
         return $this->executeEncryption($data, $padding);
     }
-   
+
+    /**
+     * Execute decryption using PKey
+     * @param string $data
+     * @param int $padding
+     * @return string|NULL
+     */
     abstract protected function executeDecryption(string $data, int $padding): ?string;
-    
+
+    /**
+     * Execute encryption using PKey
+     * @param string $data
+     * @param int $padding
+     * @return string|NULL
+     */
     abstract protected function executeEncryption(string $data, int $padding): ?string;
+
+    /**
+     * Casts PKey object to a string
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->export();
+    }
 }

@@ -7,17 +7,17 @@ use Budkovsky\OpenSslWrapper\Collection\StringCollection;
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
 
 /**
- * OpenSSL Seal result data container
+ * OpenSSL SealResult entity
  * @see https://www.php.net/manual/en/function.openssl-seal.php
  */
 class SealResult implements StaticFactoryInterface
 {
     /** @var int */
     private $dataLength;
-    
+
     /** @var string */
     private $sealedData;
-    
+
     /** @var StringCollection */
     private $envKeys;
 
@@ -29,7 +29,7 @@ class SealResult implements StaticFactoryInterface
     {
         $this->envKeys = new StringCollection();
     }
-    
+
     /**
      * Static Factory
      * @return SealResult
@@ -38,7 +38,7 @@ class SealResult implements StaticFactoryInterface
     {
         return new static();
     }
-    
+
     /**
      * @return int
      */
@@ -54,7 +54,7 @@ class SealResult implements StaticFactoryInterface
     public function setDataLength(int $dataLength): SealResult
     {
         $this->dataLength = $dataLength;
-        
+
         return $this;
     }
 
@@ -73,7 +73,7 @@ class SealResult implements StaticFactoryInterface
     public function setSealedData(string $sealedData): SealResult
     {
         $this->sealedData = $sealedData;
-        
+
         return $this;
     }
 
@@ -92,7 +92,7 @@ class SealResult implements StaticFactoryInterface
     public function setEnvKeys(StringCollection $stringCollection): SealResult
     {
         $this->envKeys = $stringCollection;
-        
+
         return $this;
     }
 }

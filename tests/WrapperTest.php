@@ -5,8 +5,10 @@ namespace Budkovsky\OpenSslWrapper\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
-use Budkovsky\OpenSslWrapper\Tests\Helper\Methods as MethodsHelper;
+use Budkovsky\OpenSslWrapper\Tests\Helper\MethodTestHelper as MethodsHelper;
 use Budkovsky\OpenSslWrapper\Exception\OpenSSLWrapperException;
+use Budkovsky\OpenSslWrapper\Entity\SealResult;
+use Budkovsky\OpenSslWrapper\Tests\Helper\WrapperTestHelper;
 
 final class WrapperTest extends TestCase
 {
@@ -19,7 +21,7 @@ final class WrapperTest extends TestCase
             $this->assertContains($method, openssl_get_md_methods(true));
         }
     }
-    
+
     public function testCanGetCipherMethods(): void
     {
         $methodList = OpenSSL::getCipherMethods(true);
@@ -29,7 +31,7 @@ final class WrapperTest extends TestCase
             $this->assertContains($method, openssl_get_cipher_methods(true));
         }
     }
-    
+
     public function testCanGetCurveNames(): void
     {
         $list = OpenSSL::getCurveNames();
@@ -39,7 +41,7 @@ final class WrapperTest extends TestCase
             $this->assertContains($curveName, openssl_get_curve_names());
         }
     }
-    
+
     public function testCanGetCipherIvLength(): void
     {
         foreach (OpenSSL::getCipherMethods(true) as $method) {
@@ -52,7 +54,7 @@ final class WrapperTest extends TestCase
         $this->expectException(OpenSSLWrapperException::class);
         OpenSSL::cipherIvLength('ABCD');
     }
-    
+
     public function testCanValidateDigestMethod(): void
     {
         for ($i=0; $i<1000; $i++) {
@@ -66,7 +68,7 @@ final class WrapperTest extends TestCase
             );
         }
     }
-    
+
     public function testCanValidateCipherMethod(): void
     {
         for ($i=0; $i<1000; $i++) {
@@ -80,7 +82,7 @@ final class WrapperTest extends TestCase
             );
         }
     }
-    
+
     public function testCanGetCertLocations(): void
     {
         $certLocations = openssl_get_cert_locations();
@@ -117,7 +119,7 @@ final class WrapperTest extends TestCase
             OpenSSL::getCertLocations()->getIniCAPath()
         );
     }
-    
+
     public function testCanGetRandomPseudoBytes(): void
     {
         $collection = [];
@@ -125,15 +127,15 @@ final class WrapperTest extends TestCase
             $pseudoBytes1 = OpenSSL::getRandomPseudoBytes($length);
             $pseudoBytes2 = OpenSSL::getRandomPseudoBytes($length);
             $pseudoBytes3 = OpenSSL::getRandomPseudoBytes($length);
-            
+
             $this->assertTrue(is_string($pseudoBytes1));
             $this->assertTrue(is_string($pseudoBytes2));
             $this->assertTrue(is_string($pseudoBytes3));
-            
+
             $this->assertEquals($length, strlen($pseudoBytes1));
             $this->assertEquals($length, strlen($pseudoBytes2));
             $this->assertEquals($length, strlen($pseudoBytes3));
-            
+
             if ($this->assertNotContains($pseudoBytes1, $collection)) {
                 $collection[] = $pseudoBytes1;
             }
@@ -145,7 +147,7 @@ final class WrapperTest extends TestCase
             }
         }
     }
-    
+
     public function testCanComputeDigest(): void
     {
         foreach (OpenSSL::getDigestMethods(true) as $method) {
@@ -160,17 +162,116 @@ final class WrapperTest extends TestCase
             );
         }
     }
-    
+
     /** @see https://stackoverflow.com/questions/41952509/openssl-encrypt-returns-false */
     public function testCanGetErrorString(): void
     {
         //it should generate openssl error
-        openssl_encrypt('1234', 'AES-256-CBC', 'kGJeGF2hEQ', OPENSSL_ZERO_PADDING, '1234123412341234');
-        
+        openssl_encrypt('1234', 'aes-128-cbc', 'kGJeGF2hEQ', OPENSSL_ZERO_PADDING, '1234123412341234');
+
         $errorString = OpenSSL::getErrorString();
-        
+
         $this->assertNotFalse($errorString);
         $this->assertIsString($errorString);
         $this->assertNotEmpty($errorString);
+    }
+
+    public function testCanSeal(): void
+    {
+        $dataSet = WrapperTestHelper::getSealDataSet();
+        $this->assertInstanceOf(SealResult::class, $dataSet->getSealResult());
+        $this->assertGreaterThan(0, $dataSet->getSealResult()->getDataLength());
+        $this->assertIsString($dataSet->getSealResult()->getSealedData());
+        $this->assertNotEmpty($dataSet->getSealResult()->getSealedData());
+        $this->assertGreaterThan(0, $dataSet->getSealResult()->getEnvKeys()->count());
+    }
+
+    public function testCanOpenSealedData(): void
+    {
+        $dataSet = WrapperTestHelper::getSealDataSet();
+        foreach ($dataSet->getPrivateKeyCollction() as $index => $privateKey) {
+            $openData = OpenSSL::unseal(
+                $dataSet->getSealResult()->getSealedData(),
+                $dataSet->getSealResult()->getEnvKeys()->toArray()[$index],
+                $privateKey,
+                null,
+                $dataSet->getMethod()
+            );
+            $this->assertIsString($openData);
+            $this->assertNotEmpty($openData);
+            $this->assertEquals($dataSet->getData(), $openData);
+        }
+    }
+
+    public function testCanEncryptByPublicKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(true);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $encryptedContent = OpenSSL::encrypt(
+                $dataSet->getRawContent(),
+                $dataSet->getMethod(),
+                $dataSet->getPrivateKey()->getPublicKey(),
+                $dataSet->getIv()
+            );
+            $this->assertIsString($encryptedContent);
+            $this->assertNotEmpty($encryptedContent);
+            $this->assertEquals($dataSet->getEncryptedContent(), $encryptedContent);
+            $this->assertNotEquals($dataSet->getRawContent(), $encryptedContent);
+        }
+    }
+
+    public function testCanEncryptByPrivateKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(false);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $encryptedContent = OpenSSL::encrypt(
+                $dataSet->getRawContent(),
+                $dataSet->getMethod(),
+                $dataSet->getPrivateKey(),
+                $dataSet->getIv()
+            );
+            $this->assertIsString($encryptedContent);
+            $this->assertNotEmpty($encryptedContent);
+            $this->assertEquals($dataSet->getEncryptedContent(), $encryptedContent);
+            $this->assertNotEquals($dataSet->getRawContent(), $encryptedContent);
+        }
+    }
+
+    public function testCanDecryptByPrivateKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(false, 1);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $decryptedContent = OpenSSL::decrypt(
+                $dataSet->getEncryptedContent(),
+                $dataSet->getMethod(),
+                $dataSet->getPrivateKey(),
+                $dataSet->getIv()
+            );
+            $this->assertIsString($decryptedContent);
+            $this->assertNotEmpty($decryptedContent);
+            $this->assertEquals($dataSet->getRawContent(), $decryptedContent);
+            $this->assertNotEquals($dataSet->getEncryptedContent(), $decryptedContent);
+        }
+    }
+
+    public function testCanDecryptByPublicKey(): void
+    {
+        $collection = WrapperTestHelper::encryptRandomContent(true, 1);
+        foreach ($collection as $dataSet) {
+            /** @var \Budkovsky\OpenSslWrapper\Tests\Entity\CryptionDataSet $dataSet */
+            $decryptedContent = OpenSSL::decrypt(
+                $dataSet->getEncryptedContent(),
+                $dataSet->getMethod(),
+                $dataSet->getPrivateKey()->getPublicKey(),
+                $dataSet->getIv()
+                );
+            $this->assertIsString($decryptedContent);
+            $this->assertNotEmpty($decryptedContent);
+            $this->assertEquals($dataSet->getRawContent(), $decryptedContent);
+            $this->assertNotEquals($dataSet->getEncryptedContent(), $decryptedContent);
+        }
     }
 }

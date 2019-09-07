@@ -4,20 +4,24 @@ namespace Budkovsky\OpenSslWrapper;
 use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
 use Budkovsky\OpenSslWrapper\Exception\KeyException;
 use Budkovsky\OpenSslWrapper\Wrapper as OpenSSL;
+use Budkovsky\OpenSslWrapper\Enum\SignatureAlgorithm;
 
 /**
  * Public key
- * TODO unit tests
  */
 class PublicKey extends PKeyAbstract
 {
+    /**
+     * PublicKey constructor
+     * @param string $body
+     */
     public function __construct(?string $body = null)
     {
         if ($body) {
             $this->load($body);
         }
     }
-    
+
     /**
      * Static factory
      * @param string $body
@@ -34,54 +38,68 @@ class PublicKey extends PKeyAbstract
             throw new KeyException(OpenSSL::getErrorString());
         }
         $this->keyResource = $resource;
-        
+
         return $this;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     * TODO unit tests
+     */
     public function export(): string
     {
         return $this->getDetails()->getKey();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    public function exportToFile(string $filePath): PublicKey
+    {
+        if (!file_put_contents($filePath,$this->export())) {
+            throw new KeyException("Error while exporting public to file: `$filePath`");
+        }
+
+        return $this;
+    }
+
     /**
      * Verify signature
      * @see https://www.php.net/manual/en/function.openssl-verify.php
-     * @param string $data
+     * @param string $content
      * @param string $signature
      * @param string $signatureAlgorithm
      * @throws KeyException
      * @return int
      */
-    public function verify(string $data, string $signature, string $signatureAlgorithm = 'sha1'): int
+    public function verify(string $content, string $signature, int $signatureAlgorithm = SignatureAlgorithm::SHA1): int
     {
-        if (!in_array($signatureAlgorithm, OpenSSL::getMessageDigestMethods(true))) {
+        if (!SignatureAlgorithm::isValid($signatureAlgorithm)) {
             throw new KeyException("Invalid method digest parameter: `$signatureAlgorithm`");
         }
-        
-        return openssl_verify($data, $signature, $this->keyResource, $signatureAlgorithm);
+
+        return openssl_verify($content, $signature, $this->keyResource, $signatureAlgorithm);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function executeEncryption(string $data, int $padding): ?string
     {
         $crypted = null;
         $success = openssl_public_encrypt($data, $crypted, $this->keyResource, $padding);
-        
+
         return $success ? $crypted : null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function executeDecryption(string $data, int $padding): ?string
     {
         $decrypted = null;
         $success = openssl_public_decrypt($data, $decrypted, $this->keyResource, $padding);
-        
+
         return $success ? $decrypted : null;
-    }
-    
-    /**
-     * @return string Return key body in PEM format
-     */
-    public function __toString(): string
-    {
-        return $this->export();
     }
 }

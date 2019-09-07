@@ -8,7 +8,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Entity;
 
 /**
- * Container for X509 certificate's extensions
+ * X509Extensions entity
  */
 class X509Extensions
 {
@@ -31,7 +31,7 @@ class X509Extensions
      * @var string
      */
     protected $extendedKeyUsage;
-    
+
     /**
      * The constructor
      * @param array $xtensions Extensions subarray from openssl_x509_parse() result

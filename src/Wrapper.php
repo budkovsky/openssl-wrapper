@@ -25,7 +25,7 @@ class Wrapper
     use StaticClassTrait;
 
     /**
-     * Gets the cipher iv length  for given method
+     * Gets the cipher iv length for given method
      * @see https://www.php.net/manual/en/function.openssl-cipher-iv-length.php
      * @param string $method
      * @return int
@@ -58,25 +58,32 @@ class Wrapper
     }
 
     /**
-     * TODO unit tests
+     * Symetric data decryption
      * @see https://www.php.net/manual/en/function.openssl-decrypt.php
      */
     public static function decrypt(
         string $data,
         string $method,
         KeyInterface $key,
+        string $iv,
         int $options = 0,
-        string $iv = '',
-        string $tag = '',
-        string $aditionalAuthenticationData = ''
+        ?string $tag = null,
+        ?string $additionalAuthenticationData = null
     ): ?string {
-        //TODO validation
-        return openssl_decrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData) ?? null;
+        $params = [$data, $method, $key->export(), $options, $iv];
+        if ($tag) {
+            $params[] = $tag;
+        }
+        if ($additionalAuthenticationData) {
+            $params[] = $additionalAuthenticationData;
+        }
+        $result = call_user_func_array('openssl_decrypt', $params) ?? null;
+
+        return $result !== false ? $result : null;
     }
 
     /**
-     * Encrypts data
-     * TODO unit tests
+     * Symetric data encryption
      * @see https://www.php.net/manual/en/function.openssl-decrypt.php
      * @param string $data
      * @param string $method
@@ -92,19 +99,29 @@ class Wrapper
         string $data,
         string $method,
         KeyInterface $key,
+        string $iv,
         int $options = 0,
-        string $iv = '',
-        string $tag = '',
-        string $aditionalAuthenticationData = '',
+        ?string $tag = null,
+        string $additionalAuthenticationData = '',
         int $tagLength = 16
     ): ?string {
         //TODO implentation & validation
-        return openssl_encrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData, $tagLength) ?? null;
+        //return openssl_encrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData, $tagLength) ?? null;
+
+        $params = [$data, $method, $key, $options, $iv];
+
+        if ($tag) {
+            $params[] = $tag;
+            $params[] = $additionalAuthenticationData;
+            $params[] = $tagLength;
+        }
+        $result = call_user_func_array('openssl_encrypt', $params);
+
+        return $result !== false ? $result : null;
     }
 
     /**
      * Return openSSL error message
-     * TODO unit tests
      * @see https://www.php.net/manual/en/function.openssl-error-string.php
      * @return string
      */
@@ -189,14 +206,13 @@ class Wrapper
     /**
      * Seal (encrypt) data
      * @see https://www.php.net/manual/en/function.openssl-seal.php
-     * TODO unit tests
      * @param string $data
      * @param PublicKeyCollection $publicKeyCollection
      * @param string $method
      * @param string $iv
      * @return SealResult|NULL Returns SealResult on success or NULL on error
      */
-    public function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
+    public static function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
     {
         if (!static::isCipherMethodValid($method)) {
             throw new OpenSSLWrapperException("Invalid cipher method: `$method`");
@@ -204,7 +220,7 @@ class Wrapper
 
         $sealedData = null;
         $envKeys = null;
-        $sealedDataLength = openssl_seal($data, $sealedData, $envKeys, $publicKeys, $method, $iv);
+        $sealedDataLength = openssl_seal($data, $sealedData, $envKeys, $publicKeys->toArray(), $method, $iv);
 
         return $sealedDataLength === false ? null :
             SealResult::create()
@@ -217,7 +233,6 @@ class Wrapper
     /**
      * Opens sealed data
      * @see https://www.php.net/manual/en/function.openssl-open.php
-     * TODO unit tests
      * @param string $sealedData
      * @param string $envKey
      * @param PrivateKey $privateKey
@@ -226,7 +241,7 @@ class Wrapper
      * @param string $iv
      * @return string|NULL
      */
-    public function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = null): ?string
+    public static function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = ''): ?string
     {
         $openData = null;
 

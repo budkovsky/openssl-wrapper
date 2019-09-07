@@ -3,10 +3,17 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Abstraction;
 
+/**
+ * Abstract collection
+ */
 abstract class CollectionAbstract implements CollectionInterface
 {
+    /**
+     * Collection's container
+     * @var array
+     */
     protected $collection = [];
-    
+
     /**
      * {@inheritDoc}
      * @see \IteratorAggregate::getIterator()
@@ -28,15 +35,22 @@ abstract class CollectionAbstract implements CollectionInterface
     }
 
     /**
-     * Sets whole collection, replaces old one, if exists
      * {@inheritDoc}
      */
     public function set(array $collection)
     {
         $this->collection = [];
-        
+
         foreach ($collection as $item) {
             $this->add($item);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray(): array
+    {
+        return $this->collection;
     }
 }

@@ -1,9 +1,4 @@
 <?php
-/**
- * 2019 Budkovsky
- * @see https://www.php.net/manual/en/openssl.certparams.php
- * @see https://www.php.net/manual/en/ref.openssl.php
- */
 declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper;
@@ -24,17 +19,29 @@ class Csr implements StaticFactoryInterface
     public function __construct(
         PrivateKey $privateKey,
         ?CsrSubject $subject = null,
-        ?string $passphrase = null,
         ?ConfigArgs $configArgs = null,
         ?array $extraAttribs = null
     ) {
-        $privateKeyBody = $privateKey->export($passphrase); //must be set to variable for passing by reference
-        $this->csrResource = openssl_csr_new(
+        $keyResource = openssl_pkey_get_private($privateKey->export());
+
+        $params = [
             $subject ? $subject->toArray() : [],
-            $privateKeyBody,
-            $configArgs ? $configArgs->toArray() : null,
-            $extraAttribs
-        );
+            &$keyResource
+        ];
+        if ($configArgs) {
+            $params[] = $configArgs->toArray();
+        }
+        if ($extraAttribs) {
+            $params [] = $extraAttribs;
+        }
+
+        $this->csrResource = call_user_func_array('openssl_csr_new', $params);
+//         $this->csrResource = openssl_csr_new(
+//             $subject ? $subject->toArray() : [],
+//             $privateKeyBody,
+//             $configArgs ? $configArgs->toArray() : null,
+//             $extraAttribs
+//         );
     }
 
     /**
@@ -44,11 +51,10 @@ class Csr implements StaticFactoryInterface
     public static function create(
         PrivateKey $privateKey = null,
         ?CsrSubject $subject = null,
-        ?string $passphrase = null,
         ?ConfigArgs $configArgs = null,
         ?array $extraAttribs = null): Csr
     {
-        return new static($privateKey, $subject, $passphrase, $configArgs, $extraAttribs);
+        return new static($privateKey, $subject, $configArgs, $extraAttribs);
     }
 
     /**
@@ -105,8 +111,7 @@ class Csr implements StaticFactoryInterface
         PrivateKey $privateKey,
         int $days = 365,
         KeyInterface $caCert = null,
-        ?ConfigArgs
-        $configArgs = null,
+        ?ConfigArgs $configArgs = null,
     $serial = 0): X509 {
         return X509::create(
             $this, $privateKey, $days, $caCert, $configArgs, $serial

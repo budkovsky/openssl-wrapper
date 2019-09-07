@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Budkovsky\OpenSslWrapper\Tests\Entity;
 
 use Budkovsky\OpenSslWrapper\Abstraction\StaticFactoryInterface;
-use Budkovsky\OpenSslWrapper\Abstraction\PKeyAbstract;
+use Budkovsky\OpenSslWrapper\PrivateKey;
 
 class CryptionDataSet implements StaticFactoryInterface
 {
@@ -13,10 +13,16 @@ class CryptionDataSet implements StaticFactoryInterface
 
     /** @var string */
     private $encryptedContent;
-    
-    /** @var PKeyAbstract */
-    private $key;
-    
+
+    /** @var PrivateKey */
+    private $privateKey;
+
+    /** @var string */
+    private $method;
+
+    /** @var string */
+    private $iv;
+
     /**
      * @return string
      */
@@ -24,7 +30,7 @@ class CryptionDataSet implements StaticFactoryInterface
     {
         return $this->rawContent;
     }
-    
+
     /**
      * @param string $rawContent
      * @return CryptionDataSet
@@ -32,7 +38,7 @@ class CryptionDataSet implements StaticFactoryInterface
     public function setRawContent(string $rawContent): CryptionDataSet
     {
         $this->rawContent = $rawContent;
-        
+
         return $this;
     }
 
@@ -51,31 +57,53 @@ class CryptionDataSet implements StaticFactoryInterface
     public function setEncryptedContent(string $encryptedContent): CryptionDataSet
     {
         $this->encryptedContent = $encryptedContent;
-        
-        return $this;
-    }
-    
-    /**
-     * @return PKeyAbstract
-     */
-    public function getKey(): PKeyAbstract
-    {
-        return $this->key;
-    }
-    
-    /**
-     * @param PKeyAbstract $key
-     * @return CryptionDataSet
-     */
-    public function setKey(PKeyAbstract $key): CryptionDataSet
-    {
-        $this->key = $key;
-        
+
         return $this;
     }
 
-  
-    
+    /**
+     * @return PrivateKey
+     */
+    public function getPrivateKey(): PrivateKey
+    {
+        return $this->privateKey;
+    }
+
+    /**
+     * @param PrivateKey $privateKey
+     * @return CryptionDataSet
+     */
+    public function setPrivateKey(PrivateKey $privateKey): CryptionDataSet
+    {
+        $this->privateKey = $privateKey;
+
+        return $this;
+    }
+
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
+
+    public function setMethod(string $method): CryptionDataSet
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    public function getIv(): string
+    {
+        return $this->iv;
+    }
+
+    public function setIv(string $iv): CryptionDataSet
+    {
+        $this->iv = $iv;
+
+        return $this;
+    }
+
     /**
      * Static Factory
      * @return CryptionDataSet
@@ -84,5 +112,4 @@ class CryptionDataSet implements StaticFactoryInterface
     {
         return new static();
     }
-
 }
