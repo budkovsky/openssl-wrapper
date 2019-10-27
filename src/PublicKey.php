@@ -72,10 +72,10 @@ class PublicKey extends PKeyAbstract
      * @throws KeyException
      * @return int
      */
-    public function verify(string $content, string $signature, int $signatureAlgorithm = SignatureAlgorithm::SHA1): int
+    public function verify(string $content, string $signature, string $signatureAlgorithm = SignatureAlgorithm::RSA_SHA256): int
     {
         if (!SignatureAlgorithm::isValid($signatureAlgorithm)) {
-            throw new KeyException("Invalid method digest parameter: `$signatureAlgorithm`");
+            throw new KeyException("Invalid algoritm to verify signature: `$signatureAlgorithm`");
         }
 
         return openssl_verify($content, $signature, $this->keyResource, $signatureAlgorithm);

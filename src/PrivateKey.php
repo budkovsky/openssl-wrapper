@@ -117,10 +117,10 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
      * @param int $signatureAlgorithm
      * @return string|NULL
      */
-    public function sign(string $content, int $signatureAlgorithm = SignatureAlgorithm::SHA1): ?string
+    public function sign(string $content, string $signatureAlgorithm = SignatureAlgorithm::RSA_SHA256): ?string
     {
         if (!SignatureAlgorithm::isValid($signatureAlgorithm)) {
-            throw new KeyException("Invalid algorithm for verify signature: `$signatureAlgorithm`");
+            throw new KeyException("Invalid algorithm for signature: `$signatureAlgorithm`");
         }
         $signature = null;
         openssl_sign($content, $signature, $this->keyResource, $signatureAlgorithm);
