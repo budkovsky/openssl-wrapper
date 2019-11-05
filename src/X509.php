@@ -118,40 +118,6 @@ class X509 implements KeyInterface
     }
 
     /**
-     * Exports a PKCS#12 Compatible Certificate Store File
-     * @see https://www.php.net/manual/en/function.openssl-pkcs12-export-to-file.php
-     * @param string $filename
-     * @param PrivateKey $privateKey
-     * @param string $password
-     * @param array $args
-     * @return X509|NULL
-     */
-    public function exportToPkcs12File(string $filename, PrivateKey $privateKey, string $password, array $args = []): ?X509
-    {
-        //TODO implementation
-        //TODO $args to object?
-        return openssl_pkcs12_export_to_file($this->x509Resource, $filename, $privateKey->export(), $password, $args) ? $this : null;
-    }
-
-    /**
-     * Exports a PKCS#12 Compatible Certificate Store File to variable
-     * @see https://www.php.net/manual/en/function.openssl-pkcs12-export.php
-     * @param PrivateKey $privateKey
-     * @param string $password
-     * @param array $args
-     * @return string|NULL
-     */
-    public function exportToPkcs12(PrivateKey $privateKey, string $password, array $args=[]): ?string
-    {
-        //TODO implementation
-        //TODO args to object?
-        $output = null;
-        $success = openssl_pkcs12_export($this->x509Resource, $output, $privateKey->getRaw(), $password, $args);
-
-        return $success ? $output : null;
-    }
-
-    /**
      * Exports a certificate as a string
      * @see https://www.php.net/manual/en/function.openssl-x509-export.php
      * {@inheritDoc}

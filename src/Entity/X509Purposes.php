@@ -122,42 +122,52 @@ class X509Purposes
     protected function setPurpose(string $name, bool $isGeneral, bool $isCA): void
     {
         switch($name) {
+
             case 'sslclient':
                 $this->sslClient = $isGeneral;
                 $this->sslClientCA = $isCA;
                 break;
+
             case 'sslserver':
                 $this->sslServer = $isGeneral;
                 $this->sslServerCA = $isCA;
                 break;
+
             case 'nssslserver':
                 $this->netscapeSslServer = $isGeneral;
                 $this->netscapeSslServerCA = $isCA;
                 break;
+
             case 'smimesign':
                 $this->smimeSigning = $isGeneral;
                 $this->smimeSigningCA = $isCA;
                 break;
+
             case 'smimeencrypt':
                 $this->smimeEncryption = $isGeneral;
                 $this->smimeEncryptionCA = $isCA;
                 break;
+
             case 'crlsign':
                 $this->crlSigning = $isGeneral;
                 $this->crlSigningCA = $isCA;
                 break;
+
             case 'any':
                 $this->anyPurpose = $isGeneral;
                 $this->anyPurposeCA = $isCA;
                 break;
+
             case 'ocsphelper':
                 $this->ocspHelper = $isGeneral;
                 $this->ocspHelperCA = $isCA;
                 break;
+
             case 'timestampsign':
                 $this->timestampSigning = $isGeneral;
                 $this->timestampSigningCA = $isCA;
                 break;
+
             default:
                 break;
         }

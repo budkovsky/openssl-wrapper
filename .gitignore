@@ -3,3 +3,7 @@
 /.settings/
 /vendor/
 /.vscode/
+
+/tmp/*
+
+

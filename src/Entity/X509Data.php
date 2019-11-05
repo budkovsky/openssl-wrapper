@@ -14,6 +14,11 @@ namespace Budkovsky\OpenSslWrapper\Entity;
 class X509Data
 {
     /**
+     * @var array
+     */
+    protected $raw;
+
+    /**
      * @var string
      */
     protected $name;
@@ -100,6 +105,7 @@ class X509Data
      */
     public  function __construct(array $x509Data)
     {
+        $this->raw = $x509Data;
         $this->name = $x509Data['name'] ?? null;
         $this->subject = new X509Subject($x509Data['subject']) ?? null;
         $this->hash = $x509Data['hash'] ?? null;
@@ -116,6 +122,14 @@ class X509Data
         $this->signatureTypeNID = $x509Data['signatureTypeNID'] ?? null;
         $this->purposes = new X509Purposes($x509Data['purposes']) ?? null;
         $this->extensions = new X509Extensions($x509Data['extensions']) ?? null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRaw():array
+    {
+        return $this->raw;
     }
 
     /**
