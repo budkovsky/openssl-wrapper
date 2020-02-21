@@ -106,8 +106,6 @@ class Wrapper
         int $tagLength = 16
     ): ?string {
         //TODO implentation & validation
-        //return openssl_encrypt($data, $method, $key->export(), $options, $iv, $tag, $aditionalAuthenticationData, $tagLength) ?? null;
-
         $params = [$data, $method, $key, $options, $iv];
 
         if ($tag) {
@@ -212,8 +210,12 @@ class Wrapper
      * @param string $iv
      * @return SealResult|NULL Returns SealResult on success or NULL on error
      */
-    public static function seal(string $data, PublicKeyCollection $publicKeys, string $method = 'RC4', ?string $iv = null): ?SealResult
-    {
+    public static function seal(
+        string $data,
+        PublicKeyCollection $publicKeys,
+        string $method = 'RC4',
+        ?string $iv = null
+    ): ?SealResult {
         if (!static::isCipherMethodValid($method)) {
             throw new OpenSSLWrapperException("Invalid cipher method: `$method`");
         }
@@ -241,10 +243,23 @@ class Wrapper
      * @param string $iv
      * @return string|NULL
      */
-    public static function unseal(string $sealedData, string $envKey, PrivateKey $privateKey, string $passphrase = null, string $method = 'RC4', string $iv = ''): ?string
-    {
+    public static function unseal(
+        string $sealedData,
+        string $envKey,
+        PrivateKey $privateKey,
+        string $passphrase = null,
+        string $method = 'RC4',
+        string $iv = ''
+    ): ?string {
         $openData = null;
 
-        return openssl_open($sealedData, $openData, $envKey, $privateKey->export($passphrase), $method, $iv) ? $openData : null;
+        return openssl_open(
+            $sealedData,
+            $openData,
+            $envKey,
+            $privateKey->export($passphrase),
+            $method,
+            $iv
+        ) ? $openData : null;
     }
 }

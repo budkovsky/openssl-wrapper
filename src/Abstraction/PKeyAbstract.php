@@ -69,7 +69,7 @@ abstract class PKeyAbstract implements KeyInterface
                 "Invalid OpenSSL padding parameter for encryption: `%s`. Valid values are: `%s`",
                 $padding,
                 implode('`, `', PaddingEnum::getAll())
-                ));
+            ));
         }
 
         return $this->executeEncryption($data, $padding);

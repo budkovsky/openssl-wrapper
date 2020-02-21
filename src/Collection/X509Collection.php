@@ -27,4 +27,3 @@ class X509Collection extends CollectionAbstract
         return $result;
     }
 }
-

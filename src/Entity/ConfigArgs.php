@@ -49,7 +49,6 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
             $this->curveName = $configArgs['curve_name'] ?? null;
             $this->config = $configArgs['config'] ?? null;
     }
-
     public function getDigestAlg(): string
     {
         return $this->digestAlg;
@@ -58,7 +57,6 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     public function setDigestAlg(string $digestAlg): ConfigArgs
     {
         $this->digestAlg = $digestAlg;
-
         return $this;
     }
 
@@ -70,7 +68,6 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     public function setX509Extensions(string $x509Extensions): ConfigArgs
     {
         $this->x509Extensions = $x509Extensions;
-
         return $this;
     }
 
@@ -82,8 +79,7 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     public function setReqExtensions(string $reqExtensions): ConfigArgs
     {
         $this->reqExtensions = $reqExtensions;
-
-        return $this;
+            return $this;
     }
 
     public function getPrivateKeyBits(): int
@@ -94,8 +90,7 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     public function setPrivateKeyBits(int $privateKeyBits): ConfigArgs
     {
         $this->privateKeyBits = $privateKeyBits;
-
-        return $this;
+            return $this;
     }
 
     public function getPrivateKeyType(): int
@@ -106,8 +101,7 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     public function setPrivateKeyType(int $privateKeyType): ConfigArgs
     {
         $this->privateKeyType = $privateKeyType; //TODO validate
-
-        return $this;
+           return $this;
     }
 
     public function isEncryptKey(): bool
@@ -118,8 +112,7 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     public function setEncryptKey(bool $encryptKey): ConfigArgs
     {
         $this->encryptKey = $encryptKey;
-
-        return $this;
+              return $this;
     }
 
     public function getEncryptKeyCipher(): int
@@ -130,21 +123,18 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     public function setEncryptKeyCipher(int $encryptKeyCipher): ConfigArgs
     {
         $this->encryptKeyCipher = $encryptKeyCipher;
-
-        return $this;
+           return $this;
     }
 
     public function getCurveName(): string
     {
         return $this->curveName;
     }
-
     /** @see https://www.php.net/manual/en/function.openssl-get-curve-names.php */
     public function setCurveName(string $curveName): ConfigArgs
     {
         $this->curveName = $curveName; //TODO validation
-
-        return $this;
+               return $this;
     }
 
     public function getConfig(): string
@@ -178,5 +168,4 @@ class ConfigArgs implements Arrayable, StaticFactoryInterface
     {
         return new static($configArgs);
     }
-
 }

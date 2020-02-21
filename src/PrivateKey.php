@@ -75,7 +75,7 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
             $output,
             $this->passphrase,
             $configArgs ? $configArgs->toArray() : null
-            );
+        );
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());
         }
@@ -92,7 +92,8 @@ class PrivateKey extends PKeyAbstract implements StaticFactoryInterface
             $this->keyResource,
             $filePath,
             $this->passphrase,
-            $configArgs ? $configArgs->toArray() : null);
+            $configArgs ? $configArgs->toArray() : null
+        );
         if (!$success) {
             throw new KeyException(OpenSSL::getErrorString());
         }

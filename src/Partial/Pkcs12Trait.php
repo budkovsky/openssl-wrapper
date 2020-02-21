@@ -56,4 +56,3 @@ trait Pkcs12Trait
         return $this;
     }
 }
-

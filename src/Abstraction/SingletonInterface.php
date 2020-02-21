@@ -15,4 +15,3 @@ interface SingletonInterface
      */
     public static function getInstance();
 }
-

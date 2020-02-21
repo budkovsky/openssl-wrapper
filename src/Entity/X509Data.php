@@ -103,7 +103,7 @@ class X509Data
      * The constructor
      * @param array $x509Data Result of openssl_x509_parse()
      */
-    public  function __construct(array $x509Data)
+    public function __construct(array $x509Data)
     {
         $this->raw = $x509Data;
         $this->name = $x509Data['name'] ?? null;

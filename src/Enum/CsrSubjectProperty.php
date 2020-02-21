@@ -78,6 +78,4 @@ abstract class CsrSubjectProperty extends EnumAbstract
     {
         return in_array($item, self::getAll($shortNames));
     }
-
 }
-

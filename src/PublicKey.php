@@ -56,7 +56,7 @@ class PublicKey extends PKeyAbstract
      */
     public function exportToFile(string $filePath): PublicKey
     {
-        if (!file_put_contents($filePath,$this->export())) {
+        if (!file_put_contents($filePath, $this->export())) {
             throw new KeyException("Error while exporting public to file: `$filePath`");
         }
 
@@ -72,8 +72,11 @@ class PublicKey extends PKeyAbstract
      * @throws KeyException
      * @return int
      */
-    public function verify(string $content, string $signature, string $signatureAlgorithm = SignatureAlgorithm::RSA_SHA256): int
-    {
+    public function verify(
+        string $content,
+        string $signature,
+        string $signatureAlgorithm = SignatureAlgorithm::RSA_SHA256
+    ): int {
         if (!SignatureAlgorithm::isValid($signatureAlgorithm)) {
             throw new KeyException("Invalid algoritm to verify signature: `$signatureAlgorithm`");
         }

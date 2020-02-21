@@ -43,12 +43,14 @@ class CertLocations implements SingletonInterface
      */
     private function __construct()
     {
-        foreach(openssl_get_cert_locations() as $key => $value) {
+        foreach (openssl_get_cert_locations() as $key => $value) {
             $this->setProperty($key, $value);
         }
     }
 
-    private function __clone(){}
+    private function __clone()
+    {
+    }
 
     /**
      * Property setter
@@ -101,7 +103,6 @@ class CertLocations implements SingletonInterface
 
         return $instance;
     }
-
     public function getDefaultCertFile(): string
     {
         return $this->defaultCertFile;

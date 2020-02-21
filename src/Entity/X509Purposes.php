@@ -108,7 +108,7 @@ class X509Purposes
      */
     public function __construct(array $purposes)
     {
-        foreach($purposes as $record) {
+        foreach ($purposes as $record) {
             $this->setPurpose($record[2], $record[0], $record[1]);
         }
     }
@@ -121,8 +121,7 @@ class X509Purposes
      */
     protected function setPurpose(string $name, bool $isGeneral, bool $isCA): void
     {
-        switch($name) {
-
+        switch ($name) {
             case 'sslclient':
                 $this->sslClient = $isGeneral;
                 $this->sslClientCA = $isCA;

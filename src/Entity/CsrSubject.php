@@ -94,37 +94,31 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
     {
         return $this->countryName;
     }
-
     /** @return string */
     public function getStateOrProvince(): ?string
     {
         return $this->stateOrProvince;
     }
-
     /** @return string */
     public function getLocalityName(): ?string
     {
         return $this->localityName;
     }
-
     /** @return string */
     public function getOrganizationName(): ?string
     {
         return $this->organizationName;
     }
-
     /** @return string */
     public function getOrganizationalUnitName(): ?string
     {
         return $this->organizationalUnitName;
     }
-
     /** @return string */
     public function getCommonName(): ?string
     {
         return $this->commonName;
     }
-
     /** @return string */
     public function getEmailAddress(): ?string
     {
@@ -140,7 +134,6 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
         $this->countryName = $countryName;
         return $this;
     }
-
     /**
      * @param string $stateOrProvince
      * @return CsrSubject
@@ -150,7 +143,6 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
         $this->stateOrProvince = $stateOrProvince;
         return $this;
     }
-
     /**
      * @param string $localityName
      * @return CsrSubject
@@ -160,7 +152,6 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
         $this->localityName = $localityName;
         return $this;
     }
-
     /**
      * @param string $organizationName
      * @return CsrSubject
@@ -170,7 +161,6 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
         $this->organizationName = $organizationName;
         return $this;
     }
-
     /**
      * @param string $organizationUnitName
      * @return CsrSubject
@@ -180,7 +170,6 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
         $this->organizationalUnitName = $organizationalUnitName;
         return $this;
     }
-
     /**
      * @param string $commonName
      * @return CsrSubject
@@ -191,7 +180,6 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
 
         return $this;
     }
-
     /**
      * @param string $emailAddress
      * @return CsrSubject
@@ -210,13 +198,13 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
     public function toArray(bool $shortNames = false): array
     {
         $subject = [
-            $shortNames ? PropertyEnum::CA : PropertyEnum::COUNTRY_NAME => $this->countryName,
-            $shortNames ? PropertyEnum::ST : PropertyEnum::STATE_OR_PROVINCE_NAME => $this->stateOrProvince,
-            $shortNames ? PropertyEnum::L : PropertyEnum::LOCALITY_NAME => $this->localityName,
-            $shortNames ? PropertyEnum::O : PropertyEnum::ORGANIZATION_NAME => $this->organizationName,
-            $shortNames ? PropertyEnum::OU : PropertyEnum::ORGANIZATIONAL_UNIT_NAME => $this->organizationalUnitName,
-            $shortNames ? PropertyEnum::CN : PropertyEnum::COMMON_NAME => $this->commonName,
-            PropertyEnum::EMAIL_ADDRESS => $this->emailAddress
+        $shortNames ? PropertyEnum::CA : PropertyEnum::COUNTRY_NAME => $this->countryName,
+        $shortNames ? PropertyEnum::ST : PropertyEnum::STATE_OR_PROVINCE_NAME => $this->stateOrProvince,
+        $shortNames ? PropertyEnum::L : PropertyEnum::LOCALITY_NAME => $this->localityName,
+        $shortNames ? PropertyEnum::O : PropertyEnum::ORGANIZATION_NAME => $this->organizationName,
+        $shortNames ? PropertyEnum::OU : PropertyEnum::ORGANIZATIONAL_UNIT_NAME => $this->organizationalUnitName,
+        $shortNames ? PropertyEnum::CN : PropertyEnum::COMMON_NAME => $this->commonName,
+        PropertyEnum::EMAIL_ADDRESS => $this->emailAddress
         ];
 
         //remove empty field, to avoid error from openssl_csr_new() function

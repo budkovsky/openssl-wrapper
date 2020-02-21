@@ -62,7 +62,6 @@ class Keystore implements StaticFactoryInterface, Arrayable, StringableInterface
             $this->pkcs12->setPrivateKey(
                 PrivateKey::create()->load($certs['pkey'], $privateKeyPassphrase ?? '')
             );
-
         }
         if (isset($certs['cert'])) {
             $this->pkcs12->setCertificate(
@@ -85,8 +84,11 @@ class Keystore implements StaticFactoryInterface, Arrayable, StringableInterface
      * @param string $privateKeyPassphrase
      * @return Keystore
      */
-    public function importFromFile(string $filename, ?string $password = null, ?string $privateKeyPassphrase = null): Keystore
-    {
+    public function importFromFile(
+        string $filename,
+        ?string $password = null,
+        ?string $privateKeyPassphrase = null
+    ): Keystore {
         return $this->import(\file_get_contents($filename), $password, $privateKeyPassphrase);
     }
 

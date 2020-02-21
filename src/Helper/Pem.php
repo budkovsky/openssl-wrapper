@@ -26,7 +26,6 @@ abstract class Pem
 
     public static function exportFromPkcs12(Pkcs12 $pkcs12): string
     {
-
     }
 
     public static function exportToFileFromPkcs12(Pkcs12 $pkcs12, string $filename): bool
@@ -58,6 +57,5 @@ abstract class Pem
 
     protected static function getLowestLevelCert(X509Collection $collection): ?X509
     {
-
     }
 }

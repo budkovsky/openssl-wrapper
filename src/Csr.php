@@ -52,8 +52,8 @@ class Csr implements StaticFactoryInterface
         PrivateKey $privateKey = null,
         ?CsrSubject $subject = null,
         ?ConfigArgs $configArgs = null,
-        ?array $extraAttribs = null): Csr
-    {
+        ?array $extraAttribs = null
+    ): Csr {
         return new static($privateKey, $subject, $configArgs, $extraAttribs);
     }
 
@@ -112,9 +112,15 @@ class Csr implements StaticFactoryInterface
         int $days = 365,
         KeyInterface $caCert = null,
         ?ConfigArgs $configArgs = null,
-    $serial = 0): X509 {
+        $serial = 0
+    ): X509 {
         return X509::create(
-            $this, $privateKey, $days, $caCert, $configArgs, $serial
+            $this,
+            $privateKey,
+            $days,
+            $caCert,
+            $configArgs,
+            $serial
         );
     }
 }
