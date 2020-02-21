@@ -5,5 +5,8 @@
 /.vscode/
 
 /tmp/*
+/reports/*
 
+/bin/vars.sh
+/xdebug.ini
 

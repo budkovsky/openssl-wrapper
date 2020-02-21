@@ -1,9 +1,14 @@
 {
 	"name": "budkovsky/openssl-wrapper",
+	"description": "OpenSSL object oriented wrapper for PHP7.1+",
 	"autoload": {
 		"psr-4": {
-			"Budkovsky\\OpenSslWrapper\\Tests\\":"tests",
 			"Budkovsky\\OpenSslWrapper\\" : "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Budkovsky\\OpenSslWrapper\\Tests\\": "tests"
 		}
 	},
 	"require": {
@@ -11,9 +16,18 @@
 		"ext-openssl": "*"
 	},
 	"require-dev": {
+        "ext-xdebug": "*",
+        "ext-tokenizer": "*",
 		"phpunit/phpunit": "^7",
-		"ext-intl": "*",
-		"ext-xsl": "*",
-		"dompdf/dompdf": "dev-master"
-	}
+        "squizlabs/php_codesniffer": "^3.0",
+        "sebastian/phpcpd": "^4.0",
+        "theseer/phpdox": "^0.12.0",
+        "phploc/phploc": "^4.0",
+        "pdepend/pdepend": "^2.7",
+        "phpmd/phpmd": "^2.8"
+	},
+	"license": "MIT",
+    "scripts": {
+       "test": "vendor/bin/phpunit --bootstrap vendor/autoload.php tests"
+   }
 }

@@ -71,12 +71,13 @@ class KeystoreTest extends TestCase
             )
             ->sign($key)
         ;
-       Keystore::create()
+       $keystore = Keystore::create()
             ->setPrivateKey($key)
             ->setCertificate($certificate)
-            ->exportToFile($filename = sprintf('tmp/KS-%s.p12', \uniqid()))
+            ->exportToFile($filePath = sprintf('tmp/KS-%s.p12', \uniqid()))
         ;
-
-        var_dump(\base64_encode(\file_get_contents($filename))); die;
+        $this->assertFileExists($filePath);
+        $this->assertNotEmpty(file_get_contents($filePath));
+        //$this->assertEquals($keystore->export(), file_get_contents($filePath));
     }
 }
