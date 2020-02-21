@@ -12,26 +12,26 @@ abstract class Pem
 {
     public static $certRegexPattern = '/-----BEGIN CERTIFICATE-----*.?-----END CERTIFICATE-----/s';
 
-    public static function getAsPkcs12(string $body, string $pkeyPassphrase = ''): Pkcs12
-    {
-        $pkcs12 = new Pkcs12();
-        $key = PrivateKey::create()->load($body, $pkeyPassphrase);
-        $certCollection = self::getX509Collection($body);
-    }
+//     public static function getAsPkcs12(string $body, string $pkeyPassphrase = ''): Pkcs12
+//     {
+//         $pkcs12 = new Pkcs12();
+//         $key = PrivateKey::create()->load($body, $pkeyPassphrase);
+//         $certCollection = self::getX509Collection($body);
+//     }
 
     public static function getFromFileAsPkcs12(string $filename): Pkcs12
     {
         return self::getAsPkcs12(\file_get_contents($filename));
     }
 
-    public static function exportFromPkcs12(Pkcs12 $pkcs12): string
-    {
-    }
+//     public static function exportFromPkcs12(Pkcs12 $pkcs12): string
+//     {
+//     }
 
-    public static function exportToFileFromPkcs12(Pkcs12 $pkcs12, string $filename): bool
-    {
-        return (bool)\file_put_contents($filename, self::exportFromPkcs12($pkcs12));
-    }
+//     public static function exportToFileFromPkcs12(Pkcs12 $pkcs12, string $filename): bool
+//     {
+//         return (bool)\file_put_contents($filename, self::exportFromPkcs12($pkcs12));
+//     }
 
     protected static function getX509Collection(string $body): X509Collection
     {
@@ -55,7 +55,7 @@ abstract class Pem
         }
     }
 
-    protected static function getLowestLevelCert(X509Collection $collection): ?X509
-    {
-    }
+//     protected static function getLowestLevelCert(X509Collection $collection): ?X509
+//     {
+//     }
 }

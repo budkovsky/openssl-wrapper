@@ -177,8 +177,13 @@ class X509 implements KeyInterface
 
     /**
      * Verifies if a certificate can be used for a particular purpose
+     *
      * @see https://www.php.net/manual/en/function.openssl-x509-checkpurpose.php
      * @see \Budkovsky\OpenSslWrapper\Enum\X509Purpose
+     *
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     *
      * @param int $purpose
      * @param array $CAinfo Should be an array of trusted CA files/dirsas
      *        described in https://www.php.net/manual/en/openssl.cert.verification.php

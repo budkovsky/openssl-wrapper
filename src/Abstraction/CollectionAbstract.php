@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Budkovsky\OpenSslWrapper\Abstraction;
 
+use ArrayIterator;
+
 /**
  * Abstract collection
  */
@@ -21,7 +23,7 @@ abstract class CollectionAbstract implements CollectionInterface
      */
     public function getIterator(): \Traversable
     {
-        return new \ArrayIterator($this->collection);
+        return new ArrayIterator($this->collection);
     }
 
     /**

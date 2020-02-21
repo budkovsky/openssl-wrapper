@@ -98,12 +98,13 @@ class Csr implements StaticFactoryInterface
 
     /**
      * Returns the subject of a CSR
-     * @param bool $use_shortnames
+     * @param bool $useShortnames
      * @return CsrSubject
      */
-    public function getSubject(bool $use_shortnames = true): CsrSubject
+    public function getSubject(bool $useShortnames = true): CsrSubject
     {
-        return new CsrSubject(openssl_csr_get_subject($this->csrResource));
+
+        return new CsrSubject(openssl_csr_get_subject($this->csrResource, $useShortnames));
     }
 
     /** @see https://www.php.net/manual/en/function.openssl-csr-sign.php */

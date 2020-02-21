@@ -51,6 +51,9 @@ class CsrSubject implements Arrayable, StaticFactoryInterface
 
     /**
      * Property setter
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     *
      * @param string $key
      * @param string $value
      */

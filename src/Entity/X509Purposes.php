@@ -115,6 +115,9 @@ class X509Purposes
 
     /**
      * Purposes setter
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     *
      * @param string $name
      * @param bool $isGeneral
      * @param bool $isCA
